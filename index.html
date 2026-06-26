@@ -7,167 +7,282 @@
 <title>צ'כיה • טיול משפחות — אוגוסט 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700;800&family=Bellefair&family=Marcellus&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <style>
   :root{
-    --paper:#f3ede0; --paper2:#ece3d2; --ink:#28251f; --muted:#7a7163; --line:#ddd2bd;
-    --north:#2f6f7a; --south:#4f7d3a; --prague:#8a3b4c; --transit:#b07d2b;
-    --gold:#b8893a; --green:#243b2f; --green2:#33543f;
-    --warn:#c0561f; --card:#fbf7ee; --waze:#2f6fb0; --book:#1a5fb4;
-    --shadow:0 6px 22px rgba(40,37,31,.10);
+    --abyss:#08201e; --abyss2:#0b2a26; --panel:#103530; --panel2:#15433c;
+    --ivory:#f3ead4; --ivory2:#c8d3c4; --dim:#8ba096;
+    --gold:#d8b471; --gold-bright:#f0d79a; --gold-deep:#a8854a;
+    --garnet:#b23347; --garnet-bright:#d8556a;
+    --north:#3aa6ad; --south:#5cae6a; --prague:#c25a76; --transit:#d99a48;
+    --muted:#8ba096; --green:#5cae6a; --green2:#3f8f5a; --warn:#d8556a; --book:#3d7fd0; --waze:#3d8bd4;
+    --line:rgba(216,180,113,.22);
+    --disp:'Bellefair',serif; --body:'Assistant',sans-serif;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;padding:0}
-  body{font-family:'Heebo',sans-serif;color:var(--ink);background:var(--paper);
-    background-image:radial-gradient(circle at 12% 8%, rgba(184,137,58,.06), transparent 40%),
-                     radial-gradient(circle at 88% 92%, rgba(36,59,47,.06), transparent 42%);
-    line-height:1.5;padding-bottom:86px;-webkit-font-smoothing:antialiased;}
-  h1,h2,h3{font-family:'Frank Ruhl Libre',serif;margin:0;line-height:1.15}
+  body{font-family:var(--body);color:var(--ivory);background:var(--abyss);min-height:100vh;
+    padding-bottom:94px;-webkit-font-smoothing:antialiased;position:relative;overflow-x:hidden;line-height:1.5}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+    background:radial-gradient(900px 620px at 12% -6%, rgba(58,166,173,.18), transparent 60%),
+      radial-gradient(820px 600px at 102% 8%, rgba(178,51,71,.15), transparent 55%),
+      radial-gradient(760px 720px at 50% 112%, rgba(216,180,113,.12), transparent 60%),
+      linear-gradient(162deg,#08201e,#0a2623 58%,#071c1a);}
+  h1,h2,h3{font-family:var(--disp);font-weight:400;margin:0;line-height:1.1;letter-spacing:.5px}
 
-  header{background:linear-gradient(160deg,#243b2f 0%,#33543f 70%,#3c6049 100%);
-    color:#f3ede0;padding:26px 18px 22px;position:relative;overflow:hidden;border-bottom:3px solid var(--gold);}
-  header::after{content:"";position:absolute;inset:0;opacity:.07;
-    background-image:repeating-linear-gradient(45deg,#fff 0 2px,transparent 2px 9px);}
-  .kicker{font-size:12.5px;letter-spacing:3px;font-weight:700;color:#e9c98a;text-transform:uppercase;position:relative}
-  header h1{font-size:33px;font-weight:900;margin:4px 0 6px;position:relative}
-  .dates{font-size:14.5px;color:#d8e3da;position:relative;font-weight:500}
-  .countdown{position:relative;margin-top:14px;display:inline-flex;align-items:center;gap:8px;
-    background:rgba(255,255,255,.12);border:1px solid rgba(233,201,138,.4);
-    padding:7px 14px;border-radius:30px;font-size:13.5px;font-weight:700;color:#f3ede0}
-  .countdown b{color:#e9c98a;font-size:16px}
-  .route-strip{position:relative;margin-top:16px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:11.5px;font-weight:700}
-  .route-strip span{background:rgba(255,255,255,.1);padding:4px 9px;border-radius:6px}
-  .route-strip i{color:#e9c98a;font-style:normal}
+  header{position:relative;padding:30px 16px 24px;text-align:center;overflow:hidden}
+  .hero-frame{position:relative;max-width:620px;margin:0 auto;padding:28px 22px 22px;border:1px solid var(--line);
+    border-radius:22px;background:linear-gradient(160deg,rgba(21,67,60,.66),rgba(8,32,30,.42));
+    box-shadow:0 0 0 1px rgba(216,180,113,.10) inset,0 20px 54px rgba(0,0,0,.5);
+    animation:rise .8s cubic-bezier(.2,.7,.2,1) both;overflow:hidden}
+  .hero-frame::before{content:"";position:absolute;inset:7px;border:1px solid rgba(216,180,113,.30);border-radius:15px;pointer-events:none}
+  .hero-frame::after{content:"";position:absolute;top:-50%;left:-30%;width:60%;height:200%;pointer-events:none;
+    background:linear-gradient(75deg,transparent,rgba(240,215,154,.10),transparent);animation:shimmer 8s ease-in-out infinite}
+  @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  @keyframes shimmer{0%,100%{transform:translateX(-50%) rotate(8deg);opacity:0}50%{transform:translateX(60%) rotate(8deg);opacity:.9}}
+  .kicker{font-family:'Marcellus',serif;font-size:12.5px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;position:relative}
+  .hero-title{font-size:48px;color:var(--ivory);margin:7px 0 0;text-shadow:0 3px 22px rgba(0,0,0,.45);position:relative}
+  .flourish{position:relative;display:flex;align-items:center;justify-content:center;gap:11px;color:var(--gold);margin:8px 0 9px;font-size:12px}
+  .flourish span{height:1px;width:56px}
+  .flourish span:first-child{background:linear-gradient(90deg,transparent,var(--gold))}
+  .flourish span:last-child{background:linear-gradient(90deg,var(--gold),transparent)}
+  .dates{position:relative;font-size:13.5px;color:var(--ivory2);font-weight:600}
+  .countdown{position:relative;display:inline-flex;align-items:center;gap:8px;margin-top:15px;padding:8px 17px;border-radius:30px;
+    background:linear-gradient(135deg,rgba(216,180,113,.20),rgba(216,180,113,.06));border:1px solid rgba(216,180,113,.45);
+    color:var(--ivory);font-weight:700;font-size:13.5px}
+  .countdown b{color:var(--gold-bright);font-size:17px;font-family:var(--disp)}
+  .route-strip{position:relative;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;margin-top:17px;
+    font-size:12.5px;font-weight:700;color:var(--ivory2);letter-spacing:.6px}
+  .route-strip i{color:var(--gold);font-style:normal;font-size:9px}
 
-  .pillbar{position:sticky;top:0;z-index:40;background:rgba(243,237,224,.93);backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--line);overflow-x:auto;display:flex;gap:7px;padding:10px 14px;scrollbar-width:none}
+  .pillbar{position:sticky;top:0;z-index:40;display:flex;gap:8px;padding:11px 14px;overflow-x:auto;scrollbar-width:none;
+    background:rgba(8,32,30,.84);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
   .pillbar::-webkit-scrollbar{display:none}
-  .pill{flex:0 0 auto;border:1.5px solid var(--line);background:var(--card);border-radius:13px;
-    padding:6px 10px;text-align:center;cursor:pointer;min-width:48px;transition:.18s;line-height:1.15}
-  .pill .pd{font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:15px;display:block}
-  .pill .pw{font-size:10px;color:var(--muted);font-weight:700}
-  .pill.active{background:var(--green);border-color:var(--green);color:#fff;transform:translateY(-1px)}
-  .pill.active .pw{color:#e9c98a}
+  .pill{flex:0 0 auto;min-width:50px;text-align:center;padding:7px 11px;border-radius:13px;cursor:pointer;line-height:1.15;
+    background:rgba(255,255,255,.04);border:1px solid var(--line);transition:.2s}
+  .pill .pd{font-family:var(--disp);font-size:18px;color:var(--ivory);display:block}
+  .pill .pw{font-size:10px;color:var(--dim);font-weight:700}
+  .pill.active{background:linear-gradient(135deg,var(--gold-bright),var(--gold-deep));border-color:var(--gold);
+    transform:translateY(-2px);box-shadow:0 7px 18px rgba(216,180,113,.32)}
+  .pill.active .pd{color:#0a221f}
+  .pill.active .pw{color:#0a221f;opacity:.7}
 
   main{padding:16px 14px 10px;max-width:680px;margin:0 auto}
-  .view{display:none;animation:fade .25s ease}
+  .view{display:none;animation:fade .3s ease}
   .view.on{display:block}
-  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
-  .day{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-bottom:16px;
-    box-shadow:var(--shadow);overflow:hidden;scroll-margin-top:64px}
-  .day-head{display:flex;align-items:center;gap:13px;padding:14px 15px;border-bottom:1px solid var(--line)}
-  .daynum{flex:0 0 auto;width:54px;height:54px;border-radius:14px;background:var(--green);color:#fff;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
-  .daynum .dn{font-family:'Frank Ruhl Libre',serif;font-size:22px;font-weight:900}
-  .daynum .dm{font-size:10px;font-weight:700;color:#e9c98a;margin-top:2px}
+  .day{position:relative;background:linear-gradient(165deg,var(--panel),var(--abyss2));border:1px solid var(--line);
+    border-radius:20px;margin-bottom:18px;overflow:hidden;box-shadow:0 14px 38px rgba(0,0,0,.42);scroll-margin-top:70px}
+  .day::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.6}
+  .day-head{display:flex;align-items:center;gap:13px;padding:16px;border-bottom:1px solid var(--line)}
+  .daynum{flex:0 0 auto;width:56px;height:56px;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;
+    background:linear-gradient(140deg,var(--gold-bright),var(--gold-deep));color:#0a221f;
+    box-shadow:0 6px 16px rgba(168,133,74,.42),inset 0 1px 0 rgba(255,255,255,.45)}
+  .daynum .dn{font-family:var(--disp);font-size:27px}
+  .daynum .dm{font-size:9px;font-weight:800;letter-spacing:1.2px;opacity:.72;margin-top:1px;text-transform:uppercase}
   .day-head .meta{flex:1;min-width:0}
-  .day-head .wd{font-family:'Frank Ruhl Libre',serif;font-size:18px;font-weight:700}
-  .day-head .didx{font-size:11.5px;color:var(--muted);font-weight:700}
-  .wx{display:inline-block;margin-top:3px;font-size:12px;font-weight:700;color:#3a5a4a;
-    background:#e7eef0;border-radius:7px;padding:2px 8px}
-  .rbadge{flex:0 0 auto;font-size:11.5px;font-weight:800;color:#fff;padding:5px 11px;border-radius:20px;white-space:nowrap}
+  .day-head .wd{font-family:var(--disp);font-size:22px;color:var(--ivory)}
+  .day-head .didx{font-size:11px;color:var(--dim);font-weight:700;letter-spacing:.5px}
+  .wx{display:inline-block;margin-top:4px;font-size:11.5px;font-weight:700;color:var(--ivory2);
+    background:rgba(58,166,173,.14);border:1px solid rgba(58,166,173,.32);border-radius:8px;padding:2px 9px}
+  .rbadge{flex:0 0 auto;font-size:11px;font-weight:800;color:#fff;padding:5px 12px;border-radius:20px;white-space:nowrap;
+    letter-spacing:.3px;text-shadow:0 1px 2px rgba(0,0,0,.35);box-shadow:0 3px 10px rgba(0,0,0,.3)}
 
-  .stop{padding:13px 15px;border-bottom:1px dashed var(--line)}
+  .stop{padding:14px 16px;border-bottom:1px solid var(--line)}
   .stop:last-child{border-bottom:none}
-  .stop .nm{font-weight:700;font-size:15.5px;display:flex;gap:7px;align-items:flex-start}
-  .stop .nm .dot{flex:0 0 auto;width:8px;height:8px;border-radius:50%;background:var(--gold);margin-top:7px}
-  .stop-img{width:100%;height:178px;object-fit:cover;border-radius:13px;margin:11px 0 2px;display:block;
-    background:#e9e0cd;box-shadow:0 3px 10px rgba(40,37,31,.12)}
-  .desc{font-size:13.5px;color:#403a30;margin:8px 0 0;padding-inline-start:15px;line-height:1.55}
-  .chips{display:flex;flex-wrap:wrap;gap:6px;margin:9px 0 0 0;padding-inline-start:15px}
-  .chip{font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:7px;display:inline-flex;gap:4px;align-items:center}
-  .chip.drive{background:#e7eef0;color:#2f6f7a}
-  .chip.price{background:#eaf1e3;color:#3f6a2d}
-  .chip.book{background:#fbe9df;color:var(--warn)}
-  .chip.hours{background:#eee8f0;color:#7a4a86}
-  .chip.hw{background:#fdf0d8;color:#9a6a14}
-  .chip.openok{background:#e2f0e0;color:#3a7a32}
-  .chip.openwarn{background:#fbe0e0;color:#b03030}
-  .note{font-size:12.5px;color:#6a6253;margin:7px 0 0;padding-inline-start:15px;line-height:1.5;font-style:italic}
-  .deal{font-size:12.5px;color:#6a5a23;background:#f7eecf;border:1px solid #e6d4a4;border-radius:10px;
-    padding:8px 11px;margin:9px 0 0;margin-inline-start:15px;line-height:1.55}
-  .deal b{color:#8a6a1f}
-  .navs{display:flex;gap:8px;margin:10px 0 0;margin-inline-start:15px;flex-wrap:wrap}
+  .stop .nm{font-weight:700;font-size:16px;color:var(--ivory);display:flex;gap:8px;align-items:flex-start}
+  .stop .nm .dot{flex:0 0 auto;width:9px;height:9px;border-radius:50%;background:var(--gold);margin-top:7px;box-shadow:0 0 0 3px rgba(216,180,113,.16)}
+  .stop-img{width:100%;height:190px;object-fit:cover;border-radius:14px;margin:11px 0 2px;display:block;
+    border:1px solid var(--line);box-shadow:0 8px 20px rgba(0,0,0,.45)}
+  .desc{font-size:13.5px;color:var(--ivory2);margin:8px 0 0;padding-inline-start:17px;line-height:1.6}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0 0;padding-inline-start:17px}
+  .chip{font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:8px;display:inline-flex;gap:4px;align-items:center;border:1px solid transparent}
+  .chip.drive{background:rgba(58,166,173,.13);color:#84d6db;border-color:rgba(58,166,173,.3)}
+  .chip.price{background:rgba(92,174,106,.13);color:#98d9a1;border-color:rgba(92,174,106,.3)}
+  .chip.book{background:rgba(178,51,71,.16);color:#f0a3af;border-color:rgba(178,51,71,.4)}
+  .chip.hours{background:rgba(165,113,196,.14);color:#d6b8e8;border-color:rgba(165,113,196,.34)}
+  .chip.hw{background:rgba(217,154,72,.14);color:#f2cd8e;border-color:rgba(217,154,72,.34)}
+  .chip.openok{background:rgba(92,174,106,.16);color:#a0e2aa;border-color:rgba(92,174,106,.4)}
+  .chip.openwarn{background:rgba(178,51,71,.2);color:#f3aab4;border-color:rgba(178,51,71,.5)}
+  a.chip{text-decoration:none}
+  a.chip.hours:active{transform:scale(.96)}
+  .note{font-size:12.5px;color:var(--dim);margin:8px 0 0;padding-inline-start:17px;line-height:1.55;font-style:italic}
+  .deal{font-size:12.5px;color:#ecd6a6;background:linear-gradient(180deg,rgba(216,180,113,.13),rgba(216,180,113,.05));
+    border:1px solid rgba(216,180,113,.28);border-inline-start:3px solid var(--gold);border-radius:10px;
+    padding:9px 12px;margin:9px 0 0;margin-inline-start:17px;line-height:1.55}
+  .deal b{color:var(--gold-bright)}
+  .navs{display:flex;gap:8px;margin:11px 0 0;margin-inline-start:17px;flex-wrap:wrap}
   .nav-btn{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:700;font-size:12.5px;
-    padding:7px 13px;border-radius:11px;transition:.15s}
-  .nav-btn:active{transform:scale(.96)}
+    padding:8px 14px;border-radius:12px;color:#fff;transition:transform .15s;
+    box-shadow:0 4px 13px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.18)}
+  .nav-btn:active{transform:scale(.95)}
   .nav-btn svg{width:14px;height:14px}
-  .nav-maps{background:var(--green);color:#fff}
-  .nav-waze{background:var(--waze);color:#fff}
-  .nav-yt{background:#c0341f;color:#fff}
-  .nav-book{background:var(--book);color:#fff}
+  .nav-maps{background:linear-gradient(135deg,#2f9e74,#1f6f52)}
+  .nav-waze{background:linear-gradient(135deg,#3d8bd4,#2c6bab)}
+  .nav-yt{background:linear-gradient(135deg,#d8453f,#a82e2e)}
+  .nav-book{background:linear-gradient(135deg,#3d7fd0,#2a5ea0)}
 
-  .lunch{padding:13px 15px;background:linear-gradient(180deg,#f6efe0,#f1e7d2);border-top:2px dotted var(--gold)}
-  .lunch .lh{font-weight:800;font-size:13px;color:var(--warn);display:flex;align-items:center;gap:6px;margin-bottom:4px}
-  .lunch .ln{font-weight:700;font-size:15px}
-  .lunch .ld{font-size:12.5px;color:#5a5346;margin:4px 0 0;line-height:1.5}
-  .lcost{display:inline-block;margin-top:7px;font-size:11.5px;font-weight:700;background:#eaf1e3;color:#3f6a2d;padding:3px 9px;border-radius:7px}
+  .lunch{padding:14px 16px;background:linear-gradient(180deg,rgba(217,154,72,.11),rgba(217,154,72,.03));border-top:1px dashed rgba(216,180,113,.4)}
+  .lunch .lh{font-weight:800;font-size:12px;color:var(--gold);letter-spacing:.6px;display:flex;align-items:center;gap:6px;margin-bottom:4px;text-transform:uppercase}
+  .lunch .ln{font-weight:700;font-size:15.5px;color:var(--ivory)}
+  .lunch .ld{font-size:12.5px;color:var(--ivory2);margin:4px 0 0;line-height:1.55}
+  .lcost{display:inline-block;margin-top:8px;font-size:11.5px;font-weight:700;background:rgba(92,174,106,.14);
+    color:#98d9a1;border:1px solid rgba(92,174,106,.3);padding:3px 9px;border-radius:7px}
 
-  details.tl{margin:0;border-top:1px dashed var(--line);background:#fcfaf3}
-  details.tl summary{padding:11px 15px;font-weight:800;font-size:13px;color:var(--green);cursor:pointer;list-style:none}
+  details.tl{border-top:1px solid var(--line);background:rgba(255,255,255,.02)}
+  details.tl summary{padding:12px 16px;font-weight:800;font-size:12.5px;color:var(--gold);cursor:pointer;list-style:none;letter-spacing:.4px}
   details.tl summary::-webkit-details-marker{display:none}
-  details.tl summary::before{content:"▸ ";color:var(--gold)}
-  details.tl[open] summary::before{content:"▾ "}
-  .tlrow{display:flex;gap:11px;padding:6px 16px;font-size:13px;align-items:flex-start}
-  .tlrow .tt{flex:0 0 auto;font-weight:800;color:var(--gold);width:46px;font-variant-numeric:tabular-nums}
+  details.tl summary::before{content:"✦ ";color:var(--gold-deep)}
+  details.tl[open] summary::before{content:"✦ ";color:var(--gold-bright)}
+  .tlrow{display:flex;gap:12px;padding:6px 17px;font-size:13px;align-items:flex-start;color:var(--ivory2)}
+  .tlrow .tt{flex:0 0 auto;font-weight:800;color:var(--gold);width:50px;font-family:var(--disp);font-size:15px}
   .tlrow .tx{flex:1}
-  .tlnote{font-size:11px;color:var(--muted);padding:2px 16px 10px;font-style:italic}
+  .tlnote{font-size:11px;color:var(--dim);padding:3px 17px 11px;font-style:italic}
 
-  .dayfoot{display:flex;flex-wrap:wrap;gap:9px;align-items:center;padding:11px 15px;background:var(--paper2)}
-  .hotelf{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:#4a4234;flex:1;min-width:140px}
-  .hotelf svg{width:16px;height:16px;flex:0 0 auto;opacity:.7}
-  .hotelf b{font-weight:800;color:var(--ink)}
-  .budget{font-size:12px;font-weight:800;color:#3f6a2d;background:#e4eedc;border:1px solid #cadcbd;padding:5px 11px;border-radius:20px;white-space:nowrap}
+  .dayfoot{display:flex;flex-wrap:wrap;gap:9px;align-items:center;padding:12px 16px;background:rgba(0,0,0,.2);border-top:1px solid var(--line)}
+  .hotelf{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--ivory2);flex:1;min-width:150px}
+  .hotelf svg{width:16px;height:16px;flex:0 0 auto;color:var(--gold);opacity:.85}
+  .hotelf b{color:var(--ivory);font-weight:700}
+  .budget{font-size:11.5px;font-weight:700;color:#98d9a1;background:rgba(92,174,106,.12);border:1px solid rgba(92,174,106,.3);padding:5px 11px;border-radius:20px}
 
-  .sec-title{font-size:21px;font-weight:900;margin:4px 2px 14px;display:flex;align-items:center;gap:9px}
-  .sec-title .bar{width:5px;height:22px;background:var(--gold);border-radius:3px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px;margin-bottom:13px;box-shadow:var(--shadow)}
-  .card h3{font-size:17px;font-weight:700;margin-bottom:3px}
-  .card .sub{font-size:12px;font-weight:700;color:var(--muted);margin-bottom:10px}
-  .kv{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;padding:5px 0;border-top:1px dashed var(--line)}
+  .sec-title{font-family:var(--disp);font-size:27px;color:var(--ivory);margin:6px 2px 16px;display:flex;align-items:center;gap:11px;letter-spacing:.5px}
+  .sec-title .bar{width:4px;height:25px;background:linear-gradient(var(--gold-bright),var(--gold-deep));border-radius:3px;box-shadow:0 0 12px rgba(216,180,113,.45)}
+  .card{background:linear-gradient(165deg,var(--panel),var(--abyss2));border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:0 12px 32px rgba(0,0,0,.38)}
+  .card h3{font-family:var(--disp);font-size:21px;color:var(--ivory);margin-bottom:4px;letter-spacing:.3px}
+  .card .sub{font-size:12px;font-weight:700;color:var(--dim);margin-bottom:10px}
+  .kv{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;padding:6px 0;border-top:1px solid var(--line);color:var(--ivory2)}
   .kv:first-of-type{border-top:none}
-  .kv .k{color:var(--muted);font-weight:600;flex:0 0 auto}
-  .kv .v{text-align:start;font-weight:600}
-  .cost-total{background:linear-gradient(135deg,#243b2f,#33543f);color:#fff;border:none}
-  .cost-total .big{font-family:'Frank Ruhl Libre',serif;font-size:30px;font-weight:900;color:#e9c98a}
-  .pin{display:inline-block;font-size:11px;font-weight:800;padding:3px 9px;border-radius:20px;color:#fff}
-  .task{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;padding:9px 0;border-top:1px dashed var(--line)}
+  .kv .k{color:var(--dim);font-weight:600;flex:0 0 auto}
+  .kv .v{text-align:start;font-weight:700;color:var(--ivory)}
+  .cost-total{border-radius:16px;padding:16px;margin-bottom:14px}
+  .cost-total,.ex-sum{background:linear-gradient(140deg,#15433c,#0c2c28);border:1px solid rgba(216,180,113,.42);
+    box-shadow:0 0 0 1px rgba(216,180,113,.1) inset,0 14px 36px rgba(0,0,0,.45)}
+  .cost-total .big,.ex-sum .big{font-family:var(--disp);font-size:36px;color:var(--gold-bright)}
+  .cost-total .sub{color:var(--ivory2)}
+  .pin{display:inline-block;font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.35)}
+  .task{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;padding:10px 0;border-top:1px solid var(--line);color:var(--ivory2)}
   .task:first-child{border-top:none}
-  .task .b{flex:0 0 auto;width:18px;height:18px;border:2px solid var(--gold);border-radius:5px;margin-top:1px;cursor:pointer}
+  .task .b{flex:0 0 auto;width:19px;height:19px;border:2px solid var(--gold);border-radius:6px;margin-top:1px;cursor:pointer;transition:.15s}
   .task .b.on{background:var(--gold);position:relative}
-  .task .b.on::after{content:"✓";color:#fff;font-size:13px;position:absolute;top:-3px;left:2px;font-weight:800}
+  .task .b.on::after{content:"✓";color:#0a221f;font-size:13px;font-weight:800;position:absolute;top:-2px;left:2px}
+  a.inline{color:var(--gold-bright);font-weight:700;word-break:break-word}
   .backup-group ul{margin:6px 0 0;padding-inline-start:18px}
-  .backup-group li{font-size:13.5px;margin:0 0 7px;line-height:1.5}
-  .small{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5}
-  .infobox{background:#fdf3e9;border:1px solid #ecd9c2;border-radius:12px;padding:11px 13px;font-size:12.5px;color:#6a5638;margin:0 2px 14px;line-height:1.55}
-  .infobox.warn{background:#fbeee6;border-color:#e8c5ad;color:#8a4a28}
-  a.inline{color:var(--book);font-weight:700;word-break:break-word}
+  .backup-group li{font-size:13.5px;margin:0 0 7px;line-height:1.5;color:var(--ivory2)}
+  .small{font-size:12px;color:var(--dim);margin-top:6px;line-height:1.55}
+  .infobox{background:rgba(58,166,173,.08);border:1px solid rgba(58,166,173,.25);border-inline-start:3px solid var(--north);
+    border-radius:12px;padding:11px 13px;font-size:12.5px;color:var(--ivory2);margin:0 2px 14px;line-height:1.6}
+  .infobox.warn{background:rgba(178,51,71,.1);border-color:rgba(178,51,71,.3);border-inline-start-color:var(--garnet)}
+  code{background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:5px;padding:1px 5px;color:var(--gold-bright);font-size:11px}
 
-  #map{width:100%;height:74vh;min-height:430px;border-radius:16px;border:1px solid var(--line);box-shadow:var(--shadow)}
-  .legend{display:flex;flex-wrap:wrap;gap:10px;margin:12px 2px 0;font-size:12px;font-weight:700}
-  .legend span{display:inline-flex;align-items:center;gap:6px}
-  .legend i{width:13px;height:13px;border-radius:50%;display:inline-block}
+  #map{width:100%;height:66vh;min-height:400px;border-radius:18px;border:1px solid var(--line);box-shadow:0 14px 36px rgba(0,0,0,.45)}
+  .legend{display:flex;flex-wrap:wrap;gap:10px;margin:12px 2px 0;font-size:12px;font-weight:700;color:var(--ivory2)}
+  .legend span{display:inline-flex;align-items:center;gap:5px}
+  .progress-wrap{background:linear-gradient(165deg,var(--panel),var(--abyss2));border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:0 12px 30px rgba(0,0,0,.38)}
+  .progress-top{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:14px;color:var(--ivory2);margin-bottom:9px}
+  #prog-num{color:var(--gold-bright);font-family:var(--disp);font-size:19px}
+  .pbar{height:10px;background:rgba(255,255,255,.07);border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+  .pbar>div{height:100%;background:linear-gradient(90deg,var(--gold-deep),var(--gold-bright));border-radius:6px;transition:width .5s}
+  .geo-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+  .geo-btn{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--gold-bright),var(--gold-deep));
+    color:#0a221f;border:none;font-family:var(--body);font-weight:800;font-size:13px;padding:10px 15px;border-radius:12px;cursor:pointer;box-shadow:0 6px 16px rgba(168,133,74,.35)}
+  .geo-btn.alt{background:rgba(255,255,255,.05);color:var(--ivory);border:1px solid var(--line);box-shadow:none}
+  .geo-btn:active{transform:scale(.97)}
+  .filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:11px}
+  .filt{font-size:12px;font-weight:700;padding:6px 13px;border-radius:20px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--ivory2);cursor:pointer;user-select:none;transition:.15s}
+  .filt.off{opacity:.4;text-decoration:line-through}
+  .geo-banner{display:none;background:linear-gradient(135deg,#2f9e74,#1f6f52);color:#fff;border-radius:14px;padding:12px 14px;margin-bottom:12px;align-items:center;gap:10px;box-shadow:0 10px 26px rgba(0,0,0,.45)}
+  .geo-banner.show{display:flex}
+  .geo-banner .gbtxt{flex:1;font-size:13.5px;font-weight:700}
+  .geo-banner button{background:#fff;color:#1f6f52;border:none;font-family:var(--body);font-weight:800;font-size:13px;padding:8px 13px;border-radius:10px;cursor:pointer;white-space:nowrap}
+  .mk{width:30px;height:30px;border-radius:50%;border:2.5px solid #f3ead4;display:flex;align-items:center;justify-content:center;font-size:15px;box-shadow:0 2px 9px rgba(0,0,0,.55);position:relative}
+  .mk.done{filter:grayscale(.7);opacity:.55}
+  .mk .mkv{position:absolute;right:-5px;top:-5px;background:#2e9e3f;color:#fff;width:16px;height:16px;border-radius:50%;font-size:11px;display:flex;align-items:center;justify-content:center;border:2px solid #fff;filter:none}
+  .usr{width:18px;height:18px;border-radius:50%;background:#1a73e8;border:3px solid #fff;box-shadow:0 0 0 4px rgba(26,115,232,.3)}
+  .leaflet-popup-content-wrapper{background:#10302c;color:var(--ivory);border:1px solid var(--line);border-radius:12px}
+  .leaflet-popup-tip{background:#10302c}
+  .leaflet-popup-content{font-family:var(--body);direction:rtl;text-align:right;margin:11px 13px;color:var(--ivory)}
+  .leaflet-container a.leaflet-popup-close-button{color:var(--dim)}
+  .pop-btn{display:block;width:100%;margin-top:8px;background:linear-gradient(135deg,var(--gold-bright),var(--gold-deep));color:#0a221f;border:none;font-family:var(--body);font-weight:800;font-size:13px;padding:9px;border-radius:10px;cursor:pointer}
+  .pop-btn.done{background:transparent;color:var(--gold-bright);border:1px solid var(--gold)}
+  .pop-nav{display:inline-block;margin-top:7px;font-size:12.5px;font-weight:700;color:#6fb6ff;text-decoration:none}
 
-  .tabbar{position:fixed;bottom:0;left:0;right:0;z-index:50;background:rgba(36,59,47,.97);backdrop-filter:blur(12px);
-    display:flex;padding:8px 4px calc(8px + env(safe-area-inset-bottom));border-top:2px solid var(--gold)}
-  .tab{flex:1;background:none;border:none;color:#a9bcae;font-family:'Heebo';font-weight:700;font-size:10.5px;
-    cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;padding:5px 0;transition:.15s}
+  .exf{display:flex;flex-direction:column;gap:10px}
+  .exf label{font-size:12px;font-weight:700;color:var(--dim);margin-bottom:-4px}
+  .exf input,.exf select{font-family:var(--body);font-size:15px;padding:11px 13px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.05);color:var(--ivory);width:100%}
+  .exf input::placeholder{color:var(--dim)}
+  .exf input:focus,.exf select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(216,180,113,.16)}
+  .exf .row2{display:flex;gap:9px}
+  .exf .row2>div{flex:1}
+  .ex-add{background:linear-gradient(135deg,var(--gold-bright),var(--gold-deep));color:#0a221f;border:none;font-family:var(--body);font-weight:800;font-size:15px;padding:13px;border-radius:12px;cursor:pointer;margin-top:2px;box-shadow:0 6px 16px rgba(168,133,74,.35)}
+  .ex-add:active{transform:scale(.98)}
+  .ex-sum{border-radius:16px;padding:18px;margin-bottom:14px}
+  .ex-sum .s2{font-size:14px;color:var(--ivory2);font-weight:600;margin-top:2px}
+  .ex-row{display:flex;align-items:flex-start;gap:10px;background:linear-gradient(165deg,var(--panel),var(--abyss2));border:1px solid var(--line);border-radius:12px;padding:12px 13px;margin-bottom:9px}
+  .ex-row .exdt{flex:0 0 auto;font-size:11px;font-weight:800;color:var(--gold);width:44px;line-height:1.25;font-family:var(--disp);font-size:14px}
+  .ex-row .exmid{flex:1;min-width:0}
+  .ex-row .exnm{font-weight:700;font-size:14.5px;color:var(--ivory)}
+  .ex-row .exnote{font-size:12px;color:var(--dim);margin-top:2px}
+  .ex-row .examt{flex:0 0 auto;font-weight:800;font-size:14px;color:var(--gold-bright)}
+  .ex-row .exdel{flex:0 0 auto;background:none;border:none;color:#d98a96;font-size:18px;cursor:pointer;padding:0 2px;line-height:1}
+  .ex-empty{text-align:center;color:var(--dim);font-size:13px;padding:24px 10px}
+
+  .tabbar{position:fixed;bottom:0;left:0;right:0;z-index:50;display:flex;padding:9px 4px calc(9px + env(safe-area-inset-bottom));
+    background:linear-gradient(0deg,#061a18,#0a2623);border-top:1px solid rgba(216,180,113,.35);box-shadow:0 -8px 26px rgba(0,0,0,.55)}
+  .tab{flex:1;background:none;border:none;color:var(--dim);font-family:var(--body);font-weight:700;font-size:9.5px;cursor:pointer;
+    display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0 4px;transition:.18s;position:relative}
   .tab svg{width:20px;height:20px}
-  .tab.active{color:#e9c98a}
+  .tab.active{color:var(--gold-bright)}
+  .tab.active::before{content:"";position:absolute;top:-9px;width:24px;height:3px;border-radius:0 0 3px 3px;background:var(--gold-bright);box-shadow:0 0 10px var(--gold-bright)}
+
+  #scrollprog{position:fixed;top:0;left:0;height:3px;width:0;z-index:60;
+    background:linear-gradient(90deg,var(--gold-deep),var(--gold-bright));box-shadow:0 0 10px var(--gold-bright);transition:width .12s ease-out}
+  .cd-wrap{position:relative;margin-top:16px;display:flex;flex-direction:column;align-items:center;gap:9px}
+  .cd-face{font-size:42px;line-height:1;filter:drop-shadow(0 5px 12px rgba(0,0,0,.45));animation:bob 3.4s ease-in-out infinite;transition:transform .3s}
+  @keyframes bob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-6px) rotate(3deg)}}
+  .cd-clock{direction:ltr;display:flex;align-items:flex-start;gap:7px}
+  .cd-cell{min-width:58px;padding:9px 6px 7px;border-radius:13px;display:flex;flex-direction:column;align-items:center;gap:3px;
+    background:linear-gradient(135deg,rgba(216,180,113,.18),rgba(216,180,113,.05));border:1px solid rgba(216,180,113,.42);
+    box-shadow:0 6px 16px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.12)}
+  .cd-num{font-family:var(--disp);font-size:32px;line-height:1;color:var(--gold-bright);font-variant-numeric:tabular-nums}
+  .cd-lab{font-size:9px;font-weight:800;letter-spacing:1px;color:var(--ivory2)}
+  .cd-sep{font-family:var(--disp);font-size:28px;color:var(--gold);opacity:.6;margin-top:9px}
+  .cd-msg{font-size:12px;font-weight:800;color:var(--gold);letter-spacing:3px;text-transform:uppercase}
+  body.js .day{opacity:0;transform:translateY(22px) scale(.992);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+  body.js .day.in{opacity:1;transform:none}
+  body.js .day .stop-img{transition:transform .9s cubic-bezier(.2,.7,.2,1);transform:scale(1.06)}
+  body.js .day.in .stop-img{transform:scale(1)}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.hero-frame::after{display:none}
+    body.js .day{opacity:1;transform:none}body.js .day .stop-img{transform:none}#scrollprog{display:none}.cd-face{animation:none}}
 </style>
+
 </head>
 <body>
+<div id="scrollprog"></div>
 
 <header>
-  <div class="kicker">Česká republika · מסלול משפחתי</div>
-  <h1>טיול צ'כיה 🇨🇿</h1>
-  <div class="dates">11–25 באוגוסט 2026 · 15 ימים · 2 משפחות, 6 ילדים (6–12)</div>
-  <div class="countdown" id="countdown"></div>
-  <div class="route-strip">
-    <span>פראג ✈️</span><i>←</i><span>צפון 🏔️</span><i>←</i><span>פראג 💧</span><i>←</i><span>דרום 🌲</span><i>←</i><span>פראג 🏰</span>
+  <div class="hero-frame">
+    <div class="kicker">Bohemia &middot; XI&ndash;XXV&middot;VIII&middot;MMXXVI</div>
+    <h1 class="hero-title">טיול צ'כיה</h1>
+    <div class="flourish"><span></span>&#10038;<span></span></div>
+    <div class="dates">11&ndash;25 באוגוסט 2026 &middot; 15 ימים &middot; 2 משפחות &middot; 6 ילדים</div>
+    <div class="cd-wrap" id="countdown">
+      <div class="cd-face" id="cd-face">😌</div>
+      <div class="cd-clock">
+        <div class="cd-cell"><span class="cd-num" id="cd-d">00</span><span class="cd-lab">ימים</span></div>
+        <span class="cd-sep">:</span>
+        <div class="cd-cell"><span class="cd-num" id="cd-h">00</span><span class="cd-lab">שעות</span></div>
+        <span class="cd-sep">:</span>
+        <div class="cd-cell"><span class="cd-num" id="cd-m">00</span><span class="cd-lab">דקות</span></div>
+        <span class="cd-sep">:</span>
+        <div class="cd-cell"><span class="cd-num" id="cd-s">00</span><span class="cd-lab">שניות</span></div>
+      </div>
+      <div class="cd-msg" id="cd-msg">להמראה ✈️</div>
+    </div>
+    <div class="route-strip"><span>פראג</span><i>&#10038;</i><span>צפון</span><i>&#10038;</i><span>מעבר</span><i>&#10038;</i><span>דרום</span><i>&#10038;</i><span>פראג</span></div>
   </div>
 </header>
 
@@ -178,6 +293,7 @@
   <section class="view" id="view-map"></section>
   <section class="view" id="view-hotels"></section>
   <section class="view" id="view-drive"></section>
+  <section class="view" id="view-expenses"></section>
   <section class="view" id="view-info"></section>
 </main>
 
@@ -190,15 +306,17 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21V8l9-5 9 5v13"/><path d="M3 21h18M9 21v-5h6v5"/></svg>מלונות</button>
   <button class="tab" data-v="drive" onclick="switchTab('drive')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11M5 11h14v5H5zM7 16v2M17 16v2"/><circle cx="7.5" cy="13.5" r="1"/><circle cx="16.5" cy="13.5" r="1"/></svg>נהיגה</button>
+  <button class="tab" data-v="expenses" onclick="switchTab('expenses')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h18v12H3zM3 10h18M16 14h2"/></svg>הוצאות</button>
   <button class="tab" data-v="info" onclick="switchTab('info')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></svg>מידע</button>
 </nav>
 
 <script>
 const REGION = {
-  'נחיתה':{c:'var(--transit)',hex:'#b07d2b',e:'✈️'}, 'צפון':{c:'var(--north)',hex:'#2f6f7a',e:'🏔️'},
-  'מעבר':{c:'var(--transit)',hex:'#b07d2b',e:'💧'}, 'דרום':{c:'var(--south)',hex:'#4f7d3a',e:'🌲'},
-  'פראג':{c:'var(--prague)',hex:'#8a3b4c',e:'🏰'}
+  'נחיתה':{c:'var(--transit)',hex:'#d99a48',e:'✈️'}, 'צפון':{c:'var(--north)',hex:'#3aa6ad',e:'🏔️'},
+  'מעבר':{c:'var(--transit)',hex:'#d99a48',e:'💧'}, 'דרום':{c:'var(--south)',hex:'#5cae6a',e:'🌲'},
+  'פראג':{c:'var(--prague)',hex:'#c25a76',e:'🏰'}
 };
 const IMG = {
  "prague":"https://commons.wikimedia.org/wiki/Special:FilePath/Prague%20skyline%20view.jpg?width=900",
@@ -218,6 +336,19 @@ const IMG = {
  "petrin":"https://commons.wikimedia.org/wiki/Special:FilePath/Pet%C5%99%C3%ADnsk%C3%A1rozhledna2016.jpg?width=900",
  "praguezoo":"https://commons.wikimedia.org/wiki/Special:FilePath/Prague%20Zoo%20-%20elephant%202.jpg?width=900"
 };
+// ===== סנכרון בין מכשירים (אופציונלי) — ראו לשונית "מידע" → הגדרת סנכרון =====
+// הדביקו כאן את firebaseConfig מ-Firebase כדי לסנכרן בזמן אמת בין כל המכשירים.
+// כל עוד ריק — הנתונים נשמרים מקומית בכל מכשיר (האפליקציה עובדת רגיל).
+const FIREBASE_CONFIG = {
+  // apiKey: "...",
+  // authDomain: "...",
+  // databaseURL: "https://XXXX-default-rtdb.europe-west1.firebasedatabase.app",
+  // projectId: "...",
+  // appId: "..."
+};
+const TRIP_ID = "czechia-aug-2026"; // מזהה הקבוצה — אותו ערך בכל המכשירים = נתונים משותפים
+let SYNC=false, fbdb=null;
+
 const WD = ['יום א׳','יום ב׳','יום ג׳','יום ד׳','יום ה׳','יום ו׳','שבת'];
 const WS = ['א׳','ב׳','ג׳','ד׳','ה׳','ו׳','ש׳'];
 const MON = ['ינו','פבר','מרץ','אפר','מאי','יונ','יול','אוג','ספט','אוק','נוב','דצמ'];
@@ -366,19 +497,77 @@ const LCOSTBY = {
 
 // MAP points in route order
 const MAPPTS=[
- {n:'פראג — בסיס 1 + 5',d:'11, 23–25',lat:50.087,lon:14.421,r:'פראג'},
- {n:'פארק מירקולום',d:'12',lat:50.238,lon:14.889,r:'צפון'},
- {n:'שפינדלרוב מלין (בסיס צפון)',d:'12–16',lat:50.726,lon:15.609,r:'צפון'},
- {n:'הראכוב — מפלים',d:'14',lat:50.770,lon:15.434,r:'צפון'},
- {n:'שמורת אדרשפאך',d:'15',lat:50.614,lon:16.118,r:'צפון'},
- {n:'סלעי פראחוב',d:'16',lat:50.475,lon:15.314,r:'צפון'},
- {n:'אקווה פאלאס (צ׳סטליצה)',d:'16–17',lat:49.992,lon:14.571,r:'מעבר'},
- {n:'ליפנו (בסיס דרום)',d:'17–19',lat:48.641,lon:14.224,r:'דרום'},
- {n:'צ׳סקי קרומלוב',d:'19, 21',lat:48.811,lon:14.315,r:'דרום'},
- {n:'הלובוקה — גן חיות',d:'20',lat:49.052,lon:14.434,r:'דרום'},
- {n:'טירת בלטנה',d:'22',lat:49.424,lon:13.875,r:'פראג'}
+ {n:'פראג',lat:50.087,lon:14.421,r:'פראג',detail:'11/8 (ג׳) נחיתה · 23/8 (א׳) עיר עתיקה+שייט · 24/8 (ב׳) טירה+פטרין+גן חיות · 25/8 (ג׳) חזרה'},
+ {n:'פארק מירקולום',lat:50.238,lon:14.889,r:'צפון',detail:'12/8 (יום ד׳) — פארק שעשועים-טבע ענק'},
+ {n:'שפינדלרוב מלין (בסיס צפון)',lat:50.726,lon:15.609,r:'צפון',detail:'12–16/8 — בסיס בהרי הענק (רכבל, מסלול הדוב, יילו פוינט)'},
+ {n:'הראכוב',lat:50.770,lon:15.434,r:'צפון',detail:'14/8 (יום ו׳) — מפל מומלבה, פארק חבלים, מגלשות, מבשלת זכוכית'},
+ {n:'שמורת אדרשפאך',lat:50.614,lon:16.118,r:'צפון',detail:'15/8 (יום ש׳) — עיר הסלעים + אגם ושייט'},
+ {n:'סלעי פראחוב',lat:50.475,lon:15.314,r:'צפון',detail:'16/8 (יום א׳) — "גן העדן הצ׳כי"'},
+ {n:'אקווה פאלאס (צ׳סטליצה)',lat:49.992,lon:14.571,r:'מעבר',detail:'16–17/8 — פארק מים + לינת מעבר'},
+ {n:'ליפנו (בסיס דרום)',lat:48.641,lon:14.224,r:'דרום',detail:'17–19/8 — בסיס באגם ליפנו (שביל צמרות, ראפטינג, אגם)'},
+ {n:'צ׳סקי קרומלוב',lat:48.811,lon:14.315,r:'דרום',detail:'19/8 (ד׳) ערב · 21/8 (ו׳) יום מלא — עיירת אגדה ואונסק״ו'},
+ {n:'הלובוקה',lat:49.052,lon:14.434,r:'דרום',detail:'20/8 (יום ה׳) — גן חיות + טירה'},
+ {n:'טירת בלטנה',lat:49.424,lon:13.875,r:'פראג',detail:'22/8 (יום ש׳) — טירת מים, בדרך חזרה לפראג'}
 ];
 
+const PRICES={
+ 'Park Mirakulum Milovice':[{l:'כניסה (לאדם)',min:370,note:'ילד <90 ס״מ חינם'}],
+ 'Medvědín Špindlerův Mlýn':[{l:'רכבל מבוגר',min:300},{l:'ילד',min:210}],
+ 'Yellow Point Špindlerův Mlýn':[{l:'פעילות',min:100,max:200}],
+ 'Mumlavský vodopád Harrachov':[{l:'כניסה',free:true},{l:'חניה',note:'בתשלום'}],
+ 'Monkey Park Harrachov':[{l:'לאדם',min:150,max:250}],
+ 'Bobová dráha Harrachov':[{l:'ירידה',min:80}],
+ 'Adršpašské skály':[{l:'מבוגר',min:290,max:350},{l:'ילד',min:140},{l:'משפחתי (2+2)',min:550}],
+ 'Prachovské skály':[{l:'מבוגר',min:110},{l:'ילד',min:60}],
+ 'Aquapalace Praha Čestlice':[{l:'כניסה',min:600,max:700,note:'לרוב כלול בלינה'}],
+ 'Lipno nad Vltavou':[{l:'דלק + חניה',note:'משתנה'}],
+ 'Stezka korunami stromů Lipno':[{l:'מבוגר',min:350},{l:'ילד',min:200},{l:'מגלשה',min:90}],
+ 'Lipno nad Vltavou pláž':[{l:'השכרת ציוד',min:150,max:300}],
+ 'Vltava rafting Vyšší Brod':[{l:'לאדם',min:500}],
+ 'Kleť chairlift Krasetín':[{l:'רכבל (הלוך-ושוב)',min:150}],
+ 'Český Krumlov':[{l:'טיול חופשי',free:true}],
+ 'Zoo Ohrada Hluboká nad Vltavou':[{l:'מבוגר',min:200},{l:'ילד',min:130}],
+ 'Stožec':[{l:'כניסה',free:true}],
+ 'Český Krumlov Castle':[{l:'מתחם + דובים',free:true},{l:'מגדל מבוגר',min:150},{l:'מגדל ילד',min:100},{l:'סיור פנים',min:280,max:350}],
+ 'Zámek Blatná':[{l:'טירה מבוגר',min:180},{l:'טירה ילד',min:100},{l:'פארק',free:true}],
+ 'Staroměstské náměstí Prague':[{l:'הליכה בעיר',free:true},{l:'שייט לאדם',min:350,max:500}],
+ 'Black Light Theatre Prague':[{l:'לאדם',min:500,max:700}],
+ 'Prague Castle':[{l:'מתחם',free:true},{l:'מסלול מבקרים מבוגר',min:450},{l:'ילד',min:300}],
+ 'Petřínská rozhledna Prague':[{l:'מגדל+מבוך מבוגר',min:250},{l:'ילד',min:150}],
+ 'Zoo Praha':[{l:'מבוגר',min:290},{l:'ילד',min:200}],
+ 'Václav Havel Airport Prague':[{l:'מונית/רכב מהשדה',min:600,max:800}]
+};
+const BUDGETCZK={
+ 11:{label:'הוצאות ראשונות בלבד'},12:{min:3500,max:4150,label:'כניסות, ~10 נפשות'},
+ 13:{min:2900,max:3500,label:'כניסות, ~10 נפשות'},14:{min:2250,max:2900,label:'כניסות, ~10 נפשות'},
+ 15:{min:1900,max:2450,label:'כניסות, ~10 נפשות'},16:{min:800,max:1200,label:'סלעים + פארק מים'},
+ 17:{label:'פארק מים (כלול) + דלק'},18:{min:3200,max:4150,label:'כניסות, ~10 נפשות'},
+ 19:{min:4500,max:6400,label:'ראפטינג + רכבל'},20:{min:1400,max:1900,label:'כניסות, ~10 נפשות'},
+ 21:{min:1150,max:2560,label:'תלוי בסיורי הטירה'},22:{min:1150,max:1650,label:'כניסת טירה'},
+ 23:{min:3850,max:10250,label:'שייט + תיאטרון'},24:{min:6400,max:8350,label:'אם עושים את שלושתם'},
+ 25:{label:'ארוחת בוקר + נסיעה לשדה'}
+};
+const LUNCHC={
+ 'Lokál Dlouhááá Prague':{min:200,max:320},'Park Mirakulum Milovice':{min:120,max:200},
+ 'Restaurace U Pečené Kachničky Špindlerův Mlýn':{min:200,max:320},'Novosad pivovar Harrachov':{min:180,max:300},
+ 'Restaurace Skalní Město Adršpach':{min:150,max:250},'Restaurace Prachovské skály':{min:150,max:250},
+ 'České Budějovice náměstí':{min:180,max:300},'Restaurace Slunečná Louka Lipno nad Vltavou':{min:220,max:350},
+ 'Hospoda Na Louži Český Krumlov':{min:180,max:300},'Restaurace Hubertus Hluboká nad Vltavou':{min:200,max:320},
+ 'Krčma Šatlava Český Krumlov':{min:220,max:350},'Blatná náměstí restaurace':{min:150,max:250},
+ 'Restaurace Mincovna Staroměstské náměstí':{min:250,max:400},'Restaurace Nebozízek Petřín Prague':{min:280,max:450},
+ 'Václav Havel Airport Prague terminal':{min:200,max:350}
+};
+let RATE_ILS=0.140, RATE_EUR=0.0412;
+function rd(n){return Math.round(n);}
+function ilsStr(mn,mx){return mx?('≈ '+rd(mn*RATE_ILS)+'–'+rd(mx*RATE_ILS)+' ₪'):('≈ '+rd(mn*RATE_ILS)+' ₪');}
+function priceChip(it){
+  if(it.free)return '<span class="chip price">🎟️ '+(it.l?it.l+': ':'')+'חינם</span>';
+  if(it.min==null)return '<span class="chip price">🎟️ '+(it.l?it.l+': ':'')+(it.note||'')+'</span>';
+  const czk=it.max?(it.min+'–'+it.max):(''+it.min);
+  const ils='<span class="ils" data-min="'+it.min+'"'+(it.max?' data-max="'+it.max+'"':'')+'>'+ilsStr(it.min,it.max||null)+'</span>';
+  return '<span class="chip price">🎟️ '+(it.l?it.l+' ':'')+czk+' CZK ('+ils+')'+(it.note?' · '+it.note:'')+'</span>';
+}
+function gHours(q){return 'https://www.google.com/search?q='+encodeURIComponent(q+' Czech Republic opening hours');}
 function mapsUrl(q){return 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q+' Czech Republic');}
 function wazeUrl(q){return 'https://waze.com/ul?q='+encodeURIComponent(q+' Czech Republic')+'&navigate=yes';}
 function ytUrl(q){return 'https://www.youtube.com/results?search_query='+encodeURIComponent(q+' Czech Republic');}
@@ -397,13 +586,69 @@ function navButtons(q,opt){
 function wxEmoji(c){if(c===0)return'☀️';if(c<=2)return'🌤️';if(c===3)return'☁️';if(c<=48)return'🌫️';if(c<=57)return'🌦️';if(c<=67)return'🌧️';if(c<=77)return'🌨️';if(c<=82)return'🌧️';if(c<=86)return'🌨️';return'⛈️';}
 function fbTemp(region){if(region==='צפון')return[22,12];if(region==='מעבר')return[24,13];if(region==='דרום')return[25,13];return[26,15];}
 
+const RM=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+const TRIP_START=new Date(2026,7,11,17,35,0); // המראת LY2523
+const TRIP_END=new Date(2026,7,25,23,59,0);
+function pad(n){return (n<10?'0':'')+n;}
+function setNum(id,v){const el=document.getElementById(id);if(!el)return;const s=pad(v);if(el.textContent!==s){el.textContent=s;}}
+function faceFor(days){
+  if(days>90)return['🗺️','עוד מסע שלם של ציפייה'];
+  if(days>60)return['😌','מתחילים לחלום על בוהמיה'];
+  if(days>30)return['🙂','החודש מתקרב'];
+  if(days>14)return['😀','כבר אפשר להתחיל לארוז בראש'];
+  if(days>7)return['😃','שבוע-שבועיים ויוצאים!'];
+  if(days>3)return['🤩','ממש מעבר לפינה'];
+  if(days>1)return['🥳','עוד כמה ימים בלבד!'];
+  if(days===1)return['🤩','מחר ממריאים!'];
+  return['🎉','היום ממריאים!'];
+}
+function tickCountdown(){
+  const now=new Date();
+  const diff=TRIP_START-now;
+  const face=document.getElementById('cd-face'),msg=document.getElementById('cd-msg');
+  if(diff>0){
+    const s=Math.floor(diff/1000);
+    const d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60),sec=s%60;
+    setNum('cd-d',d);setNum('cd-h',h);setNum('cd-m',m);
+    const prev=document.getElementById('cd-s');const ps=prev?prev.textContent:'';
+    setNum('cd-s',sec);
+    if(prev&&!RM&&ps!==pad(sec)){prev.animate([{transform:'scale(1.22)',color:'#fff'},{transform:'scale(1)'}],{duration:280,easing:'ease-out'});}
+    const f=faceFor(d);if(face)face.textContent=f[0];if(msg)msg.textContent=f[1];
+  } else if(now<=TRIP_END){
+    const dn=Math.min(15,Math.floor((now-TRIP_START)/86400000)+1);
+    setNum('cd-d',0);setNum('cd-h',0);setNum('cd-m',0);setNum('cd-s',0);
+    if(face)face.textContent='🇨🇿';if(msg)msg.textContent='יום '+dn+' בטיול — תהנו!';
+  } else {
+    if(face)face.textContent='🏡';if(msg)msg.textContent='חזרנו — איזה טיול!';
+    setNum('cd-d',0);setNum('cd-h',0);setNum('cd-m',0);setNum('cd-s',0);
+  }
+}
+tickCountdown();setInterval(tickCountdown,1000);
+
+// ---- scroll experience ----
+document.body.classList.add('js');
 (function(){
-  const start=new Date(2026,7,11),now=new Date();
-  const diff=Math.ceil((start-now)/86400000),el=document.getElementById('countdown');
-  if(diff>0)el.innerHTML='⏳ עוד <b>'+diff+'</b> ימים לטיול';
-  else if(diff===0)el.innerHTML='🎉 <b>היום</b> ממריאים!';
-  else{const dn=Math.min(15,Math.abs(diff)+1);el.innerHTML='🇨🇿 יום <b>'+dn+'</b> בטיול';}
+  const bar=document.getElementById('scrollprog');
+  let ticking=false;
+  function onScroll(){
+    if(ticking)return;ticking=true;
+    requestAnimationFrame(()=>{
+      const sc=window.scrollY||document.documentElement.scrollTop;
+      const h=document.documentElement.scrollHeight-window.innerHeight;
+      if(bar)bar.style.width=(h>0?Math.min(100,sc/h*100):0)+'%';
+      const hf=document.querySelector('.hero-frame');
+      if(hf&&!RM&&sc<420){hf.style.transform='translateY('+(sc*0.18)+'px)';hf.style.opacity=Math.max(0,1-sc/360);}
+      ticking=false;
+    });
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
 })();
+function revealDays(){
+  if(RM){document.querySelectorAll('.day').forEach(d=>d.classList.add('in'));return;}
+  const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{rootMargin:'0px 0px -8% 0px',threshold:.08});
+  document.querySelectorAll('.day').forEach(d=>io.observe(d));
+  setTimeout(()=>document.querySelectorAll('.day:not(.in)').forEach(d=>d.classList.add('in')),1600);
+}
 
 function buildTimeline(day){
   if(day.d===11) return {rows:[['~20:45','🛬 נחיתה בפראג (LY2523)'],['21:15','🚗 איסוף רכב / מונית'],['22:00','🏨 צ׳ק-אין במלון Hoffmeister + מנוחה']],note:'נחיתה בערב — היום הפעיל הראשון מתחיל ב-12.8'};
@@ -420,6 +665,15 @@ function buildTimeline(day){
   return {rows,note:'הצעה גמישה — התאימו לקצב של הילדים'};
 }
 
+function budgetChip(dn){const b=BUDGETCZK[dn];if(!b)return '';
+  if(b.min!=null)return '<span class="budget">💰 '+b.min+'–'+b.max+' CZK (<span class="bils" data-min="'+b.min+'" data-max="'+b.max+'">'+ilsStr(b.min,b.max)+'</span>) · '+b.label+'</span>';
+  return '<span class="budget">💰 '+b.label+'</span>';}
+function updateRates(){
+  document.querySelectorAll('.ils[data-min],.bils[data-min]').forEach(el=>{
+    const mn=+el.dataset.min,mx=el.dataset.max?+el.dataset.max:null;el.textContent=ilsStr(mn,mx);});
+  const note=document.getElementById('rate-note');
+  if(note)note.textContent='שער חי: 100 CZK ≈ '+rd(100*RATE_ILS)+' ₪ · 1 € ≈ '+(RATE_ILS/RATE_EUR).toFixed(2)+' ₪';
+}
 function renderRoute(){
   const v=document.getElementById('view-route');let html='';
   DAYS.forEach((day,i)=>{
@@ -430,8 +684,8 @@ function renderRoute(){
       let chips='';
       if(s.drive)chips+='<span class="chip drive">🚗 '+s.drive+'</span>';
       if(HWSET.has(s.maps))chips+='<span class="chip hw">🛣️ כביש מהיר (ויניאטה!)</span>';
-      if(s.price)chips+='<span class="chip price">🎟️ '+s.price+'</span>';
-      if(HOURSBY[s.maps]&&HOURSBY[s.maps]!=='—')chips+='<span class="chip hours">🗓️ '+HOURSBY[s.maps]+'</span>';
+      (PRICES[s.maps]||[]).forEach(it=>chips+=priceChip(it));
+      chips+='<a class="chip hours" target="_blank" rel="noopener" href="'+gHours(s.maps)+'">🕒 שעות בגוגל</a>';
       if(CLOSED_MON.has(s.maps))chips+=(wk===1?'<span class="chip openwarn">⛔ סגור ביום שני!</span>':'<span class="chip openok">✓ פתוח בתאריך זה</span>');
       if(s.book)chips+='<span class="chip book">⚠️ '+s.book+'</span>';
       const imgKey=IMGBY[s.maps],imgUrl=imgKey?IMG[imgKey]:null,deal=DEALBY[s.maps];
@@ -444,10 +698,11 @@ function renderRoute(){
         navButtons(s.maps,{yt:true})+'</div>';
     });
     let lunch='';
-    if(day.lunch){const lc=LCOSTBY[day.lunch.maps];
+    if(day.lunch){const lc=LUNCHC[day.lunch.maps];
       lunch='<div class="lunch"><div class="lh">🍽️ צהריים</div><div class="ln">'+day.lunch.nm+'</div>'+
         (day.lunch.desc?'<p class="ld">'+day.lunch.desc+'</p>':'')+
-        (lc?'<div class="lcost">💵 '+lc+'</div>':'')+navButtons(day.lunch.maps)+'</div>';
+        (lc?'<div class="lcost">💵 מנה עיקרית: '+lc.min+'–'+lc.max+' CZK (<span class="ils" data-min="'+lc.min+'" data-max="'+lc.max+'">'+ilsStr(lc.min,lc.max)+'</span>)</div>':'')+
+        navButtons(day.lunch.maps)+'</div>';
     }
     const tl=buildTimeline(day);let tlrows='';
     tl.rows.forEach(r=>tlrows+='<div class="tlrow"><span class="tt">'+r[0]+'</span><span class="tx">'+r[1]+'</span></div>');
@@ -461,7 +716,7 @@ function renderRoute(){
       stops+lunch+timeline+
       '<div class="dayfoot"><div class="hotelf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-5h18v5M3 13V7a1 1 0 0 1 1-1h6v7M14 13V8h6a1 1 0 0 1 1 1v4"/></svg>'+
         (day.hotel==='—'?'<span>טיסה הביתה ✈️</span>':'לינה: <b>'+day.hotel+'</b>')+'</div>'+
-        (day.budget?'<span class="budget">💰 '+day.budget+'</span>':'')+'</div></div>';
+        budgetChip(day.d)+'</div></div>';
   });
   v.innerHTML=html;
 }
@@ -555,16 +810,16 @@ function renderInfo(){
     backup+='<div style="margin-top:8px"><span class="pin" style="background:'+rs.c+'">'+rs.e+' '+r+'</span><ul style="margin:6px 0 0;padding-inline-start:18px">';
     BACKUP[r].forEach(b=>backup+='<li style="font-size:13px;margin:0 0 6px;line-height:1.45">'+b+'</li>');backup+='</ul></div>';});
   v.innerHTML='<h2 class="sec-title"><span class="bar"></span>מידע שימושי</h2>'+
-    '<div class="infobox">💱 המרה: 100 CZK ≈ 16 ₪ · 1 € ≈ 3.5 ₪. מחירי הכניסה הם הערכה לעונת השיא 2026 לאדם — לאמת באתרים הרשמיים (במיוחד ליפנו, תמחור דינמי). תקציב יומי = ~10 נפשות (4 מבוגרים + 6 ילדים), כניסות בלבד.</div>'+
+    '<div class="infobox">💱 <span id="rate-note">שער: 100 CZK ≈ 14 ₪ · 1 € ≈ 3.4 ₪</span> (שער חי, מתעדכן אוטומטית). מחירי הכניסה הם הערכה לעונת השיא 2026 לאדם בקורונה צ׳כית — לאמת באתרים הרשמיים. תקציב יומי = ~10 נפשות (4 מבוגרים + 6 ילדים), כניסות בלבד.</div>'+
     '<div class="card"><h3>✈️ טיסות — EL AL</h3>'+
-      '<div style="border:1px solid var(--line);border-radius:12px;padding:11px;margin-top:8px;background:#f8f3e8">'+
-        '<div style="font-weight:800;font-size:14px">🛫 הלוך · <span style="color:var(--green)">LY2523</span> · ג׳ 11.8</div>'+
+      '<div style="border:1px solid var(--line);border-radius:12px;padding:11px;margin-top:8px;background:rgba(255,255,255,.04)">'+
+        '<div style="font-weight:800;font-size:14px">🛫 הלוך · <span style="color:var(--gold-bright)">LY2523</span> · ג׳ 11.8</div>'+
         '<div class="kv" style="margin-top:6px"><span class="k">מסלול</span><span class="v">תל אביב (TLV · טרמ׳ 3) ← פראג (PRG · טרמ׳ 1)</span></div>'+
         '<div class="kv"><span class="k">שעה (משוער)</span><span class="v">המראה ~17:35 · נחיתה ~20:45</span></div>'+
         '<div class="navs"><a class="nav-btn nav-maps" target="_blank" rel="noopener" href="https://www.flightradar24.com/data/flights/ly2523">📡 סטטוס חי</a>'+
         '<a class="nav-btn nav-waze" target="_blank" rel="noopener" href="https://www.google.com/search?q=LY2523+flight+status">🔎 גוגל</a></div></div>'+
-      '<div style="border:1px solid var(--line);border-radius:12px;padding:11px;margin-top:10px;background:#f8f3e8">'+
-        '<div style="font-weight:800;font-size:14px">🛬 חזור · <span style="color:var(--green)">LY2522</span> · ג׳ 25.8</div>'+
+      '<div style="border:1px solid var(--line);border-radius:12px;padding:11px;margin-top:10px;background:rgba(255,255,255,.04)">'+
+        '<div style="font-weight:800;font-size:14px">🛬 חזור · <span style="color:var(--gold-bright)">LY2522</span> · ג׳ 25.8</div>'+
         '<div class="kv" style="margin-top:6px"><span class="k">מסלול</span><span class="v">פראג (PRG · טרמ׳ 1) ← תל אביב (TLV · טרמ׳ 3)</span></div>'+
         '<div class="kv"><span class="k">שעה</span><span class="v">לפי הכרטיס / הסטטוס החי</span></div>'+
         '<div class="navs"><a class="nav-btn nav-maps" target="_blank" rel="noopener" href="https://www.flightradar24.com/data/flights/ly2522">📡 סטטוס חי</a>'+
@@ -588,32 +843,182 @@ function renderInfo(){
       '<div class="task"><span class="b" onclick="this.classList.toggle(\'on\')"></span><div>ויניאטה דיגיטלית + רישיון נהיגה בינלאומי</div></div></div>'+
     '<div class="card"><h3>💰 תקציב לינה</h3><div class="kv"><span class="k">סה״כ מלונות</span><span class="v">10,731.80 ₪</span></div></div>'+
     '<div class="card"><h3>🔄 אופציות גיבוי (ליום גשום / החלפה)</h3>'+backup+'</div>'+
-    '<div class="infobox" style="margin-top:6px">✓ בדיקת ימי פתיחה: אף ביקור בטירה לא נופל ביום שני (יום הסגירה הנפוץ). קרומלוב (21.8) — יום ו׳, בלטנה (22.8) — שבת, שניהם פתוחים.</div>';
+    '<div class="infobox" style="margin-top:6px">✓ בדיקת ימי פתיחה: אף ביקור בטירה לא נופל ביום שני (יום הסגירה הנפוץ). קרומלוב (21.8) — יום ו׳, בלטנה (22.8) — שבת, שניהם פתוחים.</div>'+
+    '<div class="card"><h3>🔗 סנכרון בין מכשירים (אופציונלי)</h3>'+
+      '<p class="small" style="margin-top:2px">מצב נוכחי: <b class="syncb">📱 מקומי</b>. במצב מקומי הסימונים וההוצאות נשמרים בכל מכשיר בנפרד. כדי שכל המכשירים של שתי המשפחות יתעדכנו <b>בזמן אמת</b>, חברו את הדף ל-Firebase (חינמי) — פעם אחת:</p>'+
+      '<div class="task"><span class="b" onclick="this.classList.toggle(\'on\')"></span><div>היכנסו ל-<a class="inline" target="_blank" rel="noopener" href="https://console.firebase.google.com">console.firebase.google.com</a> וצרו פרויקט חדש (Create a project).</div></div>'+
+      '<div class="task"><span class="b" onclick="this.classList.toggle(\'on\')"></span><div>בתפריט Build → <b>Realtime Database</b> → Create Database → מיקום <b>europe-west1</b> → התחילו ב-<b>Test mode</b>.</div></div>'+
+      '<div class="task"><span class="b" onclick="this.classList.toggle(\'on\')"></span><div>בהגדרות (⚙️ Project settings → General → Your apps) לחצו על אייקון <b>Web &lt;/&gt;</b>, רשמו אפליקציה, והעתיקו את אובייקט <b>firebaseConfig</b>.</div></div>'+
+      '<div class="task"><span class="b" onclick="this.classList.toggle(\'on\')"></span><div>בקובץ ה-HTML, בראש ה-script, הדביקו אותו במקום <b>FIREBASE_CONFIG</b> (כולל databaseURL) ושמרו.</div></div>'+
+      '<div class="task"><span class="b" onclick="this.classList.toggle(\'on\')"></span><div>זהו! כל מי שיפתח את הקובץ עם אותו config ואותו <b>TRIP_ID</b> יתעדכן בזמן אמת. (אותו TRIP_ID = נתונים משותפים).</div></div>'+
+      '<p class="small">🔒 ה-config של Firebase מיועד להיות גלוי — בטוח להעלות אותו ל-GitHub. למצב פרטי יותר, אחרי ההקמה אפשר להחליף את חוקי ה-Database ל: <code style="font-size:11px">{ "rules": { "trips": { "$t": { ".read": true, ".write": true } } } }</code></p></div>';
 }
 
 let mapInited=false,leafMap=null;
+const CAT={
+ att:{e:'🎢',c:'#d99a48',g:'attractions'}, castle:{e:'🏰',c:'#c25a76',g:'attractions'},
+ nature:{e:'⛰️',c:'#5cae6a',g:'attractions'}, water:{e:'🌊',c:'#3d8bd4',g:'attractions'},
+ zoo:{e:'🦁',c:'#a571c4',g:'attractions'}, air:{e:'✈️',c:'#9aa0a6',g:'attractions'},
+ food:{e:'🍽️',c:'#d2683f',g:'food'}, hotel:{e:'🏨',c:'#3aa6ad',g:'hotel'}
+};
+const STOPCO={
+ 'Park Mirakulum Milovice':{lat:50.2386,lon:14.8898,cat:'att'},
+ 'Medvědín Špindlerův Mlýn':{lat:50.7256,lon:15.5905,cat:'nature'},
+ 'Yellow Point Špindlerův Mlýn':{lat:50.7268,lon:15.6125,cat:'att'},
+ 'Mumlavský vodopád Harrachov':{lat:50.7726,lon:15.4520,cat:'nature'},
+ 'Monkey Park Harrachov':{lat:50.7705,lon:15.4345,cat:'att'},
+ 'Bobová dráha Harrachov':{lat:50.7720,lon:15.4300,cat:'att'},
+ 'Adršpašské skály':{lat:50.6138,lon:16.1183,cat:'nature'},
+ 'Prachovské skály':{lat:50.4756,lon:15.3140,cat:'nature'},
+ 'Aquapalace Praha Čestlice':{lat:49.9925,lon:14.5713,cat:'water'},
+ 'Lipno nad Vltavou':{lat:48.6410,lon:14.2240,cat:'nature'},
+ 'Stezka korunami stromů Lipno':{lat:48.6332,lon:14.2340,cat:'att'},
+ 'Lipno nad Vltavou pláž':{lat:48.6395,lon:14.2210,cat:'water'},
+ 'Vltava rafting Vyšší Brod':{lat:48.6190,lon:14.3100,cat:'water'},
+ 'Kleť chairlift Krasetín':{lat:48.8640,lon:14.2880,cat:'nature'},
+ 'Český Krumlov':{lat:48.8109,lon:14.3150,cat:'castle'},
+ 'Zoo Ohrada Hluboká nad Vltavou':{lat:49.0560,lon:14.4380,cat:'zoo'},
+ 'Stožec':{lat:48.8700,lon:13.8250,cat:'nature'},
+ 'Český Krumlov Castle':{lat:48.8127,lon:14.3151,cat:'castle'},
+ 'Zámek Blatná':{lat:49.4244,lon:13.8750,cat:'castle'},
+ 'Staroměstské náměstí Prague':{lat:50.0870,lon:14.4210,cat:'att'},
+ 'Black Light Theatre Prague':{lat:50.0840,lon:14.4200,cat:'att'},
+ 'Prague Castle':{lat:50.0900,lon:14.4000,cat:'castle'},
+ 'Petřínská rozhledna Prague':{lat:50.0835,lon:14.3955,cat:'nature'},
+ 'Zoo Praha':{lat:50.1170,lon:14.4060,cat:'zoo'},
+ 'Václav Havel Airport Prague':{lat:50.1008,lon:14.2600,cat:'air'}
+};
+const FOODCO={
+ 'Lokál Dlouhááá Prague':{lat:50.0905,lon:14.4270},'Park Mirakulum Milovice':{lat:50.2390,lon:14.8915},
+ 'Restaurace U Pečené Kachničky Špindlerův Mlýn':{lat:50.7280,lon:15.6070},'Novosad pivovar Harrachov':{lat:50.7710,lon:15.4360},
+ 'Restaurace Skalní Město Adršpach':{lat:50.6160,lon:16.1090},'Restaurace Prachovské skály':{lat:50.4762,lon:15.3128},
+ 'České Budějovice náměstí':{lat:48.9747,lon:14.4747},'Restaurace Slunečná Louka Lipno nad Vltavou':{lat:48.6420,lon:14.2260},
+ 'Hospoda Na Louži Český Krumlov':{lat:48.8105,lon:14.3162},'Restaurace Hubertus Hluboká nad Vltavou':{lat:49.0510,lon:14.4360},
+ 'Krčma Šatlava Český Krumlov':{lat:48.8108,lon:14.3172},'Blatná náměstí restaurace':{lat:49.4250,lon:13.8740},
+ 'Restaurace Mincovna Staroměstské náměstí':{lat:50.0876,lon:14.4205},'Restaurace Nebozízek Petřín Prague':{lat:50.0840,lon:14.3970},
+ 'Václav Havel Airport Prague terminal':{lat:50.1012,lon:14.2605}
+};
+const HOTELCO={
+ 'HOTEL DVUR HOFFMEISTER':{lat:50.0930,lon:14.4130},'Špindl Lodge / Pension Slunečnice':{lat:50.7270,lon:15.6090},
+ 'Aquapalace Hotel Prague':{lat:49.9928,lon:14.5718},'Korzo Lipno C':{lat:48.6400,lon:14.2230},
+ 'trees apartments by adres 4':{lat:50.0872,lon:14.4300}
+};
+let TRACK=[],VISITED=new Set(),visLoaded=false,markerById={},userMarker=null,geoWatch=null,showG={attractions:true,food:true,hotel:true},_nearId=null;
+function markNear(){if(_nearId){toggleVisited(_nearId);const b=document.getElementById('geo-banner');if(b)b.classList.remove('show');}}
+
+function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);});}
+function updateSyncBadge(){const t=SYNC?'☁️ מסונכרן':'📱 מקומי';document.querySelectorAll('.syncb').forEach(e=>e.textContent=t);}
+function refreshMarkers(){if(!mapInited)return;TRACK.forEach(p=>{const m=markerById[p.id];if(m){m.setIcon(mkIcon(p.cat,VISITED.has(p.id)));m.setPopupContent(popHtml(p));}});}
+async function initSync(){
+  if(!FIREBASE_CONFIG||!FIREBASE_CONFIG.apiKey){updateSyncBadge();return;}
+  try{
+    await loadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js');
+    await loadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js');
+    firebase.initializeApp(FIREBASE_CONFIG);fbdb=firebase.database();SYNC=true;updateSyncBadge();
+    fbdb.ref('trips/'+TRIP_ID+'/visited').on('value',snap=>{const v=snap.val()||{};VISITED=new Set(Object.keys(v).filter(k=>v[k]));visLoaded=true;refreshMarkers();updateProgress();});
+    fbdb.ref('trips/'+TRIP_ID+'/expenses').on('value',snap=>{const v=snap.val()||{};EXP=Object.keys(v).map(k=>Object.assign({id:k},v[k]));expLoaded=true;renderExpensesList();});
+  }catch(e){SYNC=false;updateSyncBadge();}
+}
+async function persistVisited(id,on){if(SYNC&&fbdb){try{await fbdb.ref('trips/'+TRIP_ID+'/visited/'+id).set(on?true:null);}catch(e){}}else{try{await Store.set('cz_visited',JSON.stringify([...VISITED]));}catch(e){}}}
+async function persistAddExpense(e){if(SYNC&&fbdb){try{await fbdb.ref('trips/'+TRIP_ID+'/expenses/'+e.id).set({desc:e.desc,date:e.date,amt:e.amt,cur:e.cur,note:e.note});}catch(err){}}else{try{await Store.set('cz_expenses',JSON.stringify(EXP));}catch(err){}}}
+async function persistDelExpense(id){if(SYNC&&fbdb){try{await fbdb.ref('trips/'+TRIP_ID+'/expenses/'+id).remove();}catch(e){}}else{try{await Store.set('cz_expenses',JSON.stringify(EXP));}catch(e){}}}
+function safeId(s){return s.replace(/[.#$/\[\]]/g,'-');}
+function buildTrack(){
+  const by={};
+  function add(id,name,co,cat,day,q){
+    if(by[id]){if(by[id].days.indexOf(day)<0)by[id].days.push(day);return;}
+    by[id]={id,name,lat:co.lat,lon:co.lon,cat,q,days:[day]};
+  }
+  DAYS.forEach(d=>{
+    d.stops.forEach(s=>{const co=STOPCO[s.maps];if(co)add('a:'+safeId(s.maps),s.nm,co,co.cat,d.d,s.maps);});
+    if(d.lunch){const co=FOODCO[d.lunch.maps];if(co)add('f:'+safeId(d.lunch.maps),d.lunch.nm,co,'food',d.d,d.lunch.maps);}
+    if(d.hotel&&d.hotel!=='—'){const co=HOTELCO[d.hotel];if(co)add('h:'+safeId(d.hotel),d.hotel,co,'hotel',d.d,d.hotel);}
+  });
+  TRACK=Object.values(by);
+}
+function mkIcon(cat,done){const s=CAT[cat];
+  return L.divIcon({className:'',iconSize:[30,30],iconAnchor:[15,15],popupAnchor:[0,-15],
+    html:'<div class="mk'+(done?' done':'')+'" style="background:'+s.c+'">'+s.e+(done?'<span class="mkv">✓</span>':'')+'</div>'});}
+function popHtml(p){const done=VISITED.has(p.id);const days=p.days.sort((a,b)=>a-b).map(x=>x+'/8').join(', ');
+  return '<div style="font-weight:800;font-size:14px;margin-bottom:2px">'+CAT[p.cat].e+' '+p.name+'</div>'+
+    '<div style="font-size:12px;color:#9fb0a6">📅 '+days+'</div>'+
+    '<a class="pop-nav" target="_blank" rel="noopener" href="'+mapsUrl(p.q)+'">🧭 נווט לכאן</a>'+
+    '<button class="pop-btn'+(done?' done':'')+'" onclick="toggleVisited(\''+p.id.replace(/'/g,"\\'")+'\')">'+(done?'✓ היינו כאן — בטל':'סמן: היינו כאן ✓')+'</button>';}
+async function toggleVisited(id){
+  const on=!VISITED.has(id);
+  if(on)VISITED.add(id);else VISITED.delete(id);
+  visLoaded=true;await persistVisited(id,on);
+  const m=markerById[id];if(m){const p=TRACK.find(t=>t.id===id);m.setIcon(mkIcon(p.cat,VISITED.has(id)));m.setPopupContent(popHtml(p));}
+  updateProgress();
+}
+function updateProgress(){
+  const done=TRACK.filter(t=>VISITED.has(t.id)).length,tot=TRACK.length;
+  const pe=document.getElementById('prog-num'),pb=document.getElementById('prog-bar');
+  if(pe)pe.textContent=done+' / '+tot;
+  if(pb)pb.style.width=(tot?Math.round(done/tot*100):0)+'%';
+}
+function applyFilters(){
+  TRACK.forEach(p=>{const m=markerById[p.id];if(!m)return;const vis=showG[CAT[p.cat].g];
+    if(vis&&!leafMap.hasLayer(m))m.addTo(leafMap);else if(!vis&&leafMap.hasLayer(m))leafMap.removeLayer(m);});
+}
+function toggleFilter(g,el){showG[g]=!showG[g];el.classList.toggle('off',!showG[g]);applyFilters();}
+function haversine(a,b,c,d){const R=6371000,t=x=>x*Math.PI/180;const dla=t(c-a),dlo=t(d-b);
+  const h=Math.sin(dla/2)**2+Math.cos(t(a))*Math.cos(t(c))*Math.sin(dlo/2)**2;return 2*R*Math.asin(Math.sqrt(h));}
+function startGeo(){
+  if(!navigator.geolocation){geoMsg('המכשיר לא תומך באיתור מיקום — אפשר לסמן ידנית.');return;}
+  geoMsg('מאתר מיקום…');
+  if(geoWatch!=null){navigator.geolocation.clearWatch(geoWatch);geoWatch=null;
+    document.getElementById('geo-toggle').textContent='📍 עקוב אחרי המיקום שלי';if(userMarker){leafMap.removeLayer(userMarker);userMarker=null;}
+    document.getElementById('geo-banner').classList.remove('show');return;}
+  document.getElementById('geo-toggle').textContent='⏸️ הפסק מעקב';
+  let first=true;
+  geoWatch=navigator.geolocation.watchPosition(pos=>{
+    const la=pos.coords.latitude,lo=pos.coords.longitude;
+    if(!userMarker)userMarker=L.marker([la,lo],{icon:L.divIcon({className:'',html:'<div class="usr"></div>',iconSize:[18,18],iconAnchor:[9,9]}),zIndexOffset:1000}).addTo(leafMap);
+    else userMarker.setLatLng([la,lo]);
+    if(first){leafMap.setView([la,lo],12);first=false;}
+    let near=null,nd=1e12;
+    TRACK.forEach(p=>{if(VISITED.has(p.id))return;const dd=haversine(la,lo,p.lat,p.lon);if(dd<nd){nd=dd;near=p;}});
+    const b=document.getElementById('geo-banner');
+    if(near&&nd<250){_nearId=near.id;b.classList.add('show');
+      b.innerHTML='<div class="gbtxt">📍 אתם ליד <b>'+near.name+'</b> ('+Math.round(nd)+' מ׳)</div><button onclick="markNear()">היינו כאן ✓</button>';
+    } else b.classList.remove('show');
+  },err=>{geoMsg('לא ניתן לאתר מיקום ('+(err.code===1?'ההרשאה נדחתה':'שגיאה')+'). אפשר לסמן ידנית בלחיצה על נקודה.');
+    document.getElementById('geo-toggle').textContent='📍 עקוב אחרי המיקום שלי';geoWatch=null;
+  },{enableHighAccuracy:true,maximumAge:15000,timeout:20000});
+}
+function geoMsg(t){const b=document.getElementById('geo-banner');b.classList.add('show');b.innerHTML='<div class="gbtxt">'+t+'</div>';
+  setTimeout(()=>{if(b.innerHTML.indexOf('אתם ליד')<0)b.classList.remove('show');},5000);}
+
 function renderMap(){
   if(mapInited)return;mapInited=true;
+  if(!TRACK.length)buildTrack();
   const v=document.getElementById('view-map');
-  v.innerHTML='<h2 class="sec-title"><span class="bar"></span>מפת המסלול</h2>'+
-    '<div class="infobox">מבט-על על המעבר: פראג → צפון (הרי הענק) → מעבר → דרום (שומאווה/ליפנו) → חזרה לפראג. הקו מחבר את הנקודות לפי סדר הימים.</div>'+
+  v.innerHTML='<h2 class="sec-title"><span class="bar"></span>מפת המסע — מעקב חי</h2>'+
+    '<div class="progress-wrap"><div class="progress-top"><span>✓ ביקרתם ב-<span id="prog-num">0 / 0</span> מקומות</span><span class="syncb" style="font-size:11px;color:var(--muted)">📱 מקומי</span></div>'+
+      '<div class="pbar"><div id="prog-bar" style="width:0%"></div></div></div>'+
+    '<div class="geo-row"><button class="geo-btn" id="geo-toggle" onclick="startGeo()">📍 עקוב אחרי המיקום שלי</button>'+
+      '<button class="geo-btn alt" onclick="if(leafMap)leafMap.fitBounds(L.latLngBounds(MAPPTS.map(p=>[p.lat,p.lon])).pad(0.12))">🗺️ כל המסלול</button></div>'+
+    '<div class="geo-banner" id="geo-banner"></div>'+
+    '<div class="filters"><span class="filt" onclick="toggleFilter(\'attractions\',this)">🎢 אטרקציות</span>'+
+      '<span class="filt" onclick="toggleFilter(\'food\',this)">🍽️ מסעדות</span>'+
+      '<span class="filt" onclick="toggleFilter(\'hotel\',this)">🏨 מלונות</span></div>'+
     '<div id="map"></div>'+
-    '<div class="legend"><span><i style="background:#8a3b4c"></i>פראג</span><span><i style="background:#2f6f7a"></i>צפון</span><span><i style="background:#b07d2b"></i>מעבר</span><span><i style="background:#4f7d3a"></i>דרום</span></div>';
+    '<div class="legend"><span>🎢 אטרקציה</span><span>🏰 טירה</span><span>⛰️ טבע</span><span>🌊 מים</span><span>🦁 גן חיות</span><span>🍽️ מסעדה</span><span>🏨 מלון</span></div>'+
+    '<div class="infobox" style="margin-top:12px">לחצו על נקודה כדי לסמן "היינו כאן ✓" — הסימון נשמר במכשיר. "עקוב אחרי המיקום שלי" ידגיש נקודה קרובה (עד 250 מ׳) ויאפשר סימון מהיר. המעקב דורש אישור הרשאת מיקום ונתב HTTPS.</div>';
   setTimeout(()=>{
     leafMap=L.map('map',{scrollWheelZoom:false}).setView([49.7,14.5],7);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© OpenStreetMap'}).addTo(leafMap);
-    const latlngs=[];
-    MAPPTS.forEach(p=>{
-      const hex=regionStyle(p.r).hex;
-      L.circleMarker([p.lat,p.lon],{radius:9,color:'#fff',weight:2,fillColor:hex,fillOpacity:1})
-        .addTo(leafMap).bindPopup('<div style="font-weight:800;font-family:Heebo">'+p.n+'</div><div style="font-size:12px">ימים: '+p.d+'</div>');
-      latlngs.push([p.lat,p.lon]);
-    });
-    L.polyline(latlngs,{color:'#b8893a',weight:3,opacity:.8,dashArray:'7 6'}).addTo(leafMap);
-    L.polyline([latlngs[latlngs.length-1],MAPPTS[0]?[MAPPTS[0].lat,MAPPTS[0].lon]:latlngs[0]],{color:'#b8893a',weight:3,opacity:.5,dashArray:'2 8'}).addTo(leafMap);
-    leafMap.fitBounds(L.latLngBounds(latlngs).pad(0.15));
+    const route=MAPPTS.map(p=>[p.lat,p.lon]);
+    L.polyline(route,{color:'#b8893a',weight:3,opacity:.55,dashArray:'7 7'}).addTo(leafMap);
+    markerById={};
+    TRACK.forEach(p=>{const m=L.marker([p.lat,p.lon],{icon:mkIcon(p.cat,VISITED.has(p.id))}).addTo(leafMap).bindPopup(popHtml(p),{maxWidth:240});
+      markerById[p.id]=m;});
+    applyFilters();updateProgress();
+    leafMap.fitBounds(L.latLngBounds(TRACK.map(p=>[p.lat,p.lon])).pad(0.12));
   },80);
 }
+async function initVisited(){try{const raw=await Store.get('cz_visited');if(!visLoaded&&raw)VISITED=new Set(JSON.parse(raw));}catch(e){}visLoaded=true;if(mapInited){TRACK.forEach(p=>{const m=markerById[p.id];if(m)m.setIcon(mkIcon(p.cat,VISITED.has(p.id)));});updateProgress();}}
 
 function switchTab(name){
   document.querySelectorAll('.view').forEach(el=>el.classList.toggle('on',el.id==='view-'+name));
@@ -638,7 +1043,79 @@ async function loadWeather(){
   }catch(e){/* keep seasonal fallback */}
 }
 
-renderRoute();renderPills();renderHotels();renderDrive();renderInfo();loadWeather();
+// ---- Expenses tracker (persists via artifact storage on claude.ai, localStorage on GitHub) ----
+const _mem={};
+const Store={
+  async get(k){try{if(window.storage&&window.storage.get){const r=await window.storage.get(k);return r?r.value:null;}}catch(e){}
+    try{return localStorage.getItem(k);}catch(e){return _mem[k]||null;}},
+  async set(k,v){try{if(window.storage&&window.storage.set){await window.storage.set(k,v);return;}}catch(e){}
+    try{localStorage.setItem(k,v);}catch(e){_mem[k]=v;}}
+};
+let EXP=[];let expLoaded=false;
+function toCZK(amt,cur){if(cur==='₪')return amt/RATE_ILS;if(cur==='€')return amt/RATE_EUR;return amt;}
+function renderExpenses(){
+  const v=document.getElementById('view-expenses');
+  v.innerHTML='<h2 class="sec-title"><span class="bar"></span>מעקב הוצאות</h2>'+
+    '<div class="infobox">רשמו כמה שילמתם בפועל בכל אטרקציה/הוצאה. הנתונים נשמרים במכשיר שלכם. הסכום הכולל מוצג בקורונה ובשקלים לפי השער החי.</div>'+
+    '<div class="ex-sum"><div class="sub" style="color:#cdd8cf;font-weight:700;font-size:12px;display:flex;justify-content:space-between">סה״כ הוצאות עד כה <span class="syncb" style="opacity:.85">📱 מקומי</span></div>'+
+      '<div class="big" id="ex-total-czk">0 CZK</div><div class="s2" id="ex-total-ils">≈ 0 ₪</div></div>'+
+    '<div class="card"><h3>➕ הוספת הוצאה</h3><div class="exf" style="margin-top:10px">'+
+      '<div><label>הוצאה</label><input id="ex-desc" type="text" placeholder="למשל: כרטיסים למירקולום"></div>'+
+      '<div class="row2"><div><label>תאריך</label><input id="ex-date" type="date" value="2026-08-11"></div>'+
+        '<div><label>סכום</label><input id="ex-amt" type="number" inputmode="decimal" placeholder="0"></div>'+
+        '<div><label>מטבע</label><select id="ex-cur"><option value="CZK">CZK</option><option value="₪">₪</option><option value="€">€</option></select></div></div>'+
+      '<div><label>הערות (לא חובה)</label><input id="ex-note" type="text" placeholder="למשל: שילמנו 4 מבוגרים + 6 ילדים"></div>'+
+      '<button class="ex-add" onclick="addExpense()">הוסף הוצאה</button></div></div>'+
+    '<div id="ex-list"></div>';
+  renderExpensesList();
+}
+async function addExpense(){
+  expLoaded=true;
+  const desc=document.getElementById('ex-desc').value.trim();
+  const date=document.getElementById('ex-date').value;
+  const amt=parseFloat(document.getElementById('ex-amt').value);
+  const cur=document.getElementById('ex-cur').value;
+  const note=document.getElementById('ex-note').value.trim();
+  if(!desc||isNaN(amt)){alert('נא למלא לפחות הוצאה וסכום');return;}
+  const e={id:'e'+Date.now()+Math.floor(Math.random()*999),desc,date,amt,cur,note};
+  if(!SYNC)EXP.push(e);
+  await persistAddExpense(e);
+  document.getElementById('ex-desc').value='';document.getElementById('ex-amt').value='';document.getElementById('ex-note').value='';
+  renderExpensesList();
+}
+async function delExpense(id){
+  EXP=EXP.filter(e=>e.id!==id);
+  await persistDelExpense(id);
+  renderExpensesList();
+}
+function renderExpensesList(){
+  const list=document.getElementById('ex-list');if(!list)return;
+  if(!EXP.length){list.innerHTML='<div class="ex-empty">עדיין לא נרשמו הוצאות 💸<br>הוסיפו את ההוצאה הראשונה למעלה.</div>';}
+  else{
+    const sorted=[...EXP].sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+    list.innerHTML=sorted.map(e=>{
+      const dd=e.date?e.date.slice(8,10)+'/'+e.date.slice(5,7):'—';
+      return '<div class="ex-row"><div class="exdt">'+dd+'</div>'+
+        '<div class="exmid"><div class="exnm">'+e.desc+'</div>'+(e.note?'<div class="exnote">'+e.note+'</div>':'')+'</div>'+
+        '<div class="examt">'+(e.cur==='CZK'?(e.amt+' CZK'):(e.amt+' '+e.cur))+'</div>'+
+        '<button class="exdel" onclick="delExpense(\''+e.id+'\')">✕</button></div>';
+    }).join('');
+  }
+  const totalCZK=EXP.reduce((s,e)=>s+toCZK(e.amt,e.cur),0);
+  const tc=document.getElementById('ex-total-czk'),ti=document.getElementById('ex-total-ils');
+  if(tc)tc.textContent=rd(totalCZK).toLocaleString('en-US')+' CZK';
+  if(ti)ti.textContent='≈ '+rd(totalCZK*RATE_ILS).toLocaleString('en-US')+' ₪';
+}
+async function initExpenses(){try{const raw=await Store.get('cz_expenses');if(expLoaded)return;EXP=raw?JSON.parse(raw):[];}catch(e){if(!expLoaded)EXP=[];}expLoaded=true;renderExpensesList();}
+
+async function loadRate(){
+  try{const r=await fetch('https://open.er-api.com/v6/latest/CZK');if(!r.ok)throw 0;const j=await r.json();
+    if(j&&j.rates){if(j.rates.ILS)RATE_ILS=j.rates.ILS;if(j.rates.EUR)RATE_EUR=j.rates.EUR;updateRates();renderExpensesList();}
+  }catch(e){updateRates();}
+}
+
+buildTrack();
+renderRoute();renderPills();renderHotels();renderDrive();renderExpenses();renderInfo();loadWeather();initExpenses();initVisited();loadRate();initSync();revealDays();
 
 const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const d=e.target.id.split('-')[1];
   document.querySelectorAll('.pill').forEach(p=>p.classList.toggle('active',p.dataset.d==d));}});},{rootMargin:'-45% 0px -50% 0px'});
