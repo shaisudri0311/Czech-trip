@@ -8,53 +8,44 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <style>
   :root{
-    --paper:#f3ede0; --paper2:#ece3d2; --ink:#28251f; --muted:#7a7163;
-    --line:#ddd2bd;
+    --paper:#f3ede0; --paper2:#ece3d2; --ink:#28251f; --muted:#7a7163; --line:#ddd2bd;
     --north:#2f6f7a; --south:#4f7d3a; --prague:#8a3b4c; --transit:#b07d2b;
     --gold:#b8893a; --green:#243b2f; --green2:#33543f;
-    --warn:#c0561f; --card:#fbf7ee; --waze:#2f6fb0;
+    --warn:#c0561f; --card:#fbf7ee; --waze:#2f6fb0; --book:#1a5fb4;
     --shadow:0 6px 22px rgba(40,37,31,.10);
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;padding:0}
-  body{
-    font-family:'Heebo',sans-serif;color:var(--ink);
-    background:var(--paper);
+  body{font-family:'Heebo',sans-serif;color:var(--ink);background:var(--paper);
     background-image:radial-gradient(circle at 12% 8%, rgba(184,137,58,.06), transparent 40%),
                      radial-gradient(circle at 88% 92%, rgba(36,59,47,.06), transparent 42%);
-    line-height:1.5;padding-bottom:84px;-webkit-font-smoothing:antialiased;
-  }
+    line-height:1.5;padding-bottom:86px;-webkit-font-smoothing:antialiased;}
   h1,h2,h3{font-family:'Frank Ruhl Libre',serif;margin:0;line-height:1.15}
 
-  header{
-    background:linear-gradient(160deg,#243b2f 0%,#33543f 70%,#3c6049 100%);
-    color:#f3ede0;padding:26px 18px 22px;position:relative;overflow:hidden;
-    border-bottom:3px solid var(--gold);
-  }
+  header{background:linear-gradient(160deg,#243b2f 0%,#33543f 70%,#3c6049 100%);
+    color:#f3ede0;padding:26px 18px 22px;position:relative;overflow:hidden;border-bottom:3px solid var(--gold);}
   header::after{content:"";position:absolute;inset:0;opacity:.07;
     background-image:repeating-linear-gradient(45deg,#fff 0 2px,transparent 2px 9px);}
-  .kicker{font-size:12.5px;letter-spacing:3px;font-weight:700;color:#e9c98a;
-    text-transform:uppercase;position:relative}
+  .kicker{font-size:12.5px;letter-spacing:3px;font-weight:700;color:#e9c98a;text-transform:uppercase;position:relative}
   header h1{font-size:33px;font-weight:900;margin:4px 0 6px;position:relative}
-  .dates{font-size:15px;color:#d8e3da;position:relative;font-weight:500}
+  .dates{font-size:14.5px;color:#d8e3da;position:relative;font-weight:500}
   .countdown{position:relative;margin-top:14px;display:inline-flex;align-items:center;gap:8px;
     background:rgba(255,255,255,.12);border:1px solid rgba(233,201,138,.4);
-    padding:7px 14px;border-radius:30px;font-size:13.5px;font-weight:700;color:#f3ede0;backdrop-filter:blur(4px)}
+    padding:7px 14px;border-radius:30px;font-size:13.5px;font-weight:700;color:#f3ede0}
   .countdown b{color:#e9c98a;font-size:16px}
-  .route-strip{position:relative;margin-top:16px;display:flex;align-items:center;gap:6px;
-    flex-wrap:wrap;font-size:11.5px;font-weight:700}
+  .route-strip{position:relative;margin-top:16px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:11.5px;font-weight:700}
   .route-strip span{background:rgba(255,255,255,.1);padding:4px 9px;border-radius:6px}
   .route-strip i{color:#e9c98a;font-style:normal}
 
-  .pillbar{position:sticky;top:0;z-index:40;background:rgba(243,237,224,.93);
-    backdrop-filter:blur(10px);border-bottom:1px solid var(--line);
-    overflow-x:auto;display:flex;gap:7px;padding:10px 14px;scrollbar-width:none}
+  .pillbar{position:sticky;top:0;z-index:40;background:rgba(243,237,224,.93);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);overflow-x:auto;display:flex;gap:7px;padding:10px 14px;scrollbar-width:none}
   .pillbar::-webkit-scrollbar{display:none}
-  .pill{flex:0 0 auto;border:1.5px solid var(--line);background:var(--card);
-    border-radius:13px;padding:6px 10px;text-align:center;cursor:pointer;
-    min-width:48px;transition:.18s;line-height:1.15}
+  .pill{flex:0 0 auto;border:1.5px solid var(--line);background:var(--card);border-radius:13px;
+    padding:6px 10px;text-align:center;cursor:pointer;min-width:48px;transition:.18s;line-height:1.15}
   .pill .pd{font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:15px;display:block}
   .pill .pw{font-size:10px;color:var(--muted);font-weight:700}
   .pill.active{background:var(--green);border-color:var(--green);color:#fff;transform:translateY(-1px)}
@@ -65,67 +56,78 @@
   .view.on{display:block}
   @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-  .day{background:var(--card);border:1px solid var(--line);border-radius:18px;
-    margin-bottom:16px;box-shadow:var(--shadow);overflow:hidden;scroll-margin-top:64px}
-  .day-head{display:flex;align-items:center;gap:13px;padding:14px 15px;
-    border-bottom:1px solid var(--line);position:relative}
-  .daynum{flex:0 0 auto;width:54px;height:54px;border-radius:14px;
-    background:var(--green);color:#fff;display:flex;flex-direction:column;
-    align-items:center;justify-content:center;line-height:1}
+  .day{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-bottom:16px;
+    box-shadow:var(--shadow);overflow:hidden;scroll-margin-top:64px}
+  .day-head{display:flex;align-items:center;gap:13px;padding:14px 15px;border-bottom:1px solid var(--line)}
+  .daynum{flex:0 0 auto;width:54px;height:54px;border-radius:14px;background:var(--green);color:#fff;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
   .daynum .dn{font-family:'Frank Ruhl Libre',serif;font-size:22px;font-weight:900}
   .daynum .dm{font-size:10px;font-weight:700;color:#e9c98a;margin-top:2px}
   .day-head .meta{flex:1;min-width:0}
   .day-head .wd{font-family:'Frank Ruhl Libre',serif;font-size:18px;font-weight:700}
   .day-head .didx{font-size:11.5px;color:var(--muted);font-weight:700}
-  .rbadge{flex:0 0 auto;font-size:11.5px;font-weight:800;color:#fff;
-    padding:5px 11px;border-radius:20px;white-space:nowrap}
+  .wx{display:inline-block;margin-top:3px;font-size:12px;font-weight:700;color:#3a5a4a;
+    background:#e7eef0;border-radius:7px;padding:2px 8px}
+  .rbadge{flex:0 0 auto;font-size:11.5px;font-weight:800;color:#fff;padding:5px 11px;border-radius:20px;white-space:nowrap}
 
   .stop{padding:13px 15px;border-bottom:1px dashed var(--line)}
   .stop:last-child{border-bottom:none}
   .stop .nm{font-weight:700;font-size:15.5px;display:flex;gap:7px;align-items:flex-start}
   .stop .nm .dot{flex:0 0 auto;width:8px;height:8px;border-radius:50%;background:var(--gold);margin-top:7px}
-  .stop-img{width:100%;height:178px;object-fit:cover;border-radius:13px;margin:11px 0 2px;
-    display:block;background:#e9e0cd;box-shadow:0 3px 10px rgba(40,37,31,.12)}
+  .stop-img{width:100%;height:178px;object-fit:cover;border-radius:13px;margin:11px 0 2px;display:block;
+    background:#e9e0cd;box-shadow:0 3px 10px rgba(40,37,31,.12)}
   .desc{font-size:13.5px;color:#403a30;margin:8px 0 0;padding-inline-start:15px;line-height:1.55}
-  .deal{font-size:12.5px;color:#6a5a23;background:#f7eecf;border:1px solid #e6d4a4;
-    border-radius:10px;padding:8px 11px;margin:9px 0 0;margin-inline-start:15px;line-height:1.55}
-  .deal b{color:#8a6a1f}
-  .nav-yt{background:#c0341f;color:#fff}
   .chips{display:flex;flex-wrap:wrap;gap:6px;margin:9px 0 0 0;padding-inline-start:15px}
   .chip{font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:7px;display:inline-flex;gap:4px;align-items:center}
   .chip.drive{background:#e7eef0;color:#2f6f7a}
   .chip.price{background:#eaf1e3;color:#3f6a2d}
   .chip.book{background:#fbe9df;color:var(--warn)}
+  .chip.hours{background:#eee8f0;color:#7a4a86}
+  .chip.hw{background:#fdf0d8;color:#9a6a14}
+  .chip.openok{background:#e2f0e0;color:#3a7a32}
+  .chip.openwarn{background:#fbe0e0;color:#b03030}
   .note{font-size:12.5px;color:#6a6253;margin:7px 0 0;padding-inline-start:15px;line-height:1.5;font-style:italic}
+  .deal{font-size:12.5px;color:#6a5a23;background:#f7eecf;border:1px solid #e6d4a4;border-radius:10px;
+    padding:8px 11px;margin:9px 0 0;margin-inline-start:15px;line-height:1.55}
+  .deal b{color:#8a6a1f}
   .navs{display:flex;gap:8px;margin:10px 0 0;margin-inline-start:15px;flex-wrap:wrap}
-  .nav-btn{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:700;
-    font-size:12.5px;padding:7px 13px;border-radius:11px;transition:.15s}
+  .nav-btn{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:700;font-size:12.5px;
+    padding:7px 13px;border-radius:11px;transition:.15s}
   .nav-btn:active{transform:scale(.96)}
   .nav-btn svg{width:14px;height:14px}
   .nav-maps{background:var(--green);color:#fff}
   .nav-waze{background:var(--waze);color:#fff}
+  .nav-yt{background:#c0341f;color:#fff}
+  .nav-book{background:var(--book);color:#fff}
 
-  .lunch{margin:0;padding:13px 15px;background:linear-gradient(180deg,#f6efe0,#f1e7d2);
-    border-top:2px dotted var(--gold)}
+  .lunch{padding:13px 15px;background:linear-gradient(180deg,#f6efe0,#f1e7d2);border-top:2px dotted var(--gold)}
   .lunch .lh{font-weight:800;font-size:13px;color:var(--warn);display:flex;align-items:center;gap:6px;margin-bottom:4px}
   .lunch .ln{font-weight:700;font-size:15px}
   .lunch .ld{font-size:12.5px;color:#5a5346;margin:4px 0 0;line-height:1.5}
+  .lcost{display:inline-block;margin-top:7px;font-size:11.5px;font-weight:700;background:#eaf1e3;color:#3f6a2d;padding:3px 9px;border-radius:7px}
+
+  details.tl{margin:0;border-top:1px dashed var(--line);background:#fcfaf3}
+  details.tl summary{padding:11px 15px;font-weight:800;font-size:13px;color:var(--green);cursor:pointer;list-style:none}
+  details.tl summary::-webkit-details-marker{display:none}
+  details.tl summary::before{content:"▸ ";color:var(--gold)}
+  details.tl[open] summary::before{content:"▾ "}
+  .tlrow{display:flex;gap:11px;padding:6px 16px;font-size:13px;align-items:flex-start}
+  .tlrow .tt{flex:0 0 auto;font-weight:800;color:var(--gold);width:46px;font-variant-numeric:tabular-nums}
+  .tlrow .tx{flex:1}
+  .tlnote{font-size:11px;color:var(--muted);padding:2px 16px 10px;font-style:italic}
 
   .dayfoot{display:flex;flex-wrap:wrap;gap:9px;align-items:center;padding:11px 15px;background:var(--paper2)}
   .hotelf{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:#4a4234;flex:1;min-width:140px}
   .hotelf svg{width:16px;height:16px;flex:0 0 auto;opacity:.7}
   .hotelf b{font-weight:800;color:var(--ink)}
-  .budget{font-size:12px;font-weight:800;color:#3f6a2d;background:#e4eedc;border:1px solid #cadcbd;
-    padding:5px 11px;border-radius:20px;white-space:nowrap}
+  .budget{font-size:12px;font-weight:800;color:#3f6a2d;background:#e4eedc;border:1px solid #cadcbd;padding:5px 11px;border-radius:20px;white-space:nowrap}
 
   .sec-title{font-size:21px;font-weight:900;margin:4px 2px 14px;display:flex;align-items:center;gap:9px}
   .sec-title .bar{width:5px;height:22px;background:var(--gold);border-radius:3px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
-    padding:15px;margin-bottom:13px;box-shadow:var(--shadow)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px;margin-bottom:13px;box-shadow:var(--shadow)}
   .card h3{font-size:17px;font-weight:700;margin-bottom:3px}
   .card .sub{font-size:12px;font-weight:700;color:var(--muted);margin-bottom:10px}
-  .kv{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;padding:5px 0;
-    border-top:1px dashed var(--line)}
+  .kv{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;padding:5px 0;border-top:1px dashed var(--line)}
   .kv:first-of-type{border-top:none}
   .kv .k{color:var(--muted);font-weight:600;flex:0 0 auto}
   .kv .v{text-align:start;font-weight:600}
@@ -134,20 +136,26 @@
   .pin{display:inline-block;font-size:11px;font-weight:800;padding:3px 9px;border-radius:20px;color:#fff}
   .task{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;padding:9px 0;border-top:1px dashed var(--line)}
   .task:first-child{border-top:none}
-  .task .b{flex:0 0 auto;width:18px;height:18px;border:2px solid var(--gold);border-radius:5px;margin-top:1px}
+  .task .b{flex:0 0 auto;width:18px;height:18px;border:2px solid var(--gold);border-radius:5px;margin-top:1px;cursor:pointer}
+  .task .b.on{background:var(--gold);position:relative}
+  .task .b.on::after{content:"✓";color:#fff;font-size:13px;position:absolute;top:-3px;left:2px;font-weight:800}
   .backup-group ul{margin:6px 0 0;padding-inline-start:18px}
   .backup-group li{font-size:13.5px;margin:0 0 7px;line-height:1.5}
   .small{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5}
   .infobox{background:#fdf3e9;border:1px solid #ecd9c2;border-radius:12px;padding:11px 13px;font-size:12.5px;color:#6a5638;margin:0 2px 14px;line-height:1.55}
+  .infobox.warn{background:#fbeee6;border-color:#e8c5ad;color:#8a4a28}
+  a.inline{color:var(--book);font-weight:700;word-break:break-word}
 
-  .tabbar{position:fixed;bottom:0;left:0;right:0;z-index:50;
-    background:rgba(36,59,47,.97);backdrop-filter:blur(12px);
-    display:flex;padding:8px 6px calc(8px + env(safe-area-inset-bottom));
-    border-top:2px solid var(--gold)}
-  .tab{flex:1;background:none;border:none;color:#a9bcae;font-family:'Heebo';
-    font-weight:700;font-size:11px;cursor:pointer;display:flex;flex-direction:column;
-    align-items:center;gap:3px;padding:5px 0;transition:.15s}
-  .tab svg{width:21px;height:21px}
+  #map{width:100%;height:74vh;min-height:430px;border-radius:16px;border:1px solid var(--line);box-shadow:var(--shadow)}
+  .legend{display:flex;flex-wrap:wrap;gap:10px;margin:12px 2px 0;font-size:12px;font-weight:700}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .legend i{width:13px;height:13px;border-radius:50%;display:inline-block}
+
+  .tabbar{position:fixed;bottom:0;left:0;right:0;z-index:50;background:rgba(36,59,47,.97);backdrop-filter:blur(12px);
+    display:flex;padding:8px 4px calc(8px + env(safe-area-inset-bottom));border-top:2px solid var(--gold)}
+  .tab{flex:1;background:none;border:none;color:#a9bcae;font-family:'Heebo';font-weight:700;font-size:10.5px;
+    cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;padding:5px 0;transition:.15s}
+  .tab svg{width:20px;height:20px}
   .tab.active{color:#e9c98a}
 </style>
 </head>
@@ -167,27 +175,30 @@
 
 <main>
   <section class="view on" id="view-route"></section>
+  <section class="view" id="view-map"></section>
   <section class="view" id="view-hotels"></section>
+  <section class="view" id="view-drive"></section>
   <section class="view" id="view-info"></section>
-  <section class="view" id="view-backup"></section>
 </main>
 
 <nav class="tabbar">
   <button class="tab active" data-v="route" onclick="switchTab('route')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6 4 4v14l5 2 6-2 5 2V6l-5-2-6 2Z"/><path d="M9 6v14M15 4v14"/></svg>מסלול</button>
+  <button class="tab" data-v="map" onclick="switchTab('map')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>מפה</button>
   <button class="tab" data-v="hotels" onclick="switchTab('hotels')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21V8l9-5 9 5v13"/><path d="M3 21h18M9 21v-5h6v5"/></svg>מלונות</button>
+  <button class="tab" data-v="drive" onclick="switchTab('drive')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11M5 11h14v5H5zM7 16v2M17 16v2"/><circle cx="7.5" cy="13.5" r="1"/><circle cx="16.5" cy="13.5" r="1"/></svg>נהיגה</button>
   <button class="tab" data-v="info" onclick="switchTab('info')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></svg>מידע</button>
-  <button class="tab" data-v="backup" onclick="switchTab('backup')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v5l3-2M5 7l4 3M3 14l5-1M5 21l3-4M19 21l-3-4M21 14l-5-1M19 7l-4 3"/><circle cx="12" cy="14" r="3"/></svg>גיבוי</button>
 </nav>
 
 <script>
 const REGION = {
-  'נחיתה':{c:'var(--transit)',e:'✈️'}, 'צפון':{c:'var(--north)',e:'🏔️'},
-  'מעבר':{c:'var(--transit)',e:'💧'}, 'דרום':{c:'var(--south)',e:'🌲'},
-  'פראג':{c:'var(--prague)',e:'🏰'}
+  'נחיתה':{c:'var(--transit)',hex:'#b07d2b',e:'✈️'}, 'צפון':{c:'var(--north)',hex:'#2f6f7a',e:'🏔️'},
+  'מעבר':{c:'var(--transit)',hex:'#b07d2b',e:'💧'}, 'דרום':{c:'var(--south)',hex:'#4f7d3a',e:'🌲'},
+  'פראג':{c:'var(--prague)',hex:'#8a3b4c',e:'🏰'}
 };
 const IMG = {
  "prague":"https://commons.wikimedia.org/wiki/Special:FilePath/Prague%20skyline%20view.jpg?width=900",
@@ -212,122 +223,98 @@ const WS = ['א׳','ב׳','ג׳','ד׳','ה׳','ו׳','ש׳'];
 const MON = ['ינו','פבר','מרץ','אפר','מאי','יונ','יול','אוג','ספט','אוק','נוב','דצמ'];
 
 const DAYS = [
- {d:11,region:'נחיתה',hotel:'HOTEL DVUR HOFFMEISTER',budget:'הוצאות ראשונות בלבד',stops:[
+ {d:11,region:'נחיתה',hotel:'HOTEL DVUR HOFFMEISTER',lat:50.087,lon:14.421,budget:'הוצאות ראשונות בלבד',stops:[
    {nm:'נחיתה בשדה התעופה של פראג',desc:'נחיתה, איסוף רכב/מונית והתאקלמות בפראג. ערב רגוע לפני היציאה צפונה מחר.',cost:'מונית לעיר ≈ 600–800 CZK',maps:'Václav Havel Airport Prague'}
- ],
- lunch:{nm:'Lokál Dlouhááá',desc:'רשת צ׳כית אהובה, אוכל ביתי טרי ומחירים הוגנים — נוח עם ילדים. במרכז פראג.',maps:'Lokál Dlouhááá Prague'}},
+ ],lunch:{nm:'Lokál Dlouhááá',desc:'רשת צ׳כית אהובה, אוכל ביתי טרי ומחירים הוגנים — נוח עם ילדים. במרכז פראג.',maps:'Lokál Dlouhááá Prague'}},
 
- {d:12,region:'צפון',hotel:'Špindl Lodge / Pension Slunečnice',budget:'≈ 550–650 ₪ (כניסות, ~10 נפשות)',stops:[
-   {nm:'פארק מירקולום (Mirakulum)',desc:'פארק שעשועים-טבע ענק (12 הקטר): טירת עץ עם מגלשות, קילומטר של מנהרות תת-קרקעיות, מרכז חבלים, פינת חי לליטוף, ועולם מים. אין מתקנים חשמליים — הכל טיפוס, קפיצה והחלקה. יום שלם של כיף.',drive:'מפראג ~2ש׳ · משם לשפינדל ~1:30',price:'≈ 370 CZK לאדם (ילד מתחת 90 ס״מ חינם)',book:'כרטיסים מראש – חובה',note:'עצירה מושלמת בדרך צפונה. לקחת מגבות + בגדי ים לעולם המים.',maps:'Park Mirakulum Milovice'}
- ],
- lunch:{nm:'מסעדות בתוך פארק מירקולום',desc:'בפארק יש כמה דוכני אוכל ומסעדות במחירים הוגנים — נוח לאכול בלי לצאת. מותר גם להביא אוכל מהבית.',maps:'Park Mirakulum Milovice'}},
+ {d:12,region:'צפון',hotel:'Špindl Lodge / Pension Slunečnice',lat:50.238,lon:14.889,budget:'≈ 550–650 ₪ (כניסות, ~10 נפשות)',stops:[
+   {nm:'פארק מירקולום (Mirakulum)',desc:'פארק שעשועים-טבע ענק (12 הקטר): טירת עץ עם מגלשות, קילומטר של מנהרות תת-קרקעיות, מרכז חבלים, פינת חי לליטוף, ועולם מים. אין מתקנים חשמליים — הכל טיפוס, קפיצה והחלקה.',drive:'מפראג ~2ש׳ · משם לשפינדל ~1:30',price:'≈ 370 CZK לאדם (ילד <90 ס״מ חינם)',book:'כרטיסים מראש – חובה',note:'עצירה מושלמת בדרך צפונה. לקחת מגבות + בגדי ים לעולם המים.',maps:'Park Mirakulum Milovice'}
+ ],lunch:{nm:'מסעדות בתוך פארק מירקולום',desc:'בפארק כמה דוכני אוכל ומסעדות במחירים הוגנים. מותר גם להביא אוכל מהבית.',maps:'Park Mirakulum Milovice'}},
 
- {d:13,region:'צפון',hotel:'Špindl Lodge / Pension Slunečnice',budget:'≈ 450–550 ₪ (כניסות, ~10 נפשות)',stops:[
-   {nm:'רכבל Medvědín + מסלול הדוב',desc:'רכבל נוח לפסגת מדבדין (1,235 מ׳) עם פנורמה מרהיבה של הרי הענק, ומשם "מסלול הדוב" — שביל ירידה קליל עם תחנות משחק לאורך הדרך. יום נעים ללא עומס.',drive:'5–10 דק׳ מהמלון',price:'רכבל ≈ 300 CZK מבוגר / ≈ 210 ילד',maps:'Medvědín Špindlerův Mlýn'},
-   {nm:'Yellow Point – יילו פוינט',desc:'פארק אדרנלין לילדים: טרמפולינות ענק, כדורי מים (zorbing), ואומגה (zipline) במרחק נסיעה קצר. כיף פעיל אחרי הבוקר ההררי.',drive:'5 דק׳ ממסלול הדוב',price:'≈ 100–200 CZK לפעילות',book:'לבדוק / להזמין מראש',maps:'Yellow Point Špindlerův Mlýn'}
- ],
- lunch:{nm:'Restaurace U Pečené Kachničky',desc:'מסעדה צ׳כית מסורתית מצוינת באזור בדřיכוב — מפורסמת בברווז צלוי, מנות גדולות, ויש פינת משחק לילדים. (מזומן בלבד).',maps:'Restaurace U Pečené Kachničky Špindlerův Mlýn'}},
+ {d:13,region:'צפון',hotel:'Špindl Lodge / Pension Slunečnice',lat:50.726,lon:15.609,budget:'≈ 450–550 ₪ (כניסות, ~10 נפשות)',stops:[
+   {nm:'רכבל Medvědín + מסלול הדוב',desc:'רכבל נוח לפסגת מדבדין (1,235 מ׳) עם פנורמה מרהיבה של הרי הענק, ומשם "מסלול הדוב" — שביל ירידה קליל עם תחנות משחק. יום נעים ללא עומס.',drive:'5–10 דק׳ מהמלון',price:'רכבל ≈ 300 CZK מבוגר / ≈ 210 ילד',maps:'Medvědín Špindlerův Mlýn'},
+   {nm:'Yellow Point – יילו פוינט',desc:'פארק אדרנלין לילדים: טרמפולינות ענק, כדורי מים (zorbing), ואומגה (zipline). כיף פעיל אחרי הבוקר ההררי.',drive:'5 דק׳ ממסלול הדוב',price:'≈ 100–200 CZK לפעילות',book:'לבדוק / להזמין מראש',maps:'Yellow Point Špindlerův Mlýn'}
+ ],lunch:{nm:'Restaurace U Pečené Kachničky',desc:'מסעדה צ׳כית מסורתית מצוינת — ברווז צלוי, מנות גדולות, ופינת משחק לילדים. (מזומן בלבד).',maps:'Restaurace U Pečené Kachničky Špindlerův Mlýn'}},
 
- {d:14,region:'צפון',hotel:'Špindl Lodge / Pension Slunečnice',budget:'≈ 350–450 ₪ (כניסות, ~10 נפשות)',stops:[
-   {nm:'מפלי Harrachov – Mumlavský Vodopád',desc:'טיול קל ויפהפה לאורך הנהר אל מפל מומלבה הסוער (כ-10 מ׳) עם בריכות טבעיות. אידיאלי כיום מנוחה לפני אדרשפאך.',drive:'40–45 דק׳ מהמלון',price:'חינם (חניה בתשלום)',maps:'Mumlavský vodopád Harrachov'},
+ {d:14,region:'צפון',hotel:'Špindl Lodge / Pension Slunečnice',lat:50.770,lon:15.434,budget:'≈ 350–450 ₪ (כניסות, ~10 נפשות)',stops:[
+   {nm:'מפלי Harrachov – Mumlavský Vodopád',desc:'טיול קל ויפהפה לאורך הנהר אל מפל מומלבה הסוער עם בריכות טבעיות. יום מנוחה לפני אדרשפאך.',drive:'40–45 דק׳ מהמלון',price:'חינם (חניה בתשלום)',maps:'Mumlavský vodopád Harrachov'},
    {nm:'פארק החבלים – Monkey Park',desc:'פארק חבלים וטיפוס במרכז הראכוב עם מסלולים בגבהים שונים לפי גיל — מצוין לילדי 6–12.',drive:'5 דק׳ מהמפל',price:'≈ 150–250 CZK לאדם',maps:'Monkey Park Harrachov'},
-   {nm:'מגלשות הרים (Bobová dráha)',desc:'מגלשת בוב מתכת על מסילה — ירידה מהירה ומהנה במורד ההר, כל ילד שולט במהירות שלו.',price:'≈ 80 CZK לירידה',book:'לבדוק שעות פתיחה',maps:'Bobová dráha Harrachov'}
- ],
- lunch:{nm:'Pivovar & Sklárna Novosad (הראכוב)',desc:'מבשלת בירה ובית-זכוכית היסטורי עם מסעדה — אטרקציה בפני עצמה. הילדים יכולים לראות נשיפת זכוכית, וההורים בירה מקומית.',maps:'Novosad pivovar Harrachov'}},
+   {nm:'מגלשות הרים (Bobová dráha)',desc:'מגלשת בוב מתכת על מסילה — ירידה מהירה ומהנה, כל ילד שולט במהירות שלו.',price:'≈ 80 CZK לירידה',book:'לבדוק שעות פתיחה',maps:'Bobová dráha Harrachov'}
+ ],lunch:{nm:'Pivovar & Sklárna Novosad (הראכוב)',desc:'מבשלת בירה ובית-זכוכית היסטורי עם מסעדה — אטרקציה בפני עצמה. הילדים יראו נשיפת זכוכית.',maps:'Novosad pivovar Harrachov'}},
 
- {d:15,region:'צפון',hotel:'Špindl Lodge / Pension Slunečnice',budget:'≈ 300–380 ₪ (כניסות, ~10 נפשות)',stops:[
-   {nm:'שמורת הסלעים Adršpach',desc:'אחד המקומות היפים בצ׳כיה — "עיר סלעים" של מגדלי אבן ענקיים, אגם טורקיז עם שייט, מערות צרות וגשרים (כאן צולם "נרניה"). מסלול ירוק מעגלי ~3.5 ק״מ, 2–4 שעות, נגיש לילדים. ה"חור של העכבר" צר ומצחיק — להיט אצל ילדים.',price:'≈ 290–350 מבוגר / ≈ 140 ילד · כרטיס משפחתי (2+2) ≈ 550 CZK',book:'כרטיסים + חניה אונליין – חובה!',note:'אין מזון על המסלול — לקחת מים וחטיף. שייט באגם משולם במזומן בלבד.',maps:'Adršpašské skály'}
- ],
- lunch:{nm:'דוכני אוכל בכניסה / Restaurace Skalní Město',desc:'בכניסה לשמורה יש דוכני אוכל מהיר ומסעדה. כדאי לאכול לפני או אחרי המסלול (אין אוכל בפנים).',maps:'Restaurace Skalní Město Adršpach'}},
+ {d:15,region:'צפון',hotel:'Špindl Lodge / Pension Slunečnice',lat:50.614,lon:16.118,budget:'≈ 300–380 ₪ (כניסות, ~10 נפשות)',stops:[
+   {nm:'שמורת הסלעים Adršpach',desc:'אחד המקומות היפים בצ׳כיה — "עיר סלעים" של מגדלי אבן ענקיים, אגם טורקיז עם שייט, מערות וגשרים (כאן צולם "נרניה"). מסלול ירוק מעגלי ~3.5 ק״מ, נגיש לילדים. ה"חור של העכבר" צר ומצחיק.',price:'≈ 290–350 מבוגר / ≈ 140 ילד · משפחתי (2+2) ≈ 550 CZK',book:'כרטיסים + חניה אונליין – חובה!',note:'אין מזון על המסלול — לקחת מים וחטיף. שייט במזומן בלבד.',maps:'Adršpašské skály'}
+ ],lunch:{nm:'דוכני אוכל בכניסה / Restaurace Skalní Město',desc:'בכניסה לשמורה דוכני אוכל מהיר ומסעדה. כדאי לאכול לפני/אחרי המסלול.',maps:'Restaurace Skalní Město Adršpach'}},
 
- {d:16,region:'מעבר',hotel:'Aquapalace Hotel Prague',budget:'≈ 120–180 ₪ סלעים + פארק מים',stops:[
-   {nm:'Prachov Rocks – סלעי פראחוב',desc:'הפנינה של "גן העדן הצ׳כי" — לבירינת סלעי אבן-חול עם מדרגות, סדקים וגשרים צרים. למשפחות מומלץ המסלול הירוק/צהוב המעגלי הקצר (~1.5 ק״מ) — חוויתי וכיפי לילדים.',drive:'שפינדל→פראחוב ~1ש׳ · משם למלון ~1:15',price:'≈ 110 מבוגר / ≈ 60 ילד CZK',maps:'Prachovské skály'},
-   {nm:'אקווה פאלאס – פארק מים',desc:'אחד מפארקי המים הגדולים באירופה, צמוד למלון: מגלשות, נהר עצל, בריכות גלים ואזור פעוטות. ערב מושלם אחרי יום בטבע.',price:'לרוב כלול בלינה / כניסה ≈ 600–700 CZK',maps:'Aquapalace Praha Čestlice'}
- ],
- lunch:{nm:'Restaurace Prachovské skály',desc:'מסעדה/בופה בכניסה לסלעי פראחוב — אוכל צ׳כי פשוט ומשביע ליד שביל הטיול.',maps:'Restaurace Prachovské skály'}},
+ {d:16,region:'מעבר',hotel:'Aquapalace Hotel Prague',lat:50.475,lon:15.314,budget:'≈ 120–180 ₪ סלעים + פארק מים',stops:[
+   {nm:'Prachov Rocks – סלעי פראחוב',desc:'הפנינה של "גן העדן הצ׳כי" — לבירינת סלעי אבן-חול עם מדרגות, סדקים וגשרים צרים. למשפחות מומלץ המסלול הירוק/צהוב המעגלי הקצר (~1.5 ק״מ).',drive:'שפינדל→פראחוב ~1ש׳ · משם למלון ~1:15',price:'≈ 110 מבוגר / ≈ 60 ילד CZK',maps:'Prachovské skály'},
+   {nm:'אקווה פאלאס – פארק מים',desc:'אחד מפארקי המים הגדולים באירופה, צמוד למלון: מגלשות, נהר עצל, בריכות גלים ואזור פעוטות. ערב מושלם.',price:'לרוב כלול בלינה / כניסה ≈ 600–700 CZK',maps:'Aquapalace Praha Čestlice'}
+ ],lunch:{nm:'Restaurace Prachovské skály',desc:'מסעדה/בופה בכניסה לסלעי פראחוב — אוכל צ׳כי פשוט ומשביע ליד השביל.',maps:'Restaurace Prachovské skály'}},
 
- {d:17,region:'דרום',hotel:'Korzo Lipno C',budget:'פארק מים (כלול בלינה) + דלק',stops:[
+ {d:17,region:'דרום',hotel:'Korzo Lipno C',lat:48.641,lon:14.224,budget:'פארק מים (כלול בלינה) + דלק',stops:[
    {nm:'בוקר באקווה פאלאס → נסיעה לליפנו',desc:'בוקר אחרון במגלשות פארק המים, ואחר הצהריים יציאה דרומה לאזם ליפנו שביער שומאווה. נסיעה נופית יפה.',drive:'Aquapalace→Lipno ~2.5–3ש׳',price:'דלק + חניה',maps:'Lipno nad Vltavou'}
- ],
- lunch:{nm:'מסעדת אקווה פאלאס / עצירה ב-České Budějovice',desc:'אפשר לאכול בפארק המים לפני היציאה, או לעצור בצ׳סקה בודיוביצה (כיכר יפהפייה) באמצע הדרך דרומה.',maps:'České Budějovice náměstí'}},
+ ],lunch:{nm:'עצירה ב-České Budějovice',desc:'אפשר לאכול בפארק המים לפני היציאה, או לעצור בצ׳סקה בודיוביצה (כיכר יפהפייה) באמצע הדרך.',maps:'České Budějovice náměstí'}},
 
- {d:18,region:'דרום',hotel:'Korzo Lipno C',budget:'≈ 500–650 ₪ (כניסות, ~10 נפשות)',stops:[
-   {nm:'שביל צמרות העצים (Stezka korunami stromů)',desc:'שביל מוגבה באורך 675 מ׳ בין צמרות העצים, עם 11 תחנות אדרנלין לילדים, רשת תלויה בגובה 25 מ׳, ומגדל תצפית 40 מ׳ עם נוף לאגם ליפנו ולאלפים. בסוף — אחת המגלשות היבשות הארוכות בצ׳כיה (52 מ׳).',drive:'<10 דק׳ · רכבל/באס מהחניון',price:'≈ 350 מבוגר / ≈ 200 ילד · מגלשה +~90 CZK',book:'כרטיס משולב אונליין (שביל + ממלכת היער) – חוסך תור',note:'מגלשה מגיל 6. מחירי "דינמי" — מוקדם יותר = זול יותר.',maps:'Stezka korunami stromů Lipno'},
+ {d:18,region:'דרום',hotel:'Korzo Lipno C',lat:48.641,lon:14.224,budget:'≈ 500–650 ₪ (כניסות, ~10 נפשות)',stops:[
+   {nm:'שביל צמרות העצים (Stezka korunami stromů)',desc:'שביל מוגבה 675 מ׳ בין צמרות העצים, 11 תחנות אדרנלין לילדים, רשת תלויה בגובה 25 מ׳, ומגדל תצפית 40 מ׳ עם נוף לאגם ולאלפים. בסוף — אחת המגלשות היבשות הארוכות בצ׳כיה (52 מ׳).',drive:'<10 דק׳ · רכבל/באס מהחניון',price:'≈ 350 מבוגר / ≈ 200 ילד · מגלשה +~90 CZK',book:'כרטיס משולב אונליין – חוסך תור',note:'מגלשה מגיל 6. מחירי "דינמי" — מוקדם = זול.',maps:'Stezka korunami stromů Lipno'},
    {nm:'מגלשת ענק + אגם ליפנו',desc:'אחר הצהריים על שפת האגם — השכרת סירות, פדלבוטים ואופניים, ושחייה. רוגע אחרי הבוקר הפעיל.',price:'השכרה ≈ 150–300 CZK',maps:'Lipno nad Vltavou pláž'}
- ],
- lunch:{nm:'Bistro Kramec / Restaurace Slunečná Louka',desc:'ביסטרו קרמץ ממש בקצה שביל הצמרות (מרפסת עם נוף), או "סלונצ׳נה לואקה" בכפר — איטלקי/פיצה ידידותי למשפחות.',maps:'Restaurace Slunečná Louka Lipno nad Vltavou'}},
+ ],lunch:{nm:'Bistro Kramec / Restaurace Slunečná Louka',desc:'ביסטרו קרמץ בקצה שביל הצמרות (מרפסת עם נוף), או "סלונצ׳נה לואקה" בכפר — איטלקי/פיצה למשפחות.',maps:'Restaurace Slunečná Louka Lipno nad Vltavou'}},
 
- {d:19,region:'דרום',hotel:'Korzo Lipno C',budget:'≈ 700–1000 ₪ (ראפטינג + רכבל)',stops:[
-   {nm:'ראפטינג רגוע על נהר הוולטבה',desc:'שייט ראפטינג משפחתי ורגוע (~שעתיים) על הוולטבה העליונה — זרם עדין, מתאים לילדים, הרבה צחוקים. דרך חברת השכרה מקומית.',drive:'Lipno→נהר ~25 דק׳',price:'≈ 500 CZK לאדם (השכרת סירה/אבזור)',book:'להזמין לפחות שבוע מראש',maps:'Vltava rafting Vyšší Brod'},
+ {d:19,region:'דרום',hotel:'Korzo Lipno C',lat:48.811,lon:14.315,budget:'≈ 700–1000 ₪ (ראפטינג + רכבל)',stops:[
+   {nm:'ראפטינג רגוע על נהר הוולטבה',desc:'שייט ראפטינג משפחתי ורגוע (~שעתיים) על הוולטבה העליונה — זרם עדין, מתאים לילדים, הרבה צחוקים.',drive:'Lipno→נהר ~25 דק׳',price:'≈ 500 CZK לאדם (השכרת סירה/אבזור)',book:'להזמין לפחות שבוע מראש',maps:'Vltava rafting Vyšší Brod'},
    {nm:'הר קלט (Kleť) – רכבל ותצפית',desc:'רכבל כיסא עד פסגת ההר הגבוה באזור, עם מגדל תצפית ונוף עד האלפים. אופציונלי לפי כוחות.',price:'רכבל ≈ 150 CZK הלוך-ושוב',maps:'Kleť chairlift Krasetín'},
-   {nm:'ערב בצ׳סקי קרומלוב',desc:'העיירה מהיפות באירופה (אתר אונסק״ו) — סמטאות מתפתלות, נהר וטירה מוארת. קסומה במיוחד בשעות הערב.',drive:'Lipno→ČK ~40 דק׳',price:'טיול חופשי – חינם',maps:'Český Krumlov'}
- ],
- lunch:{nm:'Hospoda Na Louží (צ׳סקי קרומלוב)',desc:'פאב צ׳כי אותנטי ואהוב במרכז ההיסטורי — אוכל ביתי, שניצל, ובירה מקומית במחיר הוגן. מתאים למשפחות.',maps:'Hospoda Na Louži Český Krumlov'}},
+   {nm:'ערב בצ׳סקי קרומלוב',desc:'העיירה מהיפות באירופה (אונסק״ו) — סמטאות מתפתלות, נהר וטירה מוארת. קסומה בערב.',drive:'Lipno→ČK ~40 דק׳',price:'טיול חופשי – חינם',maps:'Český Krumlov'}
+ ],lunch:{nm:'Hospoda Na Louží (צ׳סקי קרומלוב)',desc:'פאב צ׳כי אותנטי ואהוב במרכז ההיסטורי — אוכל ביתי, שניצל, ובירה מקומית במחיר הוגן.',maps:'Hospoda Na Louži Český Krumlov'}},
 
- {d:20,region:'דרום',hotel:'Korzo Lipno C',budget:'≈ 220–300 ₪ (כניסות, ~10 נפשות)',stops:[
-   {nm:'גן החיות Hluboká (Zoo Ohrada) – מומלץ',desc:'גן חיות נעים וקומפקטי המתמקד בחיות אירופה, צמוד לטירת Hluboká — מהטירות היפות בצ׳כיה. אפשר לראות את הטירה מבחוץ ולשלב עם החיות = יום מושלם לילדים.',drive:'~1ש׳',price:'≈ 200 מבוגר / ≈ 130 ילד CZK',maps:'Zoo Ohrada Hluboká nad Vltavou'},
-   {nm:'אלטרנטיבה: שמורת Stožec',desc:'שמורת טבע שקטה בלב שומאווה עם האכלת איילים ויעלים — יום רגוע ויפה למי שמעדיף טבע על גן חיות.',price:'חינם',maps:'Stožec'}
- ],
- lunch:{nm:'Restaurace Hubertus (Hluboká)',desc:'מסעדה ליד טירת הלובוקה — אוכל צ׳כי במנות נדיבות, מיקום נוח לשילוב עם הטירה וגן החיות.',maps:'Restaurace Hubertus Hluboká nad Vltavou'}},
+ {d:20,region:'דרום',hotel:'Korzo Lipno C',lat:49.052,lon:14.434,budget:'≈ 220–300 ₪ (כניסות, ~10 נפשות)',stops:[
+   {nm:'גן החיות Hluboká (Zoo Ohrada) – מומלץ',desc:'גן חיות נעים וקומפקטי של חיות אירופה, צמוד לטירת Hluboká — מהיפות בצ׳כיה. אפשר לראות את הטירה מבחוץ ולשלב עם החיות.',drive:'~1ש׳',price:'≈ 200 מבוגר / ≈ 130 ילד CZK',maps:'Zoo Ohrada Hluboká nad Vltavou'},
+   {nm:'אלטרנטיבה: שמורת Stožec',desc:'שמורת טבע שקטה בלב שומאווה עם האכלת איילים — יום רגוע למי שמעדיף טבע על גן חיות.',price:'חינם',maps:'Stožec'}
+ ],lunch:{nm:'Restaurace Hubertus (Hluboká)',desc:'מסעדה ליד טירת הלובוקה — אוכל צ׳כי במנות נדיבות, נוח לשילוב עם הטירה וגן החיות.',maps:'Restaurace Hubertus Hluboká nad Vltavou'}},
 
- {d:21,region:'דרום',hotel:'Korzo Lipno C',budget:'≈ 180–400 ₪ (תלוי בסיורי הטירה)',stops:[
-   {nm:'צ׳סקי קרומלוב – יום מלא',desc:'יום בעיירת האגדה: מתחם הטירה ה-2 בגודלו בצ׳כיה, חצרות צבעוניות, הדובים שחיים בחפיר, מגדל הטירה עם תצפית, וגנים. יום קל ומקסים לכל המשפחה.',drive:'~40 דק׳',price:'מתחם + דובים חינם · מגדל ≈ 150/100 · סיור פנים ≈ 280–350 CZK',book:'לברר מראש איזה חניון הכי קרוב למרכז',maps:'Český Krumlov Castle'}
- ],
- lunch:{nm:'Krčma Šatlava (צ׳סקי קרומלוב)',desc:'טברנה מימי-ביניימית עם בשרים על האש באווירה של אבוקות — הילדים מתים על האווירה. מומלץ להזמין מקום.',maps:'Krčma Šatlava Český Krumlov'}},
+ {d:21,region:'דרום',hotel:'Korzo Lipno C',lat:48.811,lon:14.315,budget:'≈ 180–400 ₪ (תלוי בסיורי הטירה)',stops:[
+   {nm:'צ׳סקי קרומלוב – יום מלא',desc:'יום בעיירת האגדה: מתחם הטירה ה-2 בגודלו בצ׳כיה, חצרות צבעוניות, הדובים בחפיר, מגדל הטירה עם תצפית, וגנים. יום קל ומקסים.',drive:'~40 דק׳',price:'מתחם + דובים חינם · מגדל ≈ 150/100 · סיור פנים ≈ 280–350 CZK',book:'לברר מראש איזה חניון הכי קרוב למרכז',maps:'Český Krumlov Castle'}
+ ],lunch:{nm:'Krčma Šatlava (צ׳סקי קרומלוב)',desc:'טברנה מימי-ביניימית עם בשרים על האש באווירת אבוקות — הילדים מתים על האווירה. להזמין מקום.',maps:'Krčma Šatlava Český Krumlov'}},
 
- {d:22,region:'פראג',hotel:'trees apartments by adres 4',budget:'≈ 180–260 ₪ (כניסת טירה)',stops:[
-   {nm:'טירת Blatná → נסיעה לפראג',desc:'טירת מים רומנטית המוקפת באגם ובפארק עם עדר צבאים חופשי שמסתובב בשטח — עצירה מקסימה וקצרה בדרך חזרה צפונה לפראג.',drive:'Lipno→Blatná ~1:30 · Blatná→פראג ~1:20',price:'טירה ≈ 180 מבוגר / ≈ 100 ילד · פארק חינם',maps:'Zámek Blatná'}
- ],
- lunch:{nm:'מסעדות בכיכר העיר Blatná',desc:'בכיכר העיירה כמה מסעדות צ׳כיות פשוטות ונעימות — עצירת צהריים נוחה לפני המשך הנסיעה.',maps:'Blatná náměstí restaurace'}},
+ {d:22,region:'פראג',hotel:'trees apartments by adres 4',lat:49.424,lon:13.875,budget:'≈ 180–260 ₪ (כניסת טירה)',stops:[
+   {nm:'טירת Blatná → נסיעה לפראג',desc:'טירת מים רומנטית המוקפת אגם ופארק עם עדר צבאים חופשי — עצירה מקסימה בדרך חזרה לפראג.',drive:'Lipno→Blatná ~1:30 · Blatná→פראג ~1:20',price:'טירה ≈ 180 מבוגר / ≈ 100 ילד · פארק חינם',maps:'Zámek Blatná'}
+ ],lunch:{nm:'מסעדות בכיכר Blatná',desc:'בכיכר העיירה כמה מסעדות צ׳כיות פשוטות ונעימות — עצירת צהריים נוחה.',maps:'Blatná náměstí restaurace'}},
 
- {d:23,region:'פראג',hotel:'trees apartments by adres 4',budget:'≈ 600–1600 ₪ (שייט + תיאטרון)',stops:[
-   {nm:'כיכר העיר העתיקה + גשר קארל + שייט + Hamleys',desc:'לב פראג ההיסטורי: השעון האסטרונומי, כיכר העיר העתיקה, גשר קארל המפורסם, שייט נהר של 45 דק׳, וחנות הצעצועים הענקית Hamleys לילדים.',price:'הליכה חינם · שייט ≈ 350–500 CZK לאדם',book:'לבדוק מדריך לסיור · "המירוץ למיליון" ב-12:00, ~30€ לאדם (מיכאל לא משלם)',note:'להגיע מוקדם/מאוחר כדי להימנע מהצפיפות.',maps:'Staroměstské náměstí Prague'},
-   {nm:'התיאטרון השחור – בערב',desc:'הצגת "תיאטרון שחור" ייחודית לפראג — שילוב של אור שחור, פנטומימה ואשליות אופטיות. חוויה ויזואלית שילדים אוהבים (ללא צורך בשפה).',price:'≈ 500–700 CZK לאדם',book:'לקנות כרטיסים מראש',maps:'Black Light Theatre Prague'}
- ],
- lunch:{nm:'Restaurace Mincovna',desc:'ממש בכיכר העיר העתיקה — מסעדה צ׳כית מודרנית במחירים הוגנים (נדיר באזור הזה!), עם גולש, ברווז וגרסאות מודרניות. נוח עם ילדים.',maps:'Restaurace Mincovna Staroměstské náměstí'}},
+ {d:23,region:'פראג',hotel:'trees apartments by adres 4',lat:50.087,lon:14.421,budget:'≈ 600–1600 ₪ (שייט + תיאטרון)',stops:[
+   {nm:'כיכר העיר העתיקה + גשר קארל + שייט + Hamleys',desc:'לב פראג ההיסטורי: השעון האסטרונומי, כיכר העיר העתיקה, גשר קארל, שייט נהר של 45 דק׳, וחנות הצעצועים הענקית Hamleys.',price:'הליכה חינם · שייט ≈ 350–500 CZK לאדם',book:'"המירוץ למיליון" 12:00, ~30€ לאדם (מיכאל לא משלם)',note:'להגיע מוקדם/מאוחר להימנע מצפיפות.',maps:'Staroměstské náměstí Prague'},
+   {nm:'התיאטרון השחור – בערב',desc:'הצגת "תיאטרון שחור" ייחודית לפראג — אור שחור, פנטומימה ואשליות אופטיות. חוויה ויזואלית ללא צורך בשפה.',price:'≈ 500–700 CZK לאדם',book:'לקנות כרטיסים מראש',maps:'Black Light Theatre Prague'}
+ ],lunch:{nm:'Restaurace Mincovna',desc:'ממש בכיכר העיר העתיקה — צ׳כית מודרנית במחירים הוגנים (נדיר באזור!), גולש, ברווז וגרסאות מודרניות.',maps:'Restaurace Mincovna Staroměstské náměstí'}},
 
- {d:24,region:'פראג',hotel:'trees apartments by adres 4',budget:'≈ 1000–1300 ₪ אם עושים את שלושתם',stops:[
-   {nm:'טירת פראג + גנים',desc:'מתחם הטירה הגדול בעולם: קתדרלת ויטוס, הסמטה הזהובה, חילוף המשמרות והגנים. לעלות בטראם כדי לא לטפס. יום קל ורגוע.',price:'מתחם חינם · מסלול מבקרים ≈ 450 מבוגר / ≈ 300 ילד CZK',maps:'Prague Castle'},
-   {nm:'גבעת פטרין (Petřín) והמגדל',desc:'"מגדל אייפל" קטן עם נוף לכל פראג, ובעיקר — בית המראות המעוותות (Mirror Maze) בטירה קטנה, שהילדים יצחקו בו המון.',price:'מגדל+מבוך משולב ≈ 250 מבוגר / ≈ 150 ילד CZK',note:'הפוניקולר לפטרין עשוי להיות מושבת לשיפוצים — לבדוק לפני, אחרת עולים בטראם/רגל.',maps:'Petřínská rozhledna Prague'},
-   {nm:'גן החיות של פראג (Zoo Praha)',desc:'מדורג מהיפים בעולם — 60 הקטר, ביתן הקוטב החדש עם דובי קוטב, רכבל פנימי ורכבת ילדים. אפשר להקדיש לו חצי-יום בפני עצמו.',price:'≈ 290 מבוגר / ≈ 200 ילד CZK',maps:'Zoo Praha'}
- ],
- lunch:{nm:'Restaurace Nebozízek (גבעת פטרין)',desc:'מסעדה עם מרפסת ונוף עוצר נשימה לטירת פראג, באמצע גבעת פטרין — קלאסיקות צ׳כיות באווירה נעימה.',maps:'Restaurace Nebozízek Petřín Prague'}},
+ {d:24,region:'פראג',hotel:'trees apartments by adres 4',lat:50.087,lon:14.421,budget:'≈ 1000–1300 ₪ אם עושים את שלושתם',stops:[
+   {nm:'טירת פראג + גנים',desc:'מתחם הטירה הגדול בעולם: קתדרלת ויטוס, הסמטה הזהובה, חילוף המשמרות והגנים. לעלות בטראם כדי לא לטפס.',price:'מתחם חינם · מסלול מבקרים ≈ 450 מבוגר / ≈ 300 ילד CZK',maps:'Prague Castle'},
+   {nm:'גבעת פטרין (Petřín) והמגדל',desc:'"מגדל אייפל" קטן עם נוף לכל פראג, ובעיקר — בית המראות המעוותות (Mirror Maze) שהילדים יצחקו בו המון.',price:'מגדל+מבוך משולב ≈ 250 מבוגר / ≈ 150 ילד CZK',note:'הפוניקולר לפטרין עשוי להיות מושבת לשיפוצים — לבדוק לפני.',maps:'Petřínská rozhledna Prague'},
+   {nm:'גן החיות של פראג (Zoo Praha)',desc:'מדורג מהיפים בעולם — 60 הקטר, ביתן הקוטב עם דובי קוטב, רכבל פנימי ורכבת ילדים. אפשר חצי-יום בפני עצמו.',price:'≈ 290 מבוגר / ≈ 200 ילד CZK',maps:'Zoo Praha'}
+ ],lunch:{nm:'Restaurace Nebozízek (גבעת פטרין)',desc:'מסעדה עם מרפסת ונוף עוצר נשימה לטירת פראג — קלאסיקות צ׳כיות באווירה נעימה.',maps:'Restaurace Nebozízek Petřín Prague'}},
 
- {d:25,region:'פראג',hotel:'—',budget:'ארוחת בוקר + נסיעה לשדה',stops:[
-   {nm:'חזרה הביתה',desc:'בוקר רגוע, אריזה אחרונה ויציאה לשדה התעופה. אפשר עצירה אחרונה לקנות מזכרות/טרדלניק.',price:'מונית/רכב לשדה',maps:'Václav Havel Airport Prague'}
- ],
- lunch:{nm:'ארוחה בשדה התעופה',desc:'לפי שעת הטיסה — אזור המסעדות בטרמינל.',maps:'Václav Havel Airport Prague terminal'}}
+ {d:25,region:'פראג',hotel:'—',lat:50.087,lon:14.421,budget:'ארוחת בוקר + נסיעה לשדה',stops:[
+   {nm:'חזרה הביתה',desc:'בוקר רגוע, אריזה אחרונה ויציאה לשדה התעופה. אפשר עצירה אחרונה למזכרות/טרדלניק.',price:'מונית/רכב לשדה',maps:'Václav Havel Airport Prague'}
+ ],lunch:{nm:'ארוחה בשדה התעופה',desc:'לפי שעת הטיסה — אזור המסעדות בטרמינל.',maps:'Václav Havel Airport Prague terminal'}}
 ];
 
 const HOTELS = [
  {n:'HOTEL DVUR HOFFMEISTER',r:'נחיתה / פראג',ils:'689.85 ₪',other:'197.1 €',cancel:'ביטול עד 9/8',note:'תוספת ארוחת בוקר במלון עצמו.',via:'בוקינג'},
  {n:'Špindl Lodge / Pension Slunečnice',r:'צפון',ils:'2,364 ₪',other:'15,134 CZK',cancel:'ביטול עד 12/7',note:'כהן שילמו יותר על החדר.',via:'בוקינג'},
- {n:'Aquapalace Hotel Prague',r:'מעבר',ils:'1,802.5 ₪',other:'515 €',cancel:'ביטול 14 ימים לפני ההגעה',note:'ההזמנה ע״ש ליאור. כרטיס האשראי של כריסטינה יחויב 14 ימים לפני ההגעה.',via:'דרך המלון'},
+ {n:'Aquapalace Hotel Prague',r:'מעבר',ils:'1,802.5 ₪',other:'515 €',cancel:'ביטול 14 ימים לפני ההגעה',note:'ע״ש ליאור. כרטיס האשראי של כריסטינה יחויב 14 ימים לפני.',via:'דרך המלון'},
  {n:'Korzo Lipno C',r:'דרום',ils:'3,850 ₪',other:'1,100 €',cancel:'ביטול עד 26/7',note:'הסודרים שילמו יותר על החדר.',via:'בוקינג'},
  {n:'trees apartments by adres 4',r:'פראג',ils:'2,025.45 ₪',other:'578.7 €',cancel:'',note:'',via:'בוקינג'}
 ];
 
 const BACKUP = {
  'צפון':['מסלול השועל – Harrachov','מגלשות הרים – הראכוב','עיירת Jičín + טירת Loučeň'],
- 'דרום':[
-   'Aquaworld Lipno – פארק מים מקורה (פתרון מצוין ליום גשום או למנוחה)',
-   'פארק המבוכים בטירת Loučeň – האתר היחיד באירופה עם 12 מבוכים שונים (אבן, חבלים, דשא)',
-   'Techmania, פלזן (Plzeň) – מוזיאון מדע אינטראקטיבי מהטובים באירופה, בדרך לפראג',
-   'Toy Museum, צ׳סקי קרומלוב – מוזיאון צעצועים עתיקים קטן ומקסים',
-   'ממלכת היער (Království lesa), ליפנו – פארק שעשועים ענק ליד שביל הצמרות, 3–4 שעות בקלות'
- ]
+ 'דרום':['Aquaworld Lipno – פארק מים מקורה (ליום גשום)','פארק המבוכים בטירת Loučeň – 12 מבוכים','Techmania, פלזן – מוזיאון מדע אינטראקטיבי','Toy Museum, צ׳סקי קרומלוב','ממלכת היער (Království lesa), ליפנו – פארק שעשועים ענק ליד שביל הצמרות']
 };
 
 const IMGBY = {
- 'Park Mirakulum Milovice':'mirakulum','Medvědín Špindlerův Mlýn':'medvedin',
- 'Mumlavský vodopád Harrachov':'mumlava','Adršpašské skály':'adrspach',
- 'Prachovské skály':'prachov','Lipno nad Vltavou':'budejovice',
- 'Stezka korunami stromů Lipno':'lipno','Kleť chairlift Krasetín':'klet',
- 'Český Krumlov':'krumlov','Český Krumlov Castle':'krumlov',
- 'Zoo Ohrada Hluboká nad Vltavou':'hluboka','Zámek Blatná':'blatna',
- 'Staroměstské náměstí Prague':'charlesbridge','Prague Castle':'praguecastle',
- 'Petřínská rozhledna Prague':'petrin','Zoo Praha':'praguezoo',
- 'Václav Havel Airport Prague':'prague'
+ 'Park Mirakulum Milovice':'mirakulum','Medvědín Špindlerův Mlýn':'medvedin','Mumlavský vodopád Harrachov':'mumlava',
+ 'Adršpašské skály':'adrspach','Prachovské skály':'prachov','Lipno nad Vltavou':'budejovice',
+ 'Stezka korunami stromů Lipno':'lipno','Kleť chairlift Krasetín':'klet','Český Krumlov':'krumlov',
+ 'Český Krumlov Castle':'krumlov','Zoo Ohrada Hluboká nad Vltavou':'hluboka','Zámek Blatná':'blatna',
+ 'Staroměstské náměstí Prague':'charlesbridge','Prague Castle':'praguecastle','Petřínská rozhledna Prague':'petrin',
+ 'Zoo Praha':'praguezoo','Václav Havel Airport Prague':'prague'
 };
 const DEALBY = {
  'Park Mirakulum Milovice':'ילד מתחת 90 ס״מ – חינם · 90–120 ס״מ – מחיר מוזל · הנחות לקבוצות',
@@ -349,165 +336,312 @@ const DEALBY = {
  'Petřínská rozhledna Prague':'כרטיס משולב מגדל + מבוך + מצפה שטפניק · 50% הנחה בהצגת כרטיס לטראם ההיסטורי קו 42 · ילדים עד גיל 5 חינם',
  'Zoo Praha':'הנחה 10% לקבוצות 10+ · כרטיס Lítačka = 5% הנחה · כרטיס משפחתי'
 };
+const HOURSBY = {
+ 'Park Mirakulum Milovice':'כל יום 9:00–19:00 (קיץ)','Medvědín Špindlerův Mlýn':'רכבל כל יום ~8:30–17:30',
+ 'Yellow Point Špindlerův Mlýn':'כל יום בקיץ ~10:00–18:00','Mumlavský vodopád Harrachov':'פתוח תמיד (טבע)',
+ 'Monkey Park Harrachov':'כל יום בקיץ ~10:00–18:00','Bobová dráha Harrachov':'כל יום בקיץ (תלוי מזג אוויר)',
+ 'Adršpašské skály':'כל יום ~8:00–18:00 (כניסה אחרונה ~16:00)','Prachovské skály':'כל יום בקיץ ~8:00–19:00',
+ 'Aquapalace Praha Čestlice':'כל יום ~10:00–22:00','Lipno nad Vltavou':'—',
+ 'Stezka korunami stromů Lipno':'כל יום ~9:00–18:00 (קיץ)','Lipno nad Vltavou pláž':'פתוח תמיד',
+ 'Vltava rafting Vyšší Brod':'לפי הזמנה (קיץ)','Kleť chairlift Krasetín':'רכבל כל יום בקיץ ~9:00–17:00 (הפסקה 12–13)',
+ 'Český Krumlov':'העיירה פתוחה תמיד','Zoo Ohrada Hluboká nad Vltavou':'כל יום ~9:00–18:00',
+ 'Český Krumlov Castle':'מתחם+דובים תמיד · סיורי פנים ג׳–א׳ 9:00–17:00 (סגור שני)',
+ 'Zámek Blatná':'ג׳–א׳ 9:00–17:00 (סגור שני)','Staroměstské náměstí Prague':'פתוח תמיד · שייט כל יום',
+ 'Black Light Theatre Prague':'הצגות בערב — לבדוק לוח הופעות','Prague Castle':'מתחם 6:00–22:00 · אתרים 9:00–17:00 כל יום',
+ 'Petřínská rozhledna Prague':'כל יום ~10:00–22:00 (קיץ)','Zoo Praha':'כל יום ~9:00–19:00 (קיץ)',
+ 'Václav Havel Airport Prague':'24/7'
+};
+const CLOSED_MON = new Set(['Český Krumlov Castle','Zámek Blatná']);
+const HWSET = new Set(['Park Mirakulum Milovice','Prachovské skály','Lipno nad Vltavou','Zámek Blatná']);
+const LCOSTBY = {
+ 'Lokál Dlouhááá Prague':'מנה עיקרית ≈ 200–320 CZK','Park Mirakulum Milovice':'מנה ≈ 120–200 CZK',
+ 'Restaurace U Pečené Kachničky Špindlerův Mlýn':'מנה עיקרית ≈ 200–320 CZK','Novosad pivovar Harrachov':'מנה עיקרית ≈ 180–300 CZK',
+ 'Restaurace Skalní Město Adršpach':'מנה ≈ 150–250 CZK','Restaurace Prachovské skály':'מנה ≈ 150–250 CZK',
+ 'České Budějovice náměstí':'מנה עיקרית ≈ 180–300 CZK','Restaurace Slunečná Louka Lipno nad Vltavou':'מנה עיקרית ≈ 220–350 CZK',
+ 'Hospoda Na Louži Český Krumlov':'מנה עיקרית ≈ 180–300 CZK','Restaurace Hubertus Hluboká nad Vltavou':'מנה עיקרית ≈ 200–320 CZK',
+ 'Krčma Šatlava Český Krumlov':'מנה עיקרית ≈ 220–350 CZK','Blatná náměstí restaurace':'מנה ≈ 150–250 CZK',
+ 'Restaurace Mincovna Staroměstské náměstí':'מנה עיקרית ≈ 250–400 CZK','Restaurace Nebozízek Petřín Prague':'מנה עיקרית ≈ 280–450 CZK',
+ 'Václav Havel Airport Prague terminal':'מנה ≈ 200–350 CZK'
+};
+
+// MAP points in route order
+const MAPPTS=[
+ {n:'פראג — בסיס 1 + 5',d:'11, 23–25',lat:50.087,lon:14.421,r:'פראג'},
+ {n:'פארק מירקולום',d:'12',lat:50.238,lon:14.889,r:'צפון'},
+ {n:'שפינדלרוב מלין (בסיס צפון)',d:'12–16',lat:50.726,lon:15.609,r:'צפון'},
+ {n:'הראכוב — מפלים',d:'14',lat:50.770,lon:15.434,r:'צפון'},
+ {n:'שמורת אדרשפאך',d:'15',lat:50.614,lon:16.118,r:'צפון'},
+ {n:'סלעי פראחוב',d:'16',lat:50.475,lon:15.314,r:'צפון'},
+ {n:'אקווה פאלאס (צ׳סטליצה)',d:'16–17',lat:49.992,lon:14.571,r:'מעבר'},
+ {n:'ליפנו (בסיס דרום)',d:'17–19',lat:48.641,lon:14.224,r:'דרום'},
+ {n:'צ׳סקי קרומלוב',d:'19, 21',lat:48.811,lon:14.315,r:'דרום'},
+ {n:'הלובוקה — גן חיות',d:'20',lat:49.052,lon:14.434,r:'דרום'},
+ {n:'טירת בלטנה',d:'22',lat:49.424,lon:13.875,r:'פראג'}
+];
+
 function mapsUrl(q){return 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q+' Czech Republic');}
 function wazeUrl(q){return 'https://waze.com/ul?q='+encodeURIComponent(q+' Czech Republic')+'&navigate=yes';}
 function ytUrl(q){return 'https://www.youtube.com/results?search_query='+encodeURIComponent(q+' Czech Republic');}
-function regionStyle(r){return REGION[r]||{c:'var(--muted)',e:'📍'};}
-function navButtons(q,withYt){
+function bookUrl(q){return 'https://www.booking.com/searchresults.html?ss='+encodeURIComponent(q);}
+function regionStyle(r){return REGION[r]||{c:'var(--muted)',hex:'#7a7163',e:'📍'};}
+
+function navButtons(q,opt){
+  opt=opt||{};
   let h='<div class="navs">'+
-    '<a class="nav-btn nav-waze" target="_blank" rel="noopener" href="'+wazeUrl(q)+'">'+
-      '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="11" r="9" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="10" r="1.2"/><circle cx="15" cy="10" r="1.2"/><path d="M8.5 14c1 1.2 2.2 1.6 3.5 1.6s2.5-.4 3.5-1.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M6 19l-1 2M18 19l1 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Waze</a>'+
-    '<a class="nav-btn nav-maps" target="_blank" rel="noopener" href="'+mapsUrl(q)+'">'+
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>Maps</a>';
-  if(withYt) h+='<a class="nav-btn nav-yt" target="_blank" rel="noopener" href="'+ytUrl(q)+'">'+
-      '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.5-.4-5.1a2.6 2.6 0 0 0-1.8-1.8C19.1 4.7 12 4.7 12 4.7s-7.1 0-8.8.4A2.6 2.6 0 0 0 1.4 6.9C1 8.5 1 12 1 12s0 3.5.4 5.1a2.6 2.6 0 0 0 1.8 1.8c1.7.4 8.8.4 8.8.4s7.1 0 8.8-.4a2.6 2.6 0 0 0 1.8-1.8C23 15.5 23 12 23 12Z"/><path d="M10 8.5v7l6-3.5z" fill="#c0341f"/></svg>וידאו</a>';
+    '<a class="nav-btn nav-waze" target="_blank" rel="noopener" href="'+wazeUrl(q)+'"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="11" r="9" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="10" r="1.2"/><circle cx="15" cy="10" r="1.2"/><path d="M8.5 14c1 1.2 2.2 1.6 3.5 1.6s2.5-.4 3.5-1.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Waze</a>'+
+    '<a class="nav-btn nav-maps" target="_blank" rel="noopener" href="'+mapsUrl(q)+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>Maps</a>';
+  if(opt.yt) h+='<a class="nav-btn nav-yt" target="_blank" rel="noopener" href="'+ytUrl(q)+'"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.5-.4-5.1a2.6 2.6 0 0 0-1.8-1.8C19.1 4.7 12 4.7 12 4.7s-7.1 0-8.8.4A2.6 2.6 0 0 0 1.4 6.9C1 8.5 1 12 1 12s0 3.5.4 5.1a2.6 2.6 0 0 0 1.8 1.8c1.7.4 8.8.4 8.8.4s7.1 0 8.8-.4a2.6 2.6 0 0 0 1.8-1.8C23 15.5 23 12 23 12Z"/><path d="M10 8.5v7l6-3.5z" fill="#c0341f"/></svg>וידאו</a>';
+  if(opt.book) h+='<a class="nav-btn nav-book" target="_blank" rel="noopener" href="'+bookUrl(opt.book)+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16v12H4zM4 7l2-3h12l2 3M9 12h6"/></svg>בוקינג</a>';
   return h+'</div>';
 }
+function wxEmoji(c){if(c===0)return'☀️';if(c<=2)return'🌤️';if(c===3)return'☁️';if(c<=48)return'🌫️';if(c<=57)return'🌦️';if(c<=67)return'🌧️';if(c<=77)return'🌨️';if(c<=82)return'🌧️';if(c<=86)return'🌨️';return'⛈️';}
+function fbTemp(region){if(region==='צפון')return[22,12];if(region==='מעבר')return[24,13];if(region==='דרום')return[25,13];return[26,15];}
 
 (function(){
-  const start=new Date(2026,7,11); const now=new Date();
-  const diff=Math.ceil((start-now)/86400000);
-  const el=document.getElementById('countdown');
-  if(diff>0) el.innerHTML='⏳ עוד <b>'+diff+'</b> ימים לטיול';
-  else if(diff===0) el.innerHTML='🎉 <b>היום</b> ממריאים!';
-  else { const dn=Math.min(15,Math.abs(diff)+1); el.innerHTML='🇨🇿 יום <b>'+dn+'</b> בטיול'; }
+  const start=new Date(2026,7,11),now=new Date();
+  const diff=Math.ceil((start-now)/86400000),el=document.getElementById('countdown');
+  if(diff>0)el.innerHTML='⏳ עוד <b>'+diff+'</b> ימים לטיול';
+  else if(diff===0)el.innerHTML='🎉 <b>היום</b> ממריאים!';
+  else{const dn=Math.min(15,Math.abs(diff)+1);el.innerHTML='🇨🇿 יום <b>'+dn+'</b> בטיול';}
 })();
 
+function buildTimeline(day){
+  if(day.d===11) return {rows:[['~20:45','🛬 נחיתה בפראג (LY2523)'],['21:15','🚗 איסוף רכב / מונית'],['22:00','🏨 צ׳ק-אין במלון Hoffmeister + מנוחה']],note:'נחיתה בערב — היום הפעיל הראשון מתחיל ב-12.8'};
+  if(day.d===25) return {rows:[['08:00','🍳 ארוחת בוקר'],['09:30','🧳 צ׳ק-אאוט מהדירה'],['10:00','🛒 קניית מזכרות אחרונה'],['11:00','🚗 נסיעה לשדה התעופה'],['—','✈️ לפי שעת הטיסה — להגיע ~3ש׳ לפני']],note:'לתאם לפי שעת ההמראה'};
+  const rows=[['08:00','🍳 ארוחת בוקר במלון']];
+  rows.push(['09:00','🚗 יציאה'+(day.stops[0]&&day.stops[0].drive?' — '+day.stops[0].drive:'')]);
+  const slots=['10:00','14:30','16:00'];
+  if(day.stops[0]) rows.push(['10:00','📍 '+day.stops[0].nm]);
+  if(day.lunch) rows.push(['13:00','🍽️ צהריים — '+day.lunch.nm]);
+  if(day.stops[1]) rows.push([slots[1],'📍 '+day.stops[1].nm]);
+  if(day.stops[2]) rows.push([slots[2],'📍 '+day.stops[2].nm]);
+  rows.push(['18:30','🏨 חזרה / מנוחה']);
+  rows.push(['19:30','🍽️ ארוחת ערב']);
+  return {rows,note:'הצעה גמישה — התאימו לקצב של הילדים'};
+}
+
 function renderRoute(){
-  const v=document.getElementById('view-route');
-  let html='';
+  const v=document.getElementById('view-route');let html='';
   DAYS.forEach((day,i)=>{
-    const dt=new Date(2026,7,day.d);
-    const rs=regionStyle(day.region);
+    const dt=new Date(2026,7,day.d),rs=regionStyle(day.region),wk=dt.getDay();
+    const fb=fbTemp(day.region);
     let stops='';
     day.stops.forEach(s=>{
       let chips='';
-      if(s.drive) chips+='<span class="chip drive">🚗 '+s.drive+'</span>';
-      if(s.price) chips+='<span class="chip price">🎟️ '+s.price+'</span>';
-      if(s.book)  chips+='<span class="chip book">⚠️ '+s.book+'</span>';
-      const imgKey=IMGBY[s.maps]; const imgUrl=imgKey?IMG[imgKey]:null;
-      const deal=DEALBY[s.maps];
+      if(s.drive)chips+='<span class="chip drive">🚗 '+s.drive+'</span>';
+      if(HWSET.has(s.maps))chips+='<span class="chip hw">🛣️ כביש מהיר (ויניאטה!)</span>';
+      if(s.price)chips+='<span class="chip price">🎟️ '+s.price+'</span>';
+      if(HOURSBY[s.maps]&&HOURSBY[s.maps]!=='—')chips+='<span class="chip hours">🗓️ '+HOURSBY[s.maps]+'</span>';
+      if(CLOSED_MON.has(s.maps))chips+=(wk===1?'<span class="chip openwarn">⛔ סגור ביום שני!</span>':'<span class="chip openok">✓ פתוח בתאריך זה</span>');
+      if(s.book)chips+='<span class="chip book">⚠️ '+s.book+'</span>';
+      const imgKey=IMGBY[s.maps],imgUrl=imgKey?IMG[imgKey]:null,deal=DEALBY[s.maps];
       stops+='<div class="stop"><div class="nm"><span class="dot"></span>'+s.nm+'</div>'+
         (imgUrl?'<img class="stop-img" loading="lazy" src="'+imgUrl+'" alt="'+s.nm+'" onerror="this.style.display=\'none\'">':'')+
         (s.desc?'<p class="desc">'+s.desc+'</p>':'')+
         (chips?'<div class="chips">'+chips+'</div>':'')+
         (s.note?'<p class="note">💡 '+s.note+'</p>':'')+
         (deal?'<div class="deal"><b>💸 הטבות:</b> '+deal+'</div>':'')+
-        navButtons(s.maps,true)+'</div>';
+        navButtons(s.maps,{yt:true})+'</div>';
     });
     let lunch='';
-    if(day.lunch){
-      lunch='<div class="lunch"><div class="lh">🍽️ צהריים</div>'+
-        '<div class="ln">'+day.lunch.nm+'</div>'+
+    if(day.lunch){const lc=LCOSTBY[day.lunch.maps];
+      lunch='<div class="lunch"><div class="lh">🍽️ צהריים</div><div class="ln">'+day.lunch.nm+'</div>'+
         (day.lunch.desc?'<p class="ld">'+day.lunch.desc+'</p>':'')+
-        navButtons(day.lunch.maps)+'</div>';
+        (lc?'<div class="lcost">💵 '+lc+'</div>':'')+navButtons(day.lunch.maps)+'</div>';
     }
+    const tl=buildTimeline(day);let tlrows='';
+    tl.rows.forEach(r=>tlrows+='<div class="tlrow"><span class="tt">'+r[0]+'</span><span class="tx">'+r[1]+'</span></div>');
+    const timeline='<details class="tl"><summary>🕐 הצעה ללו״ז יומי (לפי שעות)</summary>'+tlrows+'<div class="tlnote">'+tl.note+'</div></details>';
+
     html+='<div class="day" id="day-'+day.d+'">'+
-      '<div class="day-head">'+
-        '<div class="daynum"><span class="dn">'+day.d+'</span><span class="dm">'+MON[7]+'</span></div>'+
-        '<div class="meta"><div class="wd">'+WD[dt.getDay()]+'</div>'+
-          '<div class="didx">יום '+(i+1)+' מתוך 15</div></div>'+
-        '<div class="rbadge" style="background:'+rs.c+'">'+rs.e+' '+day.region+'</div>'+
-      '</div>'+stops+lunch+
-      '<div class="dayfoot">'+
-        '<div class="hotelf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-5h18v5M3 13V7a1 1 0 0 1 1-1h6v7M14 13V8h6a1 1 0 0 1 1 1v4"/></svg>'+
-          (day.hotel==='—'?'<span>טיסה הביתה ✈️</span>':'לינה: <b>'+day.hotel+'</b>')+'</div>'+
-        (day.budget?'<span class="budget">💰 '+day.budget+'</span>':'')+
-      '</div></div>';
+      '<div class="day-head"><div class="daynum"><span class="dn">'+day.d+'</span><span class="dm">'+MON[7]+'</span></div>'+
+        '<div class="meta"><div class="wd">'+WD[wk]+'</div><div class="didx">יום '+(i+1)+' מתוך 15</div>'+
+        '<span class="wx" id="wx-'+day.d+'" title="ממוצע עונתי — תחזית מדויקת מתעדכנת אוטומטית כ-16 ימים לפני">≈ '+fb[0]+'°/'+fb[1]+'° · אוג׳</span></div>'+
+        '<div class="rbadge" style="background:'+rs.c+'">'+rs.e+' '+day.region+'</div></div>'+
+      stops+lunch+timeline+
+      '<div class="dayfoot"><div class="hotelf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-5h18v5M3 13V7a1 1 0 0 1 1-1h6v7M14 13V8h6a1 1 0 0 1 1 1v4"/></svg>'+
+        (day.hotel==='—'?'<span>טיסה הביתה ✈️</span>':'לינה: <b>'+day.hotel+'</b>')+'</div>'+
+        (day.budget?'<span class="budget">💰 '+day.budget+'</span>':'')+'</div></div>';
   });
   v.innerHTML=html;
 }
 
 function renderPills(){
-  const pb=document.getElementById('pillbar');
-  let html='';
-  DAYS.forEach(day=>{
-    const dt=new Date(2026,7,day.d);
-    html+='<div class="pill" data-d="'+day.d+'" onclick="goDay('+day.d+')">'+
-      '<span class="pd">'+day.d+'.8</span><span class="pw">'+WS[dt.getDay()]+'</span></div>';
-  });
+  const pb=document.getElementById('pillbar');let html='';
+  DAYS.forEach(day=>{const dt=new Date(2026,7,day.d);
+    html+='<div class="pill" data-d="'+day.d+'" onclick="goDay('+day.d+')"><span class="pd">'+day.d+'.8</span><span class="pw">'+WS[dt.getDay()]+'</span></div>';});
   pb.innerHTML=html;
 }
-function goDay(d){
-  switchTab('route');
-  setTimeout(()=>{
-    const el=document.getElementById('day-'+d);
-    if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
-    document.querySelectorAll('.pill').forEach(p=>p.classList.toggle('active',p.dataset.d==d));
-  },60);
-}
+function goDay(d){switchTab('route');setTimeout(()=>{const el=document.getElementById('day-'+d);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
+  document.querySelectorAll('.pill').forEach(p=>p.classList.toggle('active',p.dataset.d==d));},60);}
 
 function renderHotels(){
-  const v=document.getElementById('view-hotels');
-  let html='<h2 class="sec-title"><span class="bar"></span>מלונות ולינה</h2>';
-  HOTELS.forEach(h=>{
-    const rs=regionStyle(h.r.split(' ')[0]);
+  const v=document.getElementById('view-hotels');let html='<h2 class="sec-title"><span class="bar"></span>מלונות ולינה</h2>'+
+    '<div class="infobox">לחיצה על "בוקינג" פותחת את המלון בבוקינג (4 מתוך 5 הוזמנו דרך בוקינג). אקווה פאלאס נסגר דרך המלון — הקישור פותח את עמוד המלון לבדיקה.</div>';
+  HOTELS.forEach(h=>{const rs=regionStyle(h.r.split(' ')[0]);
     html+='<div class="card"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">'+
-      '<div><h3>'+h.n+'</h3></div>'+
-      '<span class="pin" style="background:'+rs.c+'">'+rs.e+' '+h.r+'</span></div>'+
+      '<div><h3>'+h.n+'</h3></div><span class="pin" style="background:'+rs.c+'">'+rs.e+' '+h.r+'</span></div>'+
       '<div class="kv" style="margin-top:8px"><span class="k">מחיר</span><span class="v">'+h.ils+' · '+h.other+'</span></div>'+
       (h.cancel?'<div class="kv"><span class="k">ביטול</span><span class="v">'+h.cancel+'</span></div>':'')+
       '<div class="kv"><span class="k">נסגר דרך</span><span class="v">'+h.via+'</span></div>'+
-      (h.note?'<p class="small">📝 '+h.note+'</p>':'')+
-      navButtons(h.n)+'</div>';
-  });
-  html+='<div class="card cost-total"><div class="sub" style="color:#cdd8cf">סה״כ לינה</div>'+
-    '<div class="big">10,731.80 ₪</div>'+
+      (h.note?'<p class="small">📝 '+h.note+'</p>':'')+navButtons(h.n,{book:h.n})+'</div>';});
+  html+='<div class="card cost-total"><div class="sub" style="color:#cdd8cf">סה״כ לינה</div><div class="big">10,731.80 ₪</div>'+
     '<p class="small" style="color:#cdd8cf;margin-top:4px">הסכומים באירו הם המחייבים — לשים לב לשער האירו ביום החיוב.</p></div>';
   v.innerHTML=html;
+}
+
+function renderDrive(){
+  const v=document.getElementById('view-drive');
+  const checklist={
+    'לשאול / לוודא באיסוף הרכב':[
+      'תיבת ההילוכים כפי שהוזמן? האם האביזרים הנוספים סופקו?',
+      'הביטוח תקף ומכסה נזק / אובדן / גניבה? יש השתתפות עצמית?',
+      'אילו מדבקות (ויניאטה) צריך? האם הן כבר על הרכב / איפה רוכשים?',
+      'לעדכן את חברת ההשכרה על המדינות אליהן תחצו עם הרכב',
+      'מהם כללי החניה באזור? איך רוכשים כרטיס / מסמנים זמן תחילת חניה?'
+    ],
+    'גלגל רזרבי':[
+      'יש גלגל רזרבי? כולל מפתח ברגים מתאים ומגבה (ג׳ק)?',
+      'אם אין גלגל — אפשר לבקש שיהיה או להחליף רכב?',
+      'אם לא — יש ערכת תיקון תקר (קומפרסור / מילוי מהיר)?'
+    ],
+    'מה עושים במקרה תאונה / תקלה?':[
+      'למי מודיעים ואיך? האם נדרש אישור משטרתי?',
+      'אם יש ביטוח השתתפות עצמית נפרד — להכיר מראש את התנאים',
+      'מה עושים אם הרכב נתקע? למי מתקשרים? (כולל תקר בגלגל)'
+    ],
+    'דלק':[
+      'מה סוג הדלק ברכב? איך הוא נקרא/כתוב בתחנה?',
+      'לרכבי דיזל: איזו תוספת (AdBlue) צריך ומתי?',
+      'איפה התחנה הקרובה לשדה ומה שעות הפעילות?',
+      'האם החוזה דורש החזרת מיכל מלא?'
+    ],
+    'החזרת הרכב':[
+      'לאן מחזירים ואיך נכנסים לחניון? (לוודא שהתאריך תואם לחוזה)',
+      'האם יהיה נציג או Key Box לשלשול המפתח? והיכן?'
+    ]
+  };
+  let chk='';let idx=0;
+  Object.keys(checklist).forEach(g=>{
+    chk+='<div class="card"><h3>'+g+'</h3>';
+    checklist[g].forEach(it=>{chk+='<div class="task"><span class="b" onclick="this.classList.toggle(\'on\')"></span><div>'+it+'</div></div>';idx++;});
+    chk+='</div>';
+  });
+  v.innerHTML='<h2 class="sec-title"><span class="bar"></span>נהיגה בצ׳כיה</h2>'+
+    '<div class="card"><h3>🛣️ ויניאטה (אגרת כביש מהיר) — חובה!</h3>'+
+      '<p class="small" style="margin-top:2px">בצ׳כיה הויניאטה <b>דיגיטלית לחלוטין מ-2021 — אין מדבקה פיזית</b>. רושמים את מספר הרישוי של הרכב אונליין והכל אלקטרוני (מצלמות זיהוי לוחית אוכפות).</p>'+
+      '<div class="kv" style="margin-top:8px"><span class="k">מחיר 10 ימים (2026)</span><span class="v">≈ 300–310 CZK (~50 ₪)</span></div>'+
+      '<div class="kv"><span class="k">חובה על</span><span class="v">כבישי D (מהירים) וחלק מ-R</span></div>'+
+      '<div class="kv"><span class="k">קנס ללא ויניאטה</span><span class="v">עד ~20,000 CZK</span></div>'+
+      '<p class="small">💡 אפשר לקנות עכשיו ולקבוע תאריך תחילה עד 3 חודשים קדימה — כוונו ל-11.8.</p>'+
+      '<div class="navs"><a class="nav-btn nav-book" target="_blank" rel="noopener" href="https://edalnice.cz/en/index.html#/validation">🛒 קנייה רשמית — edalnice.cz</a></div></div>'+
+    '<div class="infobox warn">⚠️ <b>רכב השכרה:</b> חלק מחברות ההשכרה בצ׳כיה כוללות את הויניאטה במחיר. <b>חובה לוודא מולם</b> — אם לא כלולה, לקנות אונליין עם מספר הרישוי של הרכב שתקבלו.</div>'+
+    '<div class="card"><h3>🧭 ניווט: וויז מול גוגל מפס</h3>'+
+      '<p class="small" style="margin-top:2px">בצ׳כיה <b>Google Maps מדויק יותר</b> — וויז לא תמיד מתעדכן על חסימות וסגירות כבישים. מומלץ לנווט עם גוגל מפס לטווח הארוך.</p>'+
+      '<p class="small">לגבי הויניאטה ב-Waze: <b>אין מה "להכניס"</b> — היא אלקטרונית וקשורה ללוחית הרישוי, רק צריך שתהיה קנויה. אם תרצו שווייז ינתב דרך הכבישים המהירים: הגדרות ← ניווט ← לכבות "הימנעות מכבישי אגרה".</p></div>'+
+    '<div class="card"><h3>🪪 רישיון נהיגה בינלאומי (IDP) ומדריך</h3>'+
+      '<p class="small" style="margin-top:2px">מומלץ להצטייד ברישיון נהיגה בינלאומי (IDP) בנוסף לרישיון הישראלי. מדריך נהיגה מלא בצ׳כיה (השכרה, חוקים, טיפים):</p>'+
+      '<div class="navs"><a class="nav-btn nav-maps" target="_blank" rel="noopener" href="https://search.app/ZRRnYU1toGFh4BYh9">📖 מדריך נהיגה בצ׳כיה</a></div></div>'+
+    '<h2 class="sec-title" style="margin-top:18px"><span class="bar"></span>צ׳קליסט איסוף רכב</h2>'+
+    '<div class="infobox">מבוסס על הצ׳קליסט של Klicco. לחצו על הריבוע כדי לסמן ✓ (הסימון לא נשמר בין כניסות).</div>'+chk;
 }
 
 function renderInfo(){
   const v=document.getElementById('view-info');
   let warns='';
-  DAYS.forEach(day=>day.stops.forEach(s=>{if(s.book){warns+='<div class="task"><span class="b"></span><div><b>'+day.d+'.8</b> · '+s.nm+'<br><span class="small" style="margin:0">'+s.book+'</span></div></div>';}}));
-  let html='<h2 class="sec-title"><span class="bar"></span>מידע שימושי</h2>'+
-    '<div class="infobox">💱 המרה משוערת: 100 CZK ≈ 16 ₪ · 1 € ≈ 3.5 ₪. כל מחירי הכניסה הם <b>הערכה לעונת השיא 2026</b> לכל אדם — מומלץ לאמת באתרים הרשמיים, במיוחד בליפנו (תמחור דינמי). תקציב יומי מחושב ל-~10 נפשות (4 מבוגרים + 6 ילדים) ולכניסות בלבד (ללא אוכל/דלק/חניה).</div>'+
-    '<div class="card"><h3>✈️ טיסות</h3><div class="kv"><span class="k">חברה</span><span class="v">EL AL</span></div></div>'+
+  DAYS.forEach(day=>day.stops.forEach(s=>{if(s.book){warns+='<div class="task"><span class="b" onclick="this.classList.toggle(\'on\')"></span><div><b>'+day.d+'.8</b> · '+s.nm+'<br><span class="small" style="margin:0">'+s.book+'</span></div></div>';}}));
+  let backup='';
+  Object.keys(BACKUP).forEach(r=>{const rs=regionStyle(r);
+    backup+='<div style="margin-top:8px"><span class="pin" style="background:'+rs.c+'">'+rs.e+' '+r+'</span><ul style="margin:6px 0 0;padding-inline-start:18px">';
+    BACKUP[r].forEach(b=>backup+='<li style="font-size:13px;margin:0 0 6px;line-height:1.45">'+b+'</li>');backup+='</ul></div>';});
+  v.innerHTML='<h2 class="sec-title"><span class="bar"></span>מידע שימושי</h2>'+
+    '<div class="infobox">💱 המרה: 100 CZK ≈ 16 ₪ · 1 € ≈ 3.5 ₪. מחירי הכניסה הם הערכה לעונת השיא 2026 לאדם — לאמת באתרים הרשמיים (במיוחד ליפנו, תמחור דינמי). תקציב יומי = ~10 נפשות (4 מבוגרים + 6 ילדים), כניסות בלבד.</div>'+
+    '<div class="card"><h3>✈️ טיסות — EL AL</h3>'+
+      '<div style="border:1px solid var(--line);border-radius:12px;padding:11px;margin-top:8px;background:#f8f3e8">'+
+        '<div style="font-weight:800;font-size:14px">🛫 הלוך · <span style="color:var(--green)">LY2523</span> · ג׳ 11.8</div>'+
+        '<div class="kv" style="margin-top:6px"><span class="k">מסלול</span><span class="v">תל אביב (TLV · טרמ׳ 3) ← פראג (PRG · טרמ׳ 1)</span></div>'+
+        '<div class="kv"><span class="k">שעה (משוער)</span><span class="v">המראה ~17:35 · נחיתה ~20:45</span></div>'+
+        '<div class="navs"><a class="nav-btn nav-maps" target="_blank" rel="noopener" href="https://www.flightradar24.com/data/flights/ly2523">📡 סטטוס חי</a>'+
+        '<a class="nav-btn nav-waze" target="_blank" rel="noopener" href="https://www.google.com/search?q=LY2523+flight+status">🔎 גוגל</a></div></div>'+
+      '<div style="border:1px solid var(--line);border-radius:12px;padding:11px;margin-top:10px;background:#f8f3e8">'+
+        '<div style="font-weight:800;font-size:14px">🛬 חזור · <span style="color:var(--green)">LY2522</span> · ג׳ 25.8</div>'+
+        '<div class="kv" style="margin-top:6px"><span class="k">מסלול</span><span class="v">פראג (PRG · טרמ׳ 1) ← תל אביב (TLV · טרמ׳ 3)</span></div>'+
+        '<div class="kv"><span class="k">שעה</span><span class="v">לפי הכרטיס / הסטטוס החי</span></div>'+
+        '<div class="navs"><a class="nav-btn nav-maps" target="_blank" rel="noopener" href="https://www.flightradar24.com/data/flights/ly2522">📡 סטטוס חי</a>'+
+        '<a class="nav-btn nav-waze" target="_blank" rel="noopener" href="https://www.google.com/search?q=LY2522+flight+status">🔎 גוגל</a></div></div>'+
+      '<p class="small">📡 "סטטוס חי" פותח את Flightradar24 עם זמני המראה/נחיתה בזמן אמת. השעות המשוערות — לאמת מול הכרטיס.</p></div>'+
+    '<div class="card"><h3>⏰ תזכורות צ׳ק-אין / צ׳ק-אאוט</h3>'+
+      '<div class="task"><span class="b" onclick="this.classList.toggle(\'on\')"></span><div>צ׳ק-אין אונליין לאל על נפתח בד״כ 24–48ש׳ לפני ההמראה — לבצע מוקדם לבחירת מושבים</div></div>'+
+      '<div class="task"><span class="b" onclick="this.classList.toggle(\'on\')"></span><div>11.8 — צ׳ק-אין למלון Hoffmeister בד״כ מ-14:00/15:00</div></div>'+
+      '<div class="task"><span class="b" onclick="this.classList.toggle(\'on\')"></span><div>בכל מעבר מלון — לבדוק שעת צ׳ק-אאוט (בד״כ 10:00–11:00) בהזמנת הבוקינג</div></div>'+
+      '<div class="task"><span class="b" onclick="this.classList.toggle(\'on\')"></span><div>25.8 — צ׳ק-אאוט מהדירה בפראג + להגיע לשדה ~3 שעות לפני טיסה בינ״ל</div></div></div>'+
     '<div class="card"><h3>🚗 רכב / הסעות</h3>'+
       '<div class="kv"><span class="k">רכב גדול</span><span class="v">45 € ליום</span></div>'+
       '<div class="kv"><span class="k">רכב קטן</span><span class="v">35 € ליום</span></div>'+
-      '<p class="small">📞 משימה: לדבר עם נהג המונית ולסגור את הנסיעה מהשדה למלון.</p></div>'+
-    '<div class="card"><h3>💰 תקציב לינה</h3>'+
-      '<div class="kv"><span class="k">סה״כ מלונות</span><span class="v">10,731.80 ₪</span></div>'+
-      '<p class="small">לשים לב לשער האירו — הסכומים במטבע זר הם המחייבים.</p></div>'+
+      '<p class="small">📞 משימה: לדבר עם נהג המונית ולסגור נסיעה מהשדה למלון. פרטי נהיגה וויניאטה — בלשונית "נהיגה".</p></div>'+
     '<div class="card"><h3>⚠️ הזמנות מראש (חשוב!)</h3>'+warns+'</div>'+
     '<div class="card"><h3>🎒 לא לשכוח</h3>'+
-      '<div class="task"><span class="b"></span><div>מגבות + בגדי ים (מירקולום, אקווה פאלאס, אגם ליפנו)</div></div>'+
-      '<div class="task"><span class="b"></span><div>נעלי הליכה נוחות לילדים (אדרשפאך, פראחוב)</div></div>'+
-      '<div class="task"><span class="b"></span><div>שכבה חמה לצפון (הרים, גם בקיץ)</div></div>'+
-      '<div class="task"><span class="b"></span><div>מזומן בקורונה (אדרשפאך/שייט/חלק מהמסעדות – מזומן בלבד)</div></div></div>';
-  v.innerHTML=html;
+      '<div class="task"><span class="b" onclick="this.classList.toggle(\'on\')"></span><div>מגבות + בגדי ים (מירקולום, אקווה פאלאס, אגם ליפנו)</div></div>'+
+      '<div class="task"><span class="b" onclick="this.classList.toggle(\'on\')"></span><div>נעלי הליכה נוחות (אדרשפאך, פראחוב)</div></div>'+
+      '<div class="task"><span class="b" onclick="this.classList.toggle(\'on\')"></span><div>שכבה חמה לצפון (הרים, גם בקיץ)</div></div>'+
+      '<div class="task"><span class="b" onclick="this.classList.toggle(\'on\')"></span><div>מזומן בקורונה (אדרשפאך/שייט/חלק מהמסעדות)</div></div>'+
+      '<div class="task"><span class="b" onclick="this.classList.toggle(\'on\')"></span><div>ויניאטה דיגיטלית + רישיון נהיגה בינלאומי</div></div></div>'+
+    '<div class="card"><h3>💰 תקציב לינה</h3><div class="kv"><span class="k">סה״כ מלונות</span><span class="v">10,731.80 ₪</span></div></div>'+
+    '<div class="card"><h3>🔄 אופציות גיבוי (ליום גשום / החלפה)</h3>'+backup+'</div>'+
+    '<div class="infobox" style="margin-top:6px">✓ בדיקת ימי פתיחה: אף ביקור בטירה לא נופל ביום שני (יום הסגירה הנפוץ). קרומלוב (21.8) — יום ו׳, בלטנה (22.8) — שבת, שניהם פתוחים.</div>';
 }
 
-function renderBackup(){
-  const v=document.getElementById('view-backup');
-  let html='<h2 class="sec-title"><span class="bar"></span>אופציות גיבוי</h2>'+
-    '<p class="small" style="margin:0 2px 14px">פעילויות שירדו מהמסלול אבל שווה לזכור — ליום גשום, להחלפה, או אם נשאר זמן.</p>';
-  Object.keys(BACKUP).forEach(r=>{
-    const rs=regionStyle(r);
-    html+='<div class="card"><h3 style="display:flex;align-items:center;gap:8px">'+
-      '<span class="pin" style="background:'+rs.c+'">'+rs.e+' '+r+'</span></h3>'+
-      '<div class="backup-group"><ul>';
-    BACKUP[r].forEach(b=>html+='<li>'+b+'</li>');
-    html+='</ul></div></div>';
-  });
-  v.innerHTML=html;
+let mapInited=false,leafMap=null;
+function renderMap(){
+  if(mapInited)return;mapInited=true;
+  const v=document.getElementById('view-map');
+  v.innerHTML='<h2 class="sec-title"><span class="bar"></span>מפת המסלול</h2>'+
+    '<div class="infobox">מבט-על על המעבר: פראג → צפון (הרי הענק) → מעבר → דרום (שומאווה/ליפנו) → חזרה לפראג. הקו מחבר את הנקודות לפי סדר הימים.</div>'+
+    '<div id="map"></div>'+
+    '<div class="legend"><span><i style="background:#8a3b4c"></i>פראג</span><span><i style="background:#2f6f7a"></i>צפון</span><span><i style="background:#b07d2b"></i>מעבר</span><span><i style="background:#4f7d3a"></i>דרום</span></div>';
+  setTimeout(()=>{
+    leafMap=L.map('map',{scrollWheelZoom:false}).setView([49.7,14.5],7);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© OpenStreetMap'}).addTo(leafMap);
+    const latlngs=[];
+    MAPPTS.forEach(p=>{
+      const hex=regionStyle(p.r).hex;
+      L.circleMarker([p.lat,p.lon],{radius:9,color:'#fff',weight:2,fillColor:hex,fillOpacity:1})
+        .addTo(leafMap).bindPopup('<div style="font-weight:800;font-family:Heebo">'+p.n+'</div><div style="font-size:12px">ימים: '+p.d+'</div>');
+      latlngs.push([p.lat,p.lon]);
+    });
+    L.polyline(latlngs,{color:'#b8893a',weight:3,opacity:.8,dashArray:'7 6'}).addTo(leafMap);
+    L.polyline([latlngs[latlngs.length-1],MAPPTS[0]?[MAPPTS[0].lat,MAPPTS[0].lon]:latlngs[0]],{color:'#b8893a',weight:3,opacity:.5,dashArray:'2 8'}).addTo(leafMap);
+    leafMap.fitBounds(L.latLngBounds(latlngs).pad(0.15));
+  },80);
 }
 
 function switchTab(name){
   document.querySelectorAll('.view').forEach(el=>el.classList.toggle('on',el.id==='view-'+name));
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.v===name));
-  document.getElementById('pillbar').style.display = (name==='route')?'flex':'none';
-  if(name!=='route') window.scrollTo({top:0,behavior:'smooth'});
+  document.getElementById('pillbar').style.display=(name==='route')?'flex':'none';
+  if(name==='map'){renderMap();setTimeout(()=>{if(leafMap)leafMap.invalidateSize();},120);}
+  if(name!=='route')window.scrollTo({top:0,behavior:'smooth'});
 }
 
-renderRoute(); renderPills(); renderHotels(); renderInfo(); renderBackup();
+async function loadWeather(){
+  try{
+    const lats=DAYS.map(d=>d.lat).join(','),lons=DAYS.map(d=>d.lon).join(',');
+    const url='https://api.open-meteo.com/v1/forecast?latitude='+lats+'&longitude='+lons+
+      '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&start_date=2026-08-11&end_date=2026-08-25&timezone=Europe%2FPrague';
+    const r=await fetch(url);if(!r.ok)throw 0;const j=await r.json();const arr=Array.isArray(j)?j:[j];
+    DAYS.forEach((d,i)=>{const loc=arr[i];if(!loc||!loc.daily||loc.daily.temperature_2m_max[i]==null)return;
+      const hi=Math.round(loc.daily.temperature_2m_max[i]),lo=Math.round(loc.daily.temperature_2m_min[i]);
+      const code=loc.daily.weather_code[i],pp=loc.daily.precipitation_probability_max[i];
+      const el=document.getElementById('wx-'+d.d);
+      if(el){el.textContent=wxEmoji(code)+' '+hi+'°/'+lo+'°'+(pp!=null?' · '+pp+'%🌧️':'');el.title='תחזית חיה (Open-Meteo)';el.style.background='#e2f0e0';}
+    });
+  }catch(e){/* keep seasonal fallback */}
+}
 
-const obs=new IntersectionObserver(es=>{
-  es.forEach(e=>{if(e.isIntersecting){const d=e.target.id.split('-')[1];
-    document.querySelectorAll('.pill').forEach(p=>p.classList.toggle('active',p.dataset.d==d));}});
-},{rootMargin:'-45% 0px -50% 0px'});
+renderRoute();renderPills();renderHotels();renderDrive();renderInfo();loadWeather();
+
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const d=e.target.id.split('-')[1];
+  document.querySelectorAll('.pill').forEach(p=>p.classList.toggle('active',p.dataset.d==d));}});},{rootMargin:'-45% 0px -50% 0px'});
 DAYS.forEach(day=>{const el=document.getElementById('day-'+day.d);if(el)obs.observe(el);});
 </script>
 </body>
