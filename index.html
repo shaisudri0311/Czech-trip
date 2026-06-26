@@ -14,7 +14,7 @@
     --line:#ddd2bd;
     --north:#2f6f7a; --south:#4f7d3a; --prague:#8a3b4c; --transit:#b07d2b;
     --gold:#b8893a; --green:#243b2f; --green2:#33543f;
-    --warn:#c0561f; --card:#fbf7ee;
+    --warn:#c0561f; --card:#fbf7ee; --waze:#2f6fb0;
     --shadow:0 6px 22px rgba(40,37,31,.10);
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -28,7 +28,6 @@
   }
   h1,h2,h3{font-family:'Frank Ruhl Libre',serif;margin:0;line-height:1.15}
 
-  /* HEADER */
   header{
     background:linear-gradient(160deg,#243b2f 0%,#33543f 70%,#3c6049 100%);
     color:#f3ede0;padding:26px 18px 22px;position:relative;overflow:hidden;
@@ -49,7 +48,6 @@
   .route-strip span{background:rgba(255,255,255,.1);padding:4px 9px;border-radius:6px}
   .route-strip i{color:#e9c98a;font-style:normal}
 
-  /* DAY PILLS */
   .pillbar{position:sticky;top:0;z-index:40;background:rgba(243,237,224,.93);
     backdrop-filter:blur(10px);border-bottom:1px solid var(--line);
     overflow-x:auto;display:flex;gap:7px;padding:10px 14px;scrollbar-width:none}
@@ -62,13 +60,11 @@
   .pill.active{background:var(--green);border-color:var(--green);color:#fff;transform:translateY(-1px)}
   .pill.active .pw{color:#e9c98a}
 
-  /* CONTENT */
   main{padding:16px 14px 10px;max-width:680px;margin:0 auto}
   .view{display:none;animation:fade .25s ease}
   .view.on{display:block}
   @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-  /* DAY CARD */
   .day{background:var(--card);border:1px solid var(--line);border-radius:18px;
     margin-bottom:16px;box-shadow:var(--shadow);overflow:hidden;scroll-margin-top:64px}
   .day-head{display:flex;align-items:center;gap:13px;padding:14px 15px;
@@ -88,23 +84,40 @@
   .stop:last-child{border-bottom:none}
   .stop .nm{font-weight:700;font-size:15.5px;display:flex;gap:7px;align-items:flex-start}
   .stop .nm .dot{flex:0 0 auto;width:8px;height:8px;border-radius:50%;background:var(--gold);margin-top:7px}
-  .chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 0 0;padding-inline-start:15px}
+  .stop-img{width:100%;height:178px;object-fit:cover;border-radius:13px;margin:11px 0 2px;
+    display:block;background:#e9e0cd;box-shadow:0 3px 10px rgba(40,37,31,.12)}
+  .desc{font-size:13.5px;color:#403a30;margin:8px 0 0;padding-inline-start:15px;line-height:1.55}
+  .deal{font-size:12.5px;color:#6a5a23;background:#f7eecf;border:1px solid #e6d4a4;
+    border-radius:10px;padding:8px 11px;margin:9px 0 0;margin-inline-start:15px;line-height:1.55}
+  .deal b{color:#8a6a1f}
+  .nav-yt{background:#c0341f;color:#fff}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin:9px 0 0 0;padding-inline-start:15px}
   .chip{font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:7px;display:inline-flex;gap:4px;align-items:center}
   .chip.drive{background:#e7eef0;color:#2f6f7a}
-  .chip.price{background:#eaf1e3;color:#4f7d3a}
+  .chip.price{background:#eaf1e3;color:#3f6a2d}
   .chip.book{background:#fbe9df;color:var(--warn)}
-  .note{font-size:13.5px;color:#5a5346;margin:8px 0 0;padding-inline-start:15px;line-height:1.55}
-  .nav-btn{margin:10px 0 0 0;margin-inline-start:15px;display:inline-flex;align-items:center;gap:6px;
-    background:var(--green);color:#fff;text-decoration:none;font-weight:700;font-size:13px;
-    padding:8px 15px;border-radius:11px;transition:.15s}
+  .note{font-size:12.5px;color:#6a6253;margin:7px 0 0;padding-inline-start:15px;line-height:1.5;font-style:italic}
+  .navs{display:flex;gap:8px;margin:10px 0 0;margin-inline-start:15px;flex-wrap:wrap}
+  .nav-btn{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:700;
+    font-size:12.5px;padding:7px 13px;border-radius:11px;transition:.15s}
   .nav-btn:active{transform:scale(.96)}
-  .nav-btn svg{width:15px;height:15px}
-  .hotel{display:flex;align-items:center;gap:9px;padding:11px 15px;background:var(--paper2);
-    font-size:13px;font-weight:600;color:#4a4234}
-  .hotel svg{width:17px;height:17px;flex:0 0 auto;opacity:.7}
-  .hotel b{font-weight:800;color:var(--ink)}
+  .nav-btn svg{width:14px;height:14px}
+  .nav-maps{background:var(--green);color:#fff}
+  .nav-waze{background:var(--waze);color:#fff}
 
-  /* GENERIC CARDS */
+  .lunch{margin:0;padding:13px 15px;background:linear-gradient(180deg,#f6efe0,#f1e7d2);
+    border-top:2px dotted var(--gold)}
+  .lunch .lh{font-weight:800;font-size:13px;color:var(--warn);display:flex;align-items:center;gap:6px;margin-bottom:4px}
+  .lunch .ln{font-weight:700;font-size:15px}
+  .lunch .ld{font-size:12.5px;color:#5a5346;margin:4px 0 0;line-height:1.5}
+
+  .dayfoot{display:flex;flex-wrap:wrap;gap:9px;align-items:center;padding:11px 15px;background:var(--paper2)}
+  .hotelf{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:#4a4234;flex:1;min-width:140px}
+  .hotelf svg{width:16px;height:16px;flex:0 0 auto;opacity:.7}
+  .hotelf b{font-weight:800;color:var(--ink)}
+  .budget{font-size:12px;font-weight:800;color:#3f6a2d;background:#e4eedc;border:1px solid #cadcbd;
+    padding:5px 11px;border-radius:20px;white-space:nowrap}
+
   .sec-title{font-size:21px;font-weight:900;margin:4px 2px 14px;display:flex;align-items:center;gap:9px}
   .sec-title .bar{width:5px;height:22px;background:var(--gold);border-radius:3px}
   .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
@@ -122,12 +135,11 @@
   .task{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;padding:9px 0;border-top:1px dashed var(--line)}
   .task:first-child{border-top:none}
   .task .b{flex:0 0 auto;width:18px;height:18px;border:2px solid var(--gold);border-radius:5px;margin-top:1px}
-  .backup-group{margin-bottom:8px}
-  .backup-group li{font-size:13.5px;margin:0 0 7px;line-height:1.5}
   .backup-group ul{margin:6px 0 0;padding-inline-start:18px}
+  .backup-group li{font-size:13.5px;margin:0 0 7px;line-height:1.5}
   .small{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5}
+  .infobox{background:#fdf3e9;border:1px solid #ecd9c2;border-radius:12px;padding:11px 13px;font-size:12.5px;color:#6a5638;margin:0 2px 14px;line-height:1.55}
 
-  /* BOTTOM NAV */
   .tabbar{position:fixed;bottom:0;left:0;right:0;z-index:50;
     background:rgba(36,59,47,.97);backdrop-filter:blur(12px);
     display:flex;padding:8px 6px calc(8px + env(safe-area-inset-bottom));
@@ -137,7 +149,6 @@
     align-items:center;gap:3px;padding:5px 0;transition:.15s}
   .tab svg{width:21px;height:21px}
   .tab.active{color:#e9c98a}
-  .tab.active svg{transform:translateY(-1px)}
 </style>
 </head>
 <body>
@@ -145,7 +156,7 @@
 <header>
   <div class="kicker">Česká republika · מסלול משפחתי</div>
   <h1>טיול צ'כיה 🇨🇿</h1>
-  <div class="dates">11–25 באוגוסט 2026 · 15 ימים</div>
+  <div class="dates">11–25 באוגוסט 2026 · 15 ימים · 2 משפחות, 6 ילדים (6–12)</div>
   <div class="countdown" id="countdown"></div>
   <div class="route-strip">
     <span>פראג ✈️</span><i>←</i><span>צפון 🏔️</span><i>←</i><span>פראג 💧</span><i>←</i><span>דרום 🌲</span><i>←</i><span>פראג 🏰</span>
@@ -156,11 +167,8 @@
 
 <main>
   <section class="view on" id="view-route"></section>
-
   <section class="view" id="view-hotels"></section>
-
   <section class="view" id="view-info"></section>
-
   <section class="view" id="view-backup"></section>
 </main>
 
@@ -181,64 +189,114 @@ const REGION = {
   'מעבר':{c:'var(--transit)',e:'💧'}, 'דרום':{c:'var(--south)',e:'🌲'},
   'פראג':{c:'var(--prague)',e:'🏰'}
 };
+const IMG = {
+ "prague":"https://commons.wikimedia.org/wiki/Special:FilePath/Prague%20skyline%20view.jpg?width=900",
+ "mirakulum":"https://commons.wikimedia.org/wiki/Special:FilePath/Park%20Mirakulum.jpg?width=900",
+ "medvedin":"https://commons.wikimedia.org/wiki/Special:FilePath/Medv%C4%9Bd%C3%ADn.jpg?width=900",
+ "mumlava":"https://commons.wikimedia.org/wiki/Special:FilePath/Mumlavsky%20vodopad.jpg?width=900",
+ "adrspach":"https://commons.wikimedia.org/wiki/Special:FilePath/Adr%C5%A1pa%C5%A1skoteplick%C3%A9%20sk%C3%A1ly%2002.JPG?width=900",
+ "prachov":"https://commons.wikimedia.org/wiki/Special:FilePath/Prachauer%20felsen%2003.jpg?width=900",
+ "budejovice":"https://commons.wikimedia.org/wiki/Special:FilePath/Ceske%20Budejovice%20kolaz.png?width=900",
+ "lipno":"https://commons.wikimedia.org/wiki/Special:FilePath/Stezka%20korunami%20strom%C5%AF.%20Lipno%20nad%20Vltavou.%20%2814.%29.jpg?width=900",
+ "klet":"https://commons.wikimedia.org/wiki/Special:FilePath/Kle%C5%A5%20view.jpg?width=900",
+ "krumlov":"https://commons.wikimedia.org/wiki/Special:FilePath/Historic%20Centre%20of%20%C4%8Cesk%C3%BD%20Krumlov-111747.jpg?width=900",
+ "hluboka":"https://commons.wikimedia.org/wiki/Special:FilePath/Zamek%20Hluboka%20001%20THWZ.jpg?width=900",
+ "blatna":"https://commons.wikimedia.org/wiki/Special:FilePath/Blatna%20%28CZE%29%20-%20castle%20%28side%29.jpg?width=900",
+ "charlesbridge":"https://commons.wikimedia.org/wiki/Special:FilePath/Prague%2007-2016%20view%20from%20Lesser%20Town%20Tower%20of%20Charles%20Bridge%20img3.jpg?width=900",
+ "praguecastle":"https://commons.wikimedia.org/wiki/Special:FilePath/Panorama%20of%20Vltava%20river%20and%20Prague%20Castle.jpg?width=900",
+ "petrin":"https://commons.wikimedia.org/wiki/Special:FilePath/Pet%C5%99%C3%ADnsk%C3%A1rozhledna2016.jpg?width=900",
+ "praguezoo":"https://commons.wikimedia.org/wiki/Special:FilePath/Prague%20Zoo%20-%20elephant%202.jpg?width=900"
+};
 const WD = ['יום א׳','יום ב׳','יום ג׳','יום ד׳','יום ה׳','יום ו׳','שבת'];
 const WS = ['א׳','ב׳','ג׳','ד׳','ה׳','ו׳','ש׳'];
 const MON = ['ינו','פבר','מרץ','אפר','מאי','יונ','יול','אוג','ספט','אוק','נוב','דצמ'];
 
 const DAYS = [
- {d:11,region:'נחיתה',hotel:'HOTEL DVUR HOFFMEISTER',stops:[
-   {nm:'נחיתה בשדה התעופה של פראג',note:'מונית למלון. סידור ראשוני והתאקלמות.',maps:'Václav Havel Airport Prague'}
- ]},
- {d:12,region:'צפון',hotel:'Špindl Lodge / Pension Slunečnice',stops:[
-   {nm:'פארק מירקולום (Mirakulum)',drive:'מפראג צפונה ~2ש׳ · ממירקולום לשפינדל ~1:30',price:'60 ₪ לאדם',book:'כרטיסים חודש מראש – חובה',note:'מתאים מאוד לילדים, עצירה מושלמת בדרך צפונה. לקחת מגבות + בגדי ים.',maps:'Mirakulum Park Milovice'}
- ]},
- {d:13,region:'צפון',hotel:'Špindl Lodge / Pension Slunečnice',stops:[
-   {nm:'רכבל Medvědín + מסלול הדוב',drive:'5–10 דק׳',note:'מסלול מדהים לילדים עם תחנות משחק. יום נעים ללא עומס.',maps:'Medvědín Špindlerův Mlýn'},
-   {nm:'Yellow Point – יילו פוינט',drive:'5 דק׳ ממסלול הדוב',price:'100 קורונה לאדם',book:'לבדוק / להזמין מראש',note:'פארק אדרנלין עם טרמפולינות וכדורי מים. יש אומגה ליד – לא לפספס!',maps:'Yellow Point Špindlerův Mlýn'}
- ]},
- {d:14,region:'צפון',hotel:'Špindl Lodge / Pension Slunečnice',stops:[
-   {nm:'מפלי Harrachov – Mumlavský Vodopád',drive:'40–45 דק׳ מהמלון',note:'טיול קל ונעים לאורך הנהר. יום מנוחה לפני אדרשפאך.',maps:'Mumlavský vodopád Harrachov'},
-   {nm:'פארק החבלים – Monkey Park',drive:'5 דק׳ מהמפל',note:'באזור מרכז הראכוב.',maps:'Monkey Park Harrachov'},
-   {nm:'מגלשות הרים (Happy World / Bobovka)',book:'כרטיסים חודש מראש – חובה',note:'קרוב לפארק החבלים.',maps:'Bobová dráha Harrachov'}
- ]},
- {d:15,region:'צפון',hotel:'Špindl Lodge / Pension Slunečnice',stops:[
-   {nm:'שמורת Adršpach',book:'כרטיסים חודש מראש – חובה',note:'מהמקומות היפים בצ׳כיה. מסלול 3–4 שעות, נגיש, יש שייט. לא לשלב אטרקציות נוספות ביום הזה.',maps:'Adršpach Rocks'}
- ]},
- {d:16,region:'מעבר',hotel:'Aquapalace Hotel Prague',stops:[
-   {nm:'Prachov Rocks – סלעי פראחוב',drive:'שפינדל→Prachov ~1ש׳ · משם למלון ~1:15',note:'המקום הכי מרשים ב״גן העדן הצ׳כי״. עם ילדים – מסלול ירוק/צהוב מעגלי קצר (~1.5 ק״מ), עם מדרגות סלע וגשרים צרים שהילדים מתים עליהם.',maps:'Prachov Rocks'},
-   {nm:'אקווה פאלאס – פארק מים',note:'מגלשות ופארק מים בערב במלון.',maps:'Aquapalace Hotel Prague Čestlice'}
- ]},
- {d:17,region:'דרום',hotel:'Korzo Lipno C',stops:[
-   {nm:'בוקר באקווה פאלאס → נסיעה לליפנו',drive:'Aquapalace→Lipno ~2.5–3ש׳',note:'בוקר בפארק המים, אחה״צ יציאה דרומה.',maps:'Lipno nad Vltavou'}
- ]},
- {d:18,region:'דרום',hotel:'Korzo Lipno C',stops:[
-   {nm:'שביל צמרות העצים + מגלשת ענק (Bobová dráha) + אגם',drive:'<10 דק׳',book:'כרטיס משולב אונליין (שביל + ממלכת היער) – חוסך תור ענק',note:'מגלשה מגיל 6. אחה״צ פעילות באגם – סירות, פדלים, אופניים.',maps:'Stezka korunami stromů Lipno'}
- ]},
- {d:19,region:'דרום',hotel:'Korzo Lipno C',stops:[
-   {nm:'ראפטינג רגוע + הר קלט (Kleť) + ערב בצ׳סקי קרומלוב',drive:'Lipno→נהר ~25 דק׳ · Lipno→ČK ~40 דק׳',book:'ראפטינג – להזמין לפחות שבוע מראש דרך חברה מקומית',note:'ראפטינג רגוע ~שעתיים. צ׳סקי קרומלוב מדהימה בערב.',maps:'Český Krumlov'}
- ]},
- {d:20,region:'דרום',hotel:'Korzo Lipno C',stops:[
-   {nm:'גן החיות Hluboká (מומלץ)',drive:'~1ש׳',note:'צמוד לטירת Hluboká – מהיפות בצ׳כיה. רואים את הטירה מבחוץ + חיות = שילוב מושלם.',maps:'Zoo Hluboká nad Vltavou'},
-   {nm:'אלטרנטיבה: שמורת Stožec',note:'יום רגוע, האכלת איילים/יעלים, מתאים מאוד לילדים.',maps:'Stožec Czech Republic'}
- ]},
- {d:21,region:'דרום',hotel:'Korzo Lipno C',stops:[
-   {nm:'צ׳סקי קרומלוב – יום מלא',drive:'~40 דק׳',book:'לברר מראש איזה חניון הכי קרוב למרכז',note:'טירה + הדובים + תצפיות. יום קל ומקסים.',maps:'Český Krumlov Castle'}
- ]},
- {d:22,region:'פראג',hotel:'trees apartments by adres 4',stops:[
-   {nm:'טירת Blatná → נסיעה לפראג',drive:'Lipno→Blatná ~1:30 · Blatná→פראג ~1:20',note:'עצירה בדרך חזרה צפונה לפראג.',maps:'Blatná Castle'}
- ]},
- {d:23,region:'פראג',hotel:'trees apartments by adres 4',stops:[
-   {nm:'כיכר העיר העתיקה + גשר קארל + שייט + Hamleys',book:'לבדוק מדריך לסיור בעיר',note:'להגיע מוקדם/מאוחר. שייט 45 דק׳. סיור עם מדריך — ״המירוץ למיליון״ ב-12:00, ‎30€ לאדם (מיכאל לא משלם).',maps:'Old Town Square Prague'},
-   {nm:'התיאטרון השחור – בערב',book:'לקנות כרטיסים מראש',maps:'Black Light Theatre Prague'}
- ]},
- {d:24,region:'פראג',hotel:'trees apartments by adres 4',stops:[
-   {nm:'טירת פראג + גנים + Palladium / Letná',note:'לעלות בטראם כדי לא לטפס. יום קל ורגוע.',maps:'Prague Castle'},
-   {nm:'גבעת פטרין (Petřín) והמגדל',note:'פוניקולר (חוויה לילדים), מגדל אייפל קטן, ובית המראות המעוותות (Mirror Maze) – הילדים יצחקו המון.',maps:'Petřín Tower Prague'},
-   {nm:'גן החיות של פראג (Zoo Praha)',note:'מהיפים בעולם.',maps:'Prague Zoo'}
- ]},
- {d:25,region:'פראג',hotel:'—',stops:[
-   {nm:'חזרה הביתה',note:'בוקר רגוע ויציאה לשדה התעופה.',maps:'Václav Havel Airport Prague'}
- ]}
+ {d:11,region:'נחיתה',hotel:'HOTEL DVUR HOFFMEISTER',budget:'הוצאות ראשונות בלבד',stops:[
+   {nm:'נחיתה בשדה התעופה של פראג',desc:'נחיתה, איסוף רכב/מונית והתאקלמות בפראג. ערב רגוע לפני היציאה צפונה מחר.',cost:'מונית לעיר ≈ 600–800 CZK',maps:'Václav Havel Airport Prague'}
+ ],
+ lunch:{nm:'Lokál Dlouhááá',desc:'רשת צ׳כית אהובה, אוכל ביתי טרי ומחירים הוגנים — נוח עם ילדים. במרכז פראג.',maps:'Lokál Dlouhááá Prague'}},
+
+ {d:12,region:'צפון',hotel:'Špindl Lodge / Pension Slunečnice',budget:'≈ 550–650 ₪ (כניסות, ~10 נפשות)',stops:[
+   {nm:'פארק מירקולום (Mirakulum)',desc:'פארק שעשועים-טבע ענק (12 הקטר): טירת עץ עם מגלשות, קילומטר של מנהרות תת-קרקעיות, מרכז חבלים, פינת חי לליטוף, ועולם מים. אין מתקנים חשמליים — הכל טיפוס, קפיצה והחלקה. יום שלם של כיף.',drive:'מפראג ~2ש׳ · משם לשפינדל ~1:30',price:'≈ 370 CZK לאדם (ילד מתחת 90 ס״מ חינם)',book:'כרטיסים מראש – חובה',note:'עצירה מושלמת בדרך צפונה. לקחת מגבות + בגדי ים לעולם המים.',maps:'Park Mirakulum Milovice'}
+ ],
+ lunch:{nm:'מסעדות בתוך פארק מירקולום',desc:'בפארק יש כמה דוכני אוכל ומסעדות במחירים הוגנים — נוח לאכול בלי לצאת. מותר גם להביא אוכל מהבית.',maps:'Park Mirakulum Milovice'}},
+
+ {d:13,region:'צפון',hotel:'Špindl Lodge / Pension Slunečnice',budget:'≈ 450–550 ₪ (כניסות, ~10 נפשות)',stops:[
+   {nm:'רכבל Medvědín + מסלול הדוב',desc:'רכבל נוח לפסגת מדבדין (1,235 מ׳) עם פנורמה מרהיבה של הרי הענק, ומשם "מסלול הדוב" — שביל ירידה קליל עם תחנות משחק לאורך הדרך. יום נעים ללא עומס.',drive:'5–10 דק׳ מהמלון',price:'רכבל ≈ 300 CZK מבוגר / ≈ 210 ילד',maps:'Medvědín Špindlerův Mlýn'},
+   {nm:'Yellow Point – יילו פוינט',desc:'פארק אדרנלין לילדים: טרמפולינות ענק, כדורי מים (zorbing), ואומגה (zipline) במרחק נסיעה קצר. כיף פעיל אחרי הבוקר ההררי.',drive:'5 דק׳ ממסלול הדוב',price:'≈ 100–200 CZK לפעילות',book:'לבדוק / להזמין מראש',maps:'Yellow Point Špindlerův Mlýn'}
+ ],
+ lunch:{nm:'Restaurace U Pečené Kachničky',desc:'מסעדה צ׳כית מסורתית מצוינת באזור בדřיכוב — מפורסמת בברווז צלוי, מנות גדולות, ויש פינת משחק לילדים. (מזומן בלבד).',maps:'Restaurace U Pečené Kachničky Špindlerův Mlýn'}},
+
+ {d:14,region:'צפון',hotel:'Špindl Lodge / Pension Slunečnice',budget:'≈ 350–450 ₪ (כניסות, ~10 נפשות)',stops:[
+   {nm:'מפלי Harrachov – Mumlavský Vodopád',desc:'טיול קל ויפהפה לאורך הנהר אל מפל מומלבה הסוער (כ-10 מ׳) עם בריכות טבעיות. אידיאלי כיום מנוחה לפני אדרשפאך.',drive:'40–45 דק׳ מהמלון',price:'חינם (חניה בתשלום)',maps:'Mumlavský vodopád Harrachov'},
+   {nm:'פארק החבלים – Monkey Park',desc:'פארק חבלים וטיפוס במרכז הראכוב עם מסלולים בגבהים שונים לפי גיל — מצוין לילדי 6–12.',drive:'5 דק׳ מהמפל',price:'≈ 150–250 CZK לאדם',maps:'Monkey Park Harrachov'},
+   {nm:'מגלשות הרים (Bobová dráha)',desc:'מגלשת בוב מתכת על מסילה — ירידה מהירה ומהנה במורד ההר, כל ילד שולט במהירות שלו.',price:'≈ 80 CZK לירידה',book:'לבדוק שעות פתיחה',maps:'Bobová dráha Harrachov'}
+ ],
+ lunch:{nm:'Pivovar & Sklárna Novosad (הראכוב)',desc:'מבשלת בירה ובית-זכוכית היסטורי עם מסעדה — אטרקציה בפני עצמה. הילדים יכולים לראות נשיפת זכוכית, וההורים בירה מקומית.',maps:'Novosad pivovar Harrachov'}},
+
+ {d:15,region:'צפון',hotel:'Špindl Lodge / Pension Slunečnice',budget:'≈ 300–380 ₪ (כניסות, ~10 נפשות)',stops:[
+   {nm:'שמורת הסלעים Adršpach',desc:'אחד המקומות היפים בצ׳כיה — "עיר סלעים" של מגדלי אבן ענקיים, אגם טורקיז עם שייט, מערות צרות וגשרים (כאן צולם "נרניה"). מסלול ירוק מעגלי ~3.5 ק״מ, 2–4 שעות, נגיש לילדים. ה"חור של העכבר" צר ומצחיק — להיט אצל ילדים.',price:'≈ 290–350 מבוגר / ≈ 140 ילד · כרטיס משפחתי (2+2) ≈ 550 CZK',book:'כרטיסים + חניה אונליין – חובה!',note:'אין מזון על המסלול — לקחת מים וחטיף. שייט באגם משולם במזומן בלבד.',maps:'Adršpašské skály'}
+ ],
+ lunch:{nm:'דוכני אוכל בכניסה / Restaurace Skalní Město',desc:'בכניסה לשמורה יש דוכני אוכל מהיר ומסעדה. כדאי לאכול לפני או אחרי המסלול (אין אוכל בפנים).',maps:'Restaurace Skalní Město Adršpach'}},
+
+ {d:16,region:'מעבר',hotel:'Aquapalace Hotel Prague',budget:'≈ 120–180 ₪ סלעים + פארק מים',stops:[
+   {nm:'Prachov Rocks – סלעי פראחוב',desc:'הפנינה של "גן העדן הצ׳כי" — לבירינת סלעי אבן-חול עם מדרגות, סדקים וגשרים צרים. למשפחות מומלץ המסלול הירוק/צהוב המעגלי הקצר (~1.5 ק״מ) — חוויתי וכיפי לילדים.',drive:'שפינדל→פראחוב ~1ש׳ · משם למלון ~1:15',price:'≈ 110 מבוגר / ≈ 60 ילד CZK',maps:'Prachovské skály'},
+   {nm:'אקווה פאלאס – פארק מים',desc:'אחד מפארקי המים הגדולים באירופה, צמוד למלון: מגלשות, נהר עצל, בריכות גלים ואזור פעוטות. ערב מושלם אחרי יום בטבע.',price:'לרוב כלול בלינה / כניסה ≈ 600–700 CZK',maps:'Aquapalace Praha Čestlice'}
+ ],
+ lunch:{nm:'Restaurace Prachovské skály',desc:'מסעדה/בופה בכניסה לסלעי פראחוב — אוכל צ׳כי פשוט ומשביע ליד שביל הטיול.',maps:'Restaurace Prachovské skály'}},
+
+ {d:17,region:'דרום',hotel:'Korzo Lipno C',budget:'פארק מים (כלול בלינה) + דלק',stops:[
+   {nm:'בוקר באקווה פאלאס → נסיעה לליפנו',desc:'בוקר אחרון במגלשות פארק המים, ואחר הצהריים יציאה דרומה לאזם ליפנו שביער שומאווה. נסיעה נופית יפה.',drive:'Aquapalace→Lipno ~2.5–3ש׳',price:'דלק + חניה',maps:'Lipno nad Vltavou'}
+ ],
+ lunch:{nm:'מסעדת אקווה פאלאס / עצירה ב-České Budějovice',desc:'אפשר לאכול בפארק המים לפני היציאה, או לעצור בצ׳סקה בודיוביצה (כיכר יפהפייה) באמצע הדרך דרומה.',maps:'České Budějovice náměstí'}},
+
+ {d:18,region:'דרום',hotel:'Korzo Lipno C',budget:'≈ 500–650 ₪ (כניסות, ~10 נפשות)',stops:[
+   {nm:'שביל צמרות העצים (Stezka korunami stromů)',desc:'שביל מוגבה באורך 675 מ׳ בין צמרות העצים, עם 11 תחנות אדרנלין לילדים, רשת תלויה בגובה 25 מ׳, ומגדל תצפית 40 מ׳ עם נוף לאגם ליפנו ולאלפים. בסוף — אחת המגלשות היבשות הארוכות בצ׳כיה (52 מ׳).',drive:'<10 דק׳ · רכבל/באס מהחניון',price:'≈ 350 מבוגר / ≈ 200 ילד · מגלשה +~90 CZK',book:'כרטיס משולב אונליין (שביל + ממלכת היער) – חוסך תור',note:'מגלשה מגיל 6. מחירי "דינמי" — מוקדם יותר = זול יותר.',maps:'Stezka korunami stromů Lipno'},
+   {nm:'מגלשת ענק + אגם ליפנו',desc:'אחר הצהריים על שפת האגם — השכרת סירות, פדלבוטים ואופניים, ושחייה. רוגע אחרי הבוקר הפעיל.',price:'השכרה ≈ 150–300 CZK',maps:'Lipno nad Vltavou pláž'}
+ ],
+ lunch:{nm:'Bistro Kramec / Restaurace Slunečná Louka',desc:'ביסטרו קרמץ ממש בקצה שביל הצמרות (מרפסת עם נוף), או "סלונצ׳נה לואקה" בכפר — איטלקי/פיצה ידידותי למשפחות.',maps:'Restaurace Slunečná Louka Lipno nad Vltavou'}},
+
+ {d:19,region:'דרום',hotel:'Korzo Lipno C',budget:'≈ 700–1000 ₪ (ראפטינג + רכבל)',stops:[
+   {nm:'ראפטינג רגוע על נהר הוולטבה',desc:'שייט ראפטינג משפחתי ורגוע (~שעתיים) על הוולטבה העליונה — זרם עדין, מתאים לילדים, הרבה צחוקים. דרך חברת השכרה מקומית.',drive:'Lipno→נהר ~25 דק׳',price:'≈ 500 CZK לאדם (השכרת סירה/אבזור)',book:'להזמין לפחות שבוע מראש',maps:'Vltava rafting Vyšší Brod'},
+   {nm:'הר קלט (Kleť) – רכבל ותצפית',desc:'רכבל כיסא עד פסגת ההר הגבוה באזור, עם מגדל תצפית ונוף עד האלפים. אופציונלי לפי כוחות.',price:'רכבל ≈ 150 CZK הלוך-ושוב',maps:'Kleť chairlift Krasetín'},
+   {nm:'ערב בצ׳סקי קרומלוב',desc:'העיירה מהיפות באירופה (אתר אונסק״ו) — סמטאות מתפתלות, נהר וטירה מוארת. קסומה במיוחד בשעות הערב.',drive:'Lipno→ČK ~40 דק׳',price:'טיול חופשי – חינם',maps:'Český Krumlov'}
+ ],
+ lunch:{nm:'Hospoda Na Louží (צ׳סקי קרומלוב)',desc:'פאב צ׳כי אותנטי ואהוב במרכז ההיסטורי — אוכל ביתי, שניצל, ובירה מקומית במחיר הוגן. מתאים למשפחות.',maps:'Hospoda Na Louži Český Krumlov'}},
+
+ {d:20,region:'דרום',hotel:'Korzo Lipno C',budget:'≈ 220–300 ₪ (כניסות, ~10 נפשות)',stops:[
+   {nm:'גן החיות Hluboká (Zoo Ohrada) – מומלץ',desc:'גן חיות נעים וקומפקטי המתמקד בחיות אירופה, צמוד לטירת Hluboká — מהטירות היפות בצ׳כיה. אפשר לראות את הטירה מבחוץ ולשלב עם החיות = יום מושלם לילדים.',drive:'~1ש׳',price:'≈ 200 מבוגר / ≈ 130 ילד CZK',maps:'Zoo Ohrada Hluboká nad Vltavou'},
+   {nm:'אלטרנטיבה: שמורת Stožec',desc:'שמורת טבע שקטה בלב שומאווה עם האכלת איילים ויעלים — יום רגוע ויפה למי שמעדיף טבע על גן חיות.',price:'חינם',maps:'Stožec'}
+ ],
+ lunch:{nm:'Restaurace Hubertus (Hluboká)',desc:'מסעדה ליד טירת הלובוקה — אוכל צ׳כי במנות נדיבות, מיקום נוח לשילוב עם הטירה וגן החיות.',maps:'Restaurace Hubertus Hluboká nad Vltavou'}},
+
+ {d:21,region:'דרום',hotel:'Korzo Lipno C',budget:'≈ 180–400 ₪ (תלוי בסיורי הטירה)',stops:[
+   {nm:'צ׳סקי קרומלוב – יום מלא',desc:'יום בעיירת האגדה: מתחם הטירה ה-2 בגודלו בצ׳כיה, חצרות צבעוניות, הדובים שחיים בחפיר, מגדל הטירה עם תצפית, וגנים. יום קל ומקסים לכל המשפחה.',drive:'~40 דק׳',price:'מתחם + דובים חינם · מגדל ≈ 150/100 · סיור פנים ≈ 280–350 CZK',book:'לברר מראש איזה חניון הכי קרוב למרכז',maps:'Český Krumlov Castle'}
+ ],
+ lunch:{nm:'Krčma Šatlava (צ׳סקי קרומלוב)',desc:'טברנה מימי-ביניימית עם בשרים על האש באווירה של אבוקות — הילדים מתים על האווירה. מומלץ להזמין מקום.',maps:'Krčma Šatlava Český Krumlov'}},
+
+ {d:22,region:'פראג',hotel:'trees apartments by adres 4',budget:'≈ 180–260 ₪ (כניסת טירה)',stops:[
+   {nm:'טירת Blatná → נסיעה לפראג',desc:'טירת מים רומנטית המוקפת באגם ובפארק עם עדר צבאים חופשי שמסתובב בשטח — עצירה מקסימה וקצרה בדרך חזרה צפונה לפראג.',drive:'Lipno→Blatná ~1:30 · Blatná→פראג ~1:20',price:'טירה ≈ 180 מבוגר / ≈ 100 ילד · פארק חינם',maps:'Zámek Blatná'}
+ ],
+ lunch:{nm:'מסעדות בכיכר העיר Blatná',desc:'בכיכר העיירה כמה מסעדות צ׳כיות פשוטות ונעימות — עצירת צהריים נוחה לפני המשך הנסיעה.',maps:'Blatná náměstí restaurace'}},
+
+ {d:23,region:'פראג',hotel:'trees apartments by adres 4',budget:'≈ 600–1600 ₪ (שייט + תיאטרון)',stops:[
+   {nm:'כיכר העיר העתיקה + גשר קארל + שייט + Hamleys',desc:'לב פראג ההיסטורי: השעון האסטרונומי, כיכר העיר העתיקה, גשר קארל המפורסם, שייט נהר של 45 דק׳, וחנות הצעצועים הענקית Hamleys לילדים.',price:'הליכה חינם · שייט ≈ 350–500 CZK לאדם',book:'לבדוק מדריך לסיור · "המירוץ למיליון" ב-12:00, ~30€ לאדם (מיכאל לא משלם)',note:'להגיע מוקדם/מאוחר כדי להימנע מהצפיפות.',maps:'Staroměstské náměstí Prague'},
+   {nm:'התיאטרון השחור – בערב',desc:'הצגת "תיאטרון שחור" ייחודית לפראג — שילוב של אור שחור, פנטומימה ואשליות אופטיות. חוויה ויזואלית שילדים אוהבים (ללא צורך בשפה).',price:'≈ 500–700 CZK לאדם',book:'לקנות כרטיסים מראש',maps:'Black Light Theatre Prague'}
+ ],
+ lunch:{nm:'Restaurace Mincovna',desc:'ממש בכיכר העיר העתיקה — מסעדה צ׳כית מודרנית במחירים הוגנים (נדיר באזור הזה!), עם גולש, ברווז וגרסאות מודרניות. נוח עם ילדים.',maps:'Restaurace Mincovna Staroměstské náměstí'}},
+
+ {d:24,region:'פראג',hotel:'trees apartments by adres 4',budget:'≈ 1000–1300 ₪ אם עושים את שלושתם',stops:[
+   {nm:'טירת פראג + גנים',desc:'מתחם הטירה הגדול בעולם: קתדרלת ויטוס, הסמטה הזהובה, חילוף המשמרות והגנים. לעלות בטראם כדי לא לטפס. יום קל ורגוע.',price:'מתחם חינם · מסלול מבקרים ≈ 450 מבוגר / ≈ 300 ילד CZK',maps:'Prague Castle'},
+   {nm:'גבעת פטרין (Petřín) והמגדל',desc:'"מגדל אייפל" קטן עם נוף לכל פראג, ובעיקר — בית המראות המעוותות (Mirror Maze) בטירה קטנה, שהילדים יצחקו בו המון.',price:'מגדל+מבוך משולב ≈ 250 מבוגר / ≈ 150 ילד CZK',note:'הפוניקולר לפטרין עשוי להיות מושבת לשיפוצים — לבדוק לפני, אחרת עולים בטראם/רגל.',maps:'Petřínská rozhledna Prague'},
+   {nm:'גן החיות של פראג (Zoo Praha)',desc:'מדורג מהיפים בעולם — 60 הקטר, ביתן הקוטב החדש עם דובי קוטב, רכבל פנימי ורכבת ילדים. אפשר להקדיש לו חצי-יום בפני עצמו.',price:'≈ 290 מבוגר / ≈ 200 ילד CZK',maps:'Zoo Praha'}
+ ],
+ lunch:{nm:'Restaurace Nebozízek (גבעת פטרין)',desc:'מסעדה עם מרפסת ונוף עוצר נשימה לטירת פראג, באמצע גבעת פטרין — קלאסיקות צ׳כיות באווירה נעימה.',maps:'Restaurace Nebozízek Petřín Prague'}},
+
+ {d:25,region:'פראג',hotel:'—',budget:'ארוחת בוקר + נסיעה לשדה',stops:[
+   {nm:'חזרה הביתה',desc:'בוקר רגוע, אריזה אחרונה ויציאה לשדה התעופה. אפשר עצירה אחרונה לקנות מזכרות/טרדלניק.',price:'מונית/רכב לשדה',maps:'Václav Havel Airport Prague'}
+ ],
+ lunch:{nm:'ארוחה בשדה התעופה',desc:'לפי שעת הטיסה — אזור המסעדות בטרמינל.',maps:'Václav Havel Airport Prague terminal'}}
 ];
 
 const HOTELS = [
@@ -260,10 +318,52 @@ const BACKUP = {
  ]
 };
 
+const IMGBY = {
+ 'Park Mirakulum Milovice':'mirakulum','Medvědín Špindlerův Mlýn':'medvedin',
+ 'Mumlavský vodopád Harrachov':'mumlava','Adršpašské skály':'adrspach',
+ 'Prachovské skály':'prachov','Lipno nad Vltavou':'budejovice',
+ 'Stezka korunami stromů Lipno':'lipno','Kleť chairlift Krasetín':'klet',
+ 'Český Krumlov':'krumlov','Český Krumlov Castle':'krumlov',
+ 'Zoo Ohrada Hluboká nad Vltavou':'hluboka','Zámek Blatná':'blatna',
+ 'Staroměstské náměstí Prague':'charlesbridge','Prague Castle':'praguecastle',
+ 'Petřínská rozhledna Prague':'petrin','Zoo Praha':'praguezoo',
+ 'Václav Havel Airport Prague':'prague'
+};
+const DEALBY = {
+ 'Park Mirakulum Milovice':'ילד מתחת 90 ס״מ – חינם · 90–120 ס״מ – מחיר מוזל · הנחות לקבוצות',
+ 'Medvědín Špindlerův Mlýn':'כרטיס עונתי "Špindl Walk & Aqua" משתלם אם עולים בכמה רכבלים — כולל גם כניסות לאקווהפארק ופארק טרמפולינות חינם',
+ 'Yellow Point Špindlerův Mlýn':'לעיתים מוזל/כלול עם כרטיס Špindl Walk',
+ 'Monkey Park Harrachov':'כרטיס משפחתי / מחיר מוזל לילדים',
+ 'Bobová dráha Harrachov':'כרטיסייה ל-5/10 ירידות זולה מירידה בודדת',
+ 'Adršpašské skály':'כרטיס משפחתי (2 מבוגרים + 2 ילדים) ≈ 550 CZK · בוקר מוקדם/אחה״צ זול יותר · כרטיס משולב עם סלעי טפליצה דרך "ערוץ הזאב"',
+ 'Prachovské skály':'כרטיס משפחתי / הנחות לקבוצות',
+ 'Aquapalace Praha Čestlice':'כרטיסי אחר־הצהריים זולים יותר · לרוב כלול בלינה במלון',
+ 'Stezka korunami stromů Lipno':'כרטיס משולב (שביל הצמרות + ממלכת היער) · 2 מבוגרים → ילד ב-50% · Lipno Card רב-יומי · תמחור דינמי: מוקדם = זול',
+ 'Vltava rafting Vyšší Brod':'המחיר לפי סירה/קבוצה — משתלם יותר ככל שאתם יותר אנשים',
+ 'Zoo Ohrada Hluboká nad Vltavou':'כרטיס משפחתי · הנחה לקבוצות 10+',
+ 'Český Krumlov Castle':'כרטיס משולב (מגדל + מוזיאון הטירה) זול מנפרד · חניוני P עם תעריף יומי',
+ 'Zámek Blatná':'כרטיס משפחתי לטירה',
+ 'Staroměstské náměstí Prague':'Prague Visitor Pass / CoolPass כולל שייט נהר, מגדלים והרבה אתרים — משתלם אם עושים כמה אטרקציות',
+ 'Black Light Theatre Prague':'הזמנה אונליין מראש לרוב זולה מהקופה',
+ 'Prague Castle':'כרטיס "מסלול B" משולב · Prague Visitor Pass כולל · כרטיס משפחתי (2 מבוגרים + ילדים)',
+ 'Petřínská rozhledna Prague':'כרטיס משולב מגדל + מבוך + מצפה שטפניק · 50% הנחה בהצגת כרטיס לטראם ההיסטורי קו 42 · ילדים עד גיל 5 חינם',
+ 'Zoo Praha':'הנחה 10% לקבוצות 10+ · כרטיס Lítačka = 5% הנחה · כרטיס משפחתי'
+};
 function mapsUrl(q){return 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q+' Czech Republic');}
+function wazeUrl(q){return 'https://waze.com/ul?q='+encodeURIComponent(q+' Czech Republic')+'&navigate=yes';}
+function ytUrl(q){return 'https://www.youtube.com/results?search_query='+encodeURIComponent(q+' Czech Republic');}
 function regionStyle(r){return REGION[r]||{c:'var(--muted)',e:'📍'};}
+function navButtons(q,withYt){
+  let h='<div class="navs">'+
+    '<a class="nav-btn nav-waze" target="_blank" rel="noopener" href="'+wazeUrl(q)+'">'+
+      '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="11" r="9" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="10" r="1.2"/><circle cx="15" cy="10" r="1.2"/><path d="M8.5 14c1 1.2 2.2 1.6 3.5 1.6s2.5-.4 3.5-1.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M6 19l-1 2M18 19l1 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Waze</a>'+
+    '<a class="nav-btn nav-maps" target="_blank" rel="noopener" href="'+mapsUrl(q)+'">'+
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>Maps</a>';
+  if(withYt) h+='<a class="nav-btn nav-yt" target="_blank" rel="noopener" href="'+ytUrl(q)+'">'+
+      '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.5-.4-5.1a2.6 2.6 0 0 0-1.8-1.8C19.1 4.7 12 4.7 12 4.7s-7.1 0-8.8.4A2.6 2.6 0 0 0 1.4 6.9C1 8.5 1 12 1 12s0 3.5.4 5.1a2.6 2.6 0 0 0 1.8 1.8c1.7.4 8.8.4 8.8.4s7.1 0 8.8-.4a2.6 2.6 0 0 0 1.8-1.8C23 15.5 23 12 23 12Z"/><path d="M10 8.5v7l6-3.5z" fill="#c0341f"/></svg>וידאו</a>';
+  return h+'</div>';
+}
 
-/* ---- COUNTDOWN ---- */
 (function(){
   const start=new Date(2026,7,11); const now=new Date();
   const diff=Math.ceil((start-now)/86400000);
@@ -273,7 +373,6 @@ function regionStyle(r){return REGION[r]||{c:'var(--muted)',e:'📍'};}
   else { const dn=Math.min(15,Math.abs(diff)+1); el.innerHTML='🇨🇿 יום <b>'+dn+'</b> בטיול'; }
 })();
 
-/* ---- RENDER ROUTE ---- */
 function renderRoute(){
   const v=document.getElementById('view-route');
   let html='';
@@ -286,27 +385,39 @@ function renderRoute(){
       if(s.drive) chips+='<span class="chip drive">🚗 '+s.drive+'</span>';
       if(s.price) chips+='<span class="chip price">🎟️ '+s.price+'</span>';
       if(s.book)  chips+='<span class="chip book">⚠️ '+s.book+'</span>';
+      const imgKey=IMGBY[s.maps]; const imgUrl=imgKey?IMG[imgKey]:null;
+      const deal=DEALBY[s.maps];
       stops+='<div class="stop"><div class="nm"><span class="dot"></span>'+s.nm+'</div>'+
+        (imgUrl?'<img class="stop-img" loading="lazy" src="'+imgUrl+'" alt="'+s.nm+'" onerror="this.style.display=\'none\'">':'')+
+        (s.desc?'<p class="desc">'+s.desc+'</p>':'')+
         (chips?'<div class="chips">'+chips+'</div>':'')+
-        (s.note?'<p class="note">'+s.note+'</p>':'')+
-        '<a class="nav-btn" target="_blank" rel="noopener" href="'+mapsUrl(s.maps)+'">'+
-        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>נווט</a></div>';
+        (s.note?'<p class="note">💡 '+s.note+'</p>':'')+
+        (deal?'<div class="deal"><b>💸 הטבות:</b> '+deal+'</div>':'')+
+        navButtons(s.maps,true)+'</div>';
     });
+    let lunch='';
+    if(day.lunch){
+      lunch='<div class="lunch"><div class="lh">🍽️ צהריים</div>'+
+        '<div class="ln">'+day.lunch.nm+'</div>'+
+        (day.lunch.desc?'<p class="ld">'+day.lunch.desc+'</p>':'')+
+        navButtons(day.lunch.maps)+'</div>';
+    }
     html+='<div class="day" id="day-'+day.d+'">'+
       '<div class="day-head">'+
         '<div class="daynum"><span class="dn">'+day.d+'</span><span class="dm">'+MON[7]+'</span></div>'+
         '<div class="meta"><div class="wd">'+WD[dt.getDay()]+'</div>'+
           '<div class="didx">יום '+(i+1)+' מתוך 15</div></div>'+
         '<div class="rbadge" style="background:'+rs.c+'">'+rs.e+' '+day.region+'</div>'+
-      '</div>'+stops+
-      '<div class="hotel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-5h18v5M3 13V7a1 1 0 0 1 1-1h6v7M14 13V8h6a1 1 0 0 1 1 1v4"/></svg>'+
-        (day.hotel==='—'?'<span>טיסה הביתה ✈️</span>':'לינה: <b>'+day.hotel+'</b>')+'</div>'+
-      '</div>';
+      '</div>'+stops+lunch+
+      '<div class="dayfoot">'+
+        '<div class="hotelf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-5h18v5M3 13V7a1 1 0 0 1 1-1h6v7M14 13V8h6a1 1 0 0 1 1 1v4"/></svg>'+
+          (day.hotel==='—'?'<span>טיסה הביתה ✈️</span>':'לינה: <b>'+day.hotel+'</b>')+'</div>'+
+        (day.budget?'<span class="budget">💰 '+day.budget+'</span>':'')+
+      '</div></div>';
   });
   v.innerHTML=html;
 }
 
-/* ---- PILLS ---- */
 function renderPills(){
   const pb=document.getElementById('pillbar');
   let html='';
@@ -326,7 +437,6 @@ function goDay(d){
   },60);
 }
 
-/* ---- HOTELS ---- */
 function renderHotels(){
   const v=document.getElementById('view-hotels');
   let html='<h2 class="sec-title"><span class="bar"></span>מלונות ולינה</h2>';
@@ -335,11 +445,11 @@ function renderHotels(){
     html+='<div class="card"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">'+
       '<div><h3>'+h.n+'</h3></div>'+
       '<span class="pin" style="background:'+rs.c+'">'+rs.e+' '+h.r+'</span></div>'+
-      '<div class="sub" style="margin-top:6px"></div>'+
-      '<div class="kv"><span class="k">מחיר</span><span class="v">'+h.ils+' · '+h.other+'</span></div>'+
+      '<div class="kv" style="margin-top:8px"><span class="k">מחיר</span><span class="v">'+h.ils+' · '+h.other+'</span></div>'+
       (h.cancel?'<div class="kv"><span class="k">ביטול</span><span class="v">'+h.cancel+'</span></div>':'')+
       '<div class="kv"><span class="k">נסגר דרך</span><span class="v">'+h.via+'</span></div>'+
-      (h.note?'<p class="small">📝 '+h.note+'</p>':'')+'</div>';
+      (h.note?'<p class="small">📝 '+h.note+'</p>':'')+
+      navButtons(h.n)+'</div>';
   });
   html+='<div class="card cost-total"><div class="sub" style="color:#cdd8cf">סה״כ לינה</div>'+
     '<div class="big">10,731.80 ₪</div>'+
@@ -347,12 +457,12 @@ function renderHotels(){
   v.innerHTML=html;
 }
 
-/* ---- INFO ---- */
 function renderInfo(){
   const v=document.getElementById('view-info');
   let warns='';
   DAYS.forEach(day=>day.stops.forEach(s=>{if(s.book){warns+='<div class="task"><span class="b"></span><div><b>'+day.d+'.8</b> · '+s.nm+'<br><span class="small" style="margin:0">'+s.book+'</span></div></div>';}}));
   let html='<h2 class="sec-title"><span class="bar"></span>מידע שימושי</h2>'+
+    '<div class="infobox">💱 המרה משוערת: 100 CZK ≈ 16 ₪ · 1 € ≈ 3.5 ₪. כל מחירי הכניסה הם <b>הערכה לעונת השיא 2026</b> לכל אדם — מומלץ לאמת באתרים הרשמיים, במיוחד בליפנו (תמחור דינמי). תקציב יומי מחושב ל-~10 נפשות (4 מבוגרים + 6 ילדים) ולכניסות בלבד (ללא אוכל/דלק/חניה).</div>'+
     '<div class="card"><h3>✈️ טיסות</h3><div class="kv"><span class="k">חברה</span><span class="v">EL AL</span></div></div>'+
     '<div class="card"><h3>🚗 רכב / הסעות</h3>'+
       '<div class="kv"><span class="k">רכב גדול</span><span class="v">45 € ליום</span></div>'+
@@ -363,13 +473,13 @@ function renderInfo(){
       '<p class="small">לשים לב לשער האירו — הסכומים במטבע זר הם המחייבים.</p></div>'+
     '<div class="card"><h3>⚠️ הזמנות מראש (חשוב!)</h3>'+warns+'</div>'+
     '<div class="card"><h3>🎒 לא לשכוח</h3>'+
-      '<div class="task"><span class="b"></span><div>מגבות + בגדי ים (מירקולום, פארקי המים, אגם ליפנו)</div></div>'+
+      '<div class="task"><span class="b"></span><div>מגבות + בגדי ים (מירקולום, אקווה פאלאס, אגם ליפנו)</div></div>'+
       '<div class="task"><span class="b"></span><div>נעלי הליכה נוחות לילדים (אדרשפאך, פראחוב)</div></div>'+
-      '<div class="task"><span class="b"></span><div>שכבה חמה לצפון (הרים)</div></div></div>';
+      '<div class="task"><span class="b"></span><div>שכבה חמה לצפון (הרים, גם בקיץ)</div></div>'+
+      '<div class="task"><span class="b"></span><div>מזומן בקורונה (אדרשפאך/שייט/חלק מהמסעדות – מזומן בלבד)</div></div></div>';
   v.innerHTML=html;
 }
 
-/* ---- BACKUP ---- */
 function renderBackup(){
   const v=document.getElementById('view-backup');
   let html='<h2 class="sec-title"><span class="bar"></span>אופציות גיבוי</h2>'+
@@ -385,7 +495,6 @@ function renderBackup(){
   v.innerHTML=html;
 }
 
-/* ---- TABS ---- */
 function switchTab(name){
   document.querySelectorAll('.view').forEach(el=>el.classList.toggle('on',el.id==='view-'+name));
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.v===name));
@@ -395,7 +504,6 @@ function switchTab(name){
 
 renderRoute(); renderPills(); renderHotels(); renderInfo(); renderBackup();
 
-/* highlight active day pill on scroll */
 const obs=new IntersectionObserver(es=>{
   es.forEach(e=>{if(e.isIntersecting){const d=e.target.id.split('-')[1];
     document.querySelectorAll('.pill').forEach(p=>p.classList.toggle('active',p.dataset.d==d));}});
