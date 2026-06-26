@@ -42,7 +42,7 @@
     background:linear-gradient(75deg,transparent,rgba(240,215,154,.10),transparent);animation:shimmer 8s ease-in-out infinite}
   @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
   @keyframes shimmer{0%,100%{transform:translateX(-50%) rotate(8deg);opacity:0}50%{transform:translateX(60%) rotate(8deg);opacity:.9}}
-  .kicker{font-family:'Marcellus',serif;font-size:12.5px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;position:relative}
+  .kicker{font-family:var(--body);font-weight:600;font-size:13px;letter-spacing:.3px;color:var(--gold);position:relative;max-width:400px;margin:0 auto;line-height:1.5}
   .hero-title{font-size:48px;color:var(--ivory);margin:7px 0 0;text-shadow:0 3px 22px rgba(0,0,0,.45);position:relative}
   .flourish{position:relative;display:flex;align-items:center;justify-content:center;gap:11px;color:var(--gold);margin:8px 0 9px;font-size:12px}
   .flourish span{height:1px;width:56px}
@@ -238,6 +238,23 @@
   .tab.active{color:var(--gold-bright)}
   .tab.active::before{content:"";position:absolute;top:-9px;width:24px;height:3px;border-radius:0 0 3px 3px;background:var(--gold-bright);box-shadow:0 0 10px var(--gold-bright)}
 
+  .day.past{opacity:.58;filter:saturate(.85)}
+  .day.past .stop-img{filter:grayscale(.35)}
+  .stamp{position:absolute;top:60px;left:12px;z-index:4;font-family:var(--disp);font-size:15px;color:#a8e6b0;
+    border:2px solid rgba(92,174,106,.85);background:rgba(9,33,29,.5);backdrop-filter:blur(2px);border-radius:9px;
+    padding:3px 12px;transform:rotate(-8deg);letter-spacing:1.5px;box-shadow:0 3px 12px rgba(0,0,0,.45);pointer-events:none}
+  .day.today{border-color:rgba(216,180,113,.75);
+    box-shadow:0 0 0 1px rgba(216,180,113,.5),0 0 30px rgba(216,180,113,.28),0 14px 38px rgba(0,0,0,.42)}
+  .day.today::before{opacity:1;height:3px}
+  .dstat-today{flex:0 0 auto;display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;color:#0a221f;
+    background:linear-gradient(135deg,var(--gold-bright),var(--gold-deep));padding:4px 10px;border-radius:20px;
+    letter-spacing:.5px;box-shadow:0 3px 10px rgba(216,180,113,.4);animation:glowPulse 2.2s ease-in-out infinite}
+  @keyframes glowPulse{0%,100%{box-shadow:0 3px 10px rgba(216,180,113,.3)}50%{box-shadow:0 3px 18px rgba(216,180,113,.7)}}
+  .pill{position:relative}
+  .pill.pp-past{opacity:.5}
+  .pill.pp-past::after{content:"✓";position:absolute;top:-4px;left:-3px;width:15px;height:15px;border-radius:50%;
+    background:#5cae6a;color:#08201e;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 5px rgba(0,0,0,.4)}
+  .pill.pp-today{border-color:var(--gold);box-shadow:0 0 12px rgba(216,180,113,.45)}
   #scrollprog{position:fixed;top:0;left:0;height:3px;width:0;z-index:60;
     background:linear-gradient(90deg,var(--gold-deep),var(--gold-bright));box-shadow:0 0 10px var(--gold-bright);transition:width .12s ease-out}
   .cd-wrap{position:relative;margin-top:16px;display:flex;flex-direction:column;align-items:center;gap:9px}
@@ -265,7 +282,7 @@
 
 <header>
   <div class="hero-frame">
-    <div class="kicker">Bohemia &middot; XI&ndash;XXV&middot;VIII&middot;MMXXVI</div>
+    <div class="kicker">משפחת סודרי ומשפחת כהן אורזים מזוודות, כי ב-2026 נופשים ב…</div>
     <h1 class="hero-title">טיול צ'כיה</h1>
     <div class="flourish"><span></span>&#10038;<span></span></div>
     <div class="dates">11&ndash;25 באוגוסט 2026 &middot; 15 ימים &middot; 2 משפחות &middot; 6 ילדים</div>
@@ -674,6 +691,23 @@ function updateRates(){
   const note=document.getElementById('rate-note');
   if(note)note.textContent='שער חי: 100 CZK ≈ '+rd(100*RATE_ILS)+' ₪ · 1 € ≈ '+(RATE_ILS/RATE_EUR).toFixed(2)+' ₪';
 }
+function tripDayStatus(d){
+  const n=new Date();const t=new Date(n.getFullYear(),n.getMonth(),n.getDate());
+  const dd=new Date(2026,7,d);
+  if(dd.getTime()<t.getTime())return 'past';
+  if(dd.getTime()===t.getTime())return 'today';
+  return 'future';
+}
+function scrollToCurrent(){
+  const n=new Date();const t=new Date(n.getFullYear(),n.getMonth(),n.getDate());
+  let target=null;
+  for(const d of DAYS){if(new Date(2026,7,d.d).getTime()===t.getTime()){target=d.d;break;}}
+  if(target==null){
+    if(t.getTime()>new Date(2026,7,25).getTime())target=25; // after the trip → last day
+    else return; // before the trip → keep the countdown hero in view
+  }
+  setTimeout(()=>{const el=document.getElementById('day-'+target);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},450);
+}
 function renderRoute(){
   const v=document.getElementById('view-route');let html='';
   DAYS.forEach((day,i)=>{
@@ -708,10 +742,14 @@ function renderRoute(){
     tl.rows.forEach(r=>tlrows+='<div class="tlrow"><span class="tt">'+r[0]+'</span><span class="tx">'+r[1]+'</span></div>');
     const timeline='<details class="tl"><summary>🕐 הצעה ללו״ז יומי (לפי שעות)</summary>'+tlrows+'<div class="tlnote">'+tl.note+'</div></details>';
 
-    html+='<div class="day" id="day-'+day.d+'">'+
+    const st=tripDayStatus(day.d);
+    const todayBadge=(st==='today'?'<span class="dstat-today">● היום</span>':'');
+    const stamp=(st==='past'?'<div class="stamp">בוצע ✓</div>':'');
+    html+='<div class="day'+(st==='past'?' past':st==='today'?' today':'')+'" id="day-'+day.d+'">'+stamp+
       '<div class="day-head"><div class="daynum"><span class="dn">'+day.d+'</span><span class="dm">'+MON[7]+'</span></div>'+
         '<div class="meta"><div class="wd">'+WD[wk]+'</div><div class="didx">יום '+(i+1)+' מתוך 15</div>'+
         '<span class="wx" id="wx-'+day.d+'" title="ממוצע עונתי — תחזית מדויקת מתעדכנת אוטומטית כ-16 ימים לפני">≈ '+fb[0]+'°/'+fb[1]+'° · אוג׳</span></div>'+
+        todayBadge+
         '<div class="rbadge" style="background:'+rs.c+'">'+rs.e+' '+day.region+'</div></div>'+
       stops+lunch+timeline+
       '<div class="dayfoot"><div class="hotelf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-5h18v5M3 13V7a1 1 0 0 1 1-1h6v7M14 13V8h6a1 1 0 0 1 1 1v4"/></svg>'+
@@ -723,8 +761,9 @@ function renderRoute(){
 
 function renderPills(){
   const pb=document.getElementById('pillbar');let html='';
-  DAYS.forEach(day=>{const dt=new Date(2026,7,day.d);
-    html+='<div class="pill" data-d="'+day.d+'" onclick="goDay('+day.d+')"><span class="pd">'+day.d+'.8</span><span class="pw">'+WS[dt.getDay()]+'</span></div>';});
+  DAYS.forEach(day=>{const dt=new Date(2026,7,day.d);const st=tripDayStatus(day.d);
+    const cls='pill'+(st==='past'?' pp-past':st==='today'?' pp-today':'');
+    html+='<div class="'+cls+'" data-d="'+day.d+'" onclick="goDay('+day.d+')"><span class="pd">'+day.d+'.8</span><span class="pw">'+WS[dt.getDay()]+'</span></div>';});
   pb.innerHTML=html;
 }
 function goDay(d){switchTab('route');setTimeout(()=>{const el=document.getElementById('day-'+d);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
@@ -1115,7 +1154,7 @@ async function loadRate(){
 }
 
 buildTrack();
-renderRoute();renderPills();renderHotels();renderDrive();renderExpenses();renderInfo();loadWeather();initExpenses();initVisited();loadRate();initSync();revealDays();
+renderRoute();renderPills();renderHotels();renderDrive();renderExpenses();renderInfo();loadWeather();initExpenses();initVisited();loadRate();initSync();revealDays();scrollToCurrent();
 
 const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const d=e.target.id.split('-')[1];
   document.querySelectorAll('.pill').forEach(p=>p.classList.toggle('active',p.dataset.d==d));}});},{rootMargin:'-45% 0px -50% 0px'});
